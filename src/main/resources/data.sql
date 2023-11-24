@@ -1,0 +1,2 @@
+insert into member(email, ename, pw, roles, birth_day, phone_number, address, street_address, detail_address) values ('admin@google.com', '관리자','$2a$10$IMmIYPPdMjYUaFAB25Ak6uqxICTmNKTx2U4jeSSOUrOf9XGZ.hhk2', 'ADMIN', DATE '1970-01-01', 'phonenumber', 'doro', 'myeong', 'juso');
+insert into member(email, ename, pw, roles, birth_day, phone_number, address, street_address, detail_address) values ('user@google.com', '사용자', '$2a$10$IMmIYPPdMjYUaFAB25Ak6uqxICTmNKTx2U4jeSSOUrOf9XGZ.hhk2', 'USER', DATE '1970-01-01', 'phonenumber', 'doro', 'myeong', 'juso');

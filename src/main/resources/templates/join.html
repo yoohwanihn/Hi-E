@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="kor" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<title>Hi-E 회원가입</title>
+
+	<!-- Custom fonts for this template-->
+	<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+	<link
+		href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+		rel="stylesheet">
+
+	<!-- Custom styles for this template-->
+	<link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet">
+
+	<!-- daum 주소찾기 cdn -->
+	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script th:src="@{/js/daum_juso.js}"></script>
+	
+
+
+</head>
+
+<body class="bg-gradient-primary">
+
+	<div class="container" th:fragment="container">
+		<div class="card o-hidden border-0 shadow-lg my-5">
+			<div class="card-body p-0">
+				<!-- Nested Row within Card Body -->
+				<div class="row">
+					<div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+					<div class="col-lg-7">
+						<div class="p-5">
+							<div class="text-center">
+								<h1 class="h4 text-gray-900 mb-4">회원 가입하기</h1>
+							</div>
+							<form class="form-signin" method="post" th:id="join_form">
+								<div class="form-group">
+									<input type="email" id="email" class="form-control form-control-user" name="email"
+										placeholder="이메일 주소">
+								</div>
+								<div class="form-group row">
+
+									<div class="col-sm-6">
+										<input type="text" id="ename" class="form-control form-control-user"
+											name="ename" placeholder="이름" maxlength="15">
+									</div>
+								</div>
+								<div class="form-group row">
+									<div class="col-sm-6 mb-3 mb-sm-0">
+										<input type="password" id="password" class="form-control form-control-user"
+											name="pw" placeholder="비밀번호" maxlength="16">
+									</div>
+									<div class="col-sm-6">
+										<input type="password" class="form-control form-control-user"
+											name="passwordcheck" placeholder="비밀번호 확인" maxlength="16">
+									</div>
+								</div>
+								<div class="form-group row">
+									<div class="col-sm-6 mb-3 mb-sm-0">
+										<input type="date" id="birth_day" class="form-control form-control-user"
+											name="birth_day" placeholder="생년월일(8자리)">
+									</div>
+									<div class="col-sm-6">
+										<input type="text" id="phone_number" class="form-control form-control-user"
+											name="phone_number" placeholder="전화번호(-없이 입력)">
+									</div>
+								</div>
+								<!-- 주소찾기 API는 js폴더에 모듈화 해놨음. -->
+								<div class="form-group">
+									<input type="text" id="address" class="form-control form-control-user"
+										name="address" placeholder="우편번호를 입력하세요" readonly>
+									<button type="button" onclick="openDaumPostcode()" class="btn btn-primary">우편번호
+										검색</button>
+									<input type="text" id="street_address" class="form-control form-control-user"
+										name="street_address" placeholder="도로명 주소를 입력하세요" readonly>
+									<input type="text" id"detail_address" class="form-control form-control-user"
+										name="detail_address" placeholder="상세주소를 입력하세요">
+								</div>
+								<button type="submit" class="btn btn-primary btn-user btn-block">
+									회원 가입하기
+								</button>
+								<!--
+								<hr>
+								<a href="" class="btn btn-google btn-user btn-block">
+									<i class="fab fa-google fa-fw"></i> 구글로 가입하기
+								</a>
+								<a href="" class="btn btn-facebook btn-user btn-block">
+									<i class="fab fa-facebook-f fa-fw"></i> 페이스북으로 가입하기
+								</a>
+								-->
+							</form>
+							<!-- JavaScript 스크립트 -->
+							<script th:inline="javascript">
+								// 폼 요소 가져오기
+								const form = document.getElementById('join_form');
+
+								// 폼 제출 이벤트 리스너 등록
+								form.addEventListener('submit', function (e) {
+									e.preventDefault(); // 기본 제출 동작 방지
+
+									// FormData를 사용하여 폼 데이터 수집
+									const data = new FormData(form);
+
+									// FormData를 JSON 형태로 변환, 서버에서 JSON으로 처리함
+									const param = JSON.stringify(Object.fromEntries(data));
+
+									// 서버로 회원가입 데이터 전송
+									fetch('/auth/join', {
+										method: 'POST',
+										body: param,
+										headers: {
+											'Content-Type': 'application/json'
+										}
+									})
+										.then(response => {
+											// 응답 상태 확인
+											if (response.status == 200) {
+												window.location.href = '/view/login'; // 로그인 페이지로 이동
+												alert("회원가입 성공");
+											} else {
+												alert("회원가입 실패");
+											}
+										})
+										.catch(error => console.log(error));
+								});
+							</script>
+							<hr>
+							<div class="text-center">
+								<a class="small" th:href="@{/view/login}">로그인하기</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap core JavaScript-->
+	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Core plugin JavaScript-->
+	<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+	d
+	<!-- Custom scripts for all pages-->
+	<script th:src="@{/js/sb-admin-2.min.js}"></script>
+
+</body>
+
+</html>

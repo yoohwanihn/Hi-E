@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<title>Hi-E 약관 동의</title>
+
+	<!-- Custom fonts for this template-->
+	<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+	<link
+		href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+		rel="stylesheet">
+
+	<!-- Custom styles for this template-->
+	<link href="/css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+<style>
+	body {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100vh;
+		margin: 0;
+	}
+
+	.container {
+		max-width: 800px;
+		/* 원하는 최대 너비 설정 */
+	}
+
+	.card {
+		margin-top: 1rem;
+	}
+</style>
+
+<body class="bg-gradient-primary">
+
+	<div class="container">
+
+		<div class="card o-hidden border-0 shadow-lg my-5">
+			<div class="row">
+				<div class="col-lg-9">
+					<div class="p-5">
+						<form action="writepage.html" method="get" id="form1">
+							<div id="d1">
+								<h2 align="text-center">회원가입을 환영합니다.</h2><br /><br />
+								<tr>
+									<td align="left">
+										<font size="2">이용약관, 개인정보 수집 및 이용, 위치정보 이용약관(선택), 프로모션 안내 메일 수신(선택)에 모두 동의합니다.
+										</font>
+									</td>
+
+									<td><input type="checkbox" name="all" id="all"></td>
+									<hr />
+								</tr>
+								<div id="accordion">
+									<h3><a href="#">
+											<font size="2">HI-E 이용약관 동의(필수)</font><input type="checkbox" name="c1"
+												id="c1" />
+										</a></h3>
+									<div>
+										<textarea readonly="readonly" rows="5" cols="66" id="c1Text"
+											class="terms-textarea"></textarea>
+										<script>
+											const el = document.getElementById('c1Text').innerText = 
+										
+										</script>
+									</div>
+
+									<h3><a href="#">
+											<font size="2">개인정보 수집 및 이용에 대한 안내(필수)</font><input type="checkbox"
+												name="c2" id="c2" />
+										</a></h3>
+									<div>
+										<textarea readonly="readonly" rows="5" cols="66" id="c2Text"
+											class="terms-textarea"></textarea>
+										<script>
+											fetch('c2.txt')
+												.then(response => response.text())
+												.then(data => {
+													document.getElementById('c2Text').innerText = data;
+												});
+										</script>
+									</div>
+
+									<h3><a href="#">
+											<font size="2">위치정보 이용약관 동의(선택)</font><input type="checkbox" name="c3"
+												id="c3" />
+										</a></h3>
+									<div>
+										<textarea readonly="readonly" rows="5" cols="66" id="c3Text"
+											class="terms-textarea"></textarea>
+										<script>
+											fetch('c3.txt')
+												.then(response => response.text())
+												.then(data => {
+													document.getElementById('c3Text').innerText = data;
+												});
+										</script>
+									</div>
+								</div>
+								<tr>
+									<td align="left">
+										<font size="2">이벤트 등 프로모션 알림 메일 수신(선택)</font>
+									</td>
+									<td><input type="checkbox" name="c4" id="c4"></td>
+									<hr />
+								</tr>
+							</div>
+						</form>
+						<a href="/view/join" class="btn btn-primary btn-user btn-block">
+							가입하기
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+</html>
