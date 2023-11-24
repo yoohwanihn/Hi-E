@@ -1,5 +1,4 @@
 <img src="https://capsule-render.vercel.app/api?type=waving&color=BDBDC8&height=150&section=header" />
-
 # 프로젝트 제목 : Hi-E
 
 [![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=yoohwanihn)](https://github.com/anuraghazra/github-readme-stats)
