@@ -38,6 +38,11 @@ public class ViewController {
     public String joinPage() {
         return "join";
     }
+    
+    @GetMapping("/forgot-password")
+    public String forgot_passWordPage() {
+        return "forgot-password";
+    }
 
 //    @GetMapping("/dashboard")
 //    public String dashboardPage(Model model) {
