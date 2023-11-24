@@ -2,7 +2,7 @@
 
 # 프로젝트 제목 : Hi-E
 
-[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=iibuzz@naver.com)](https://github.com/anuraghazra/github-readme-stats)
+[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=yoohwanihn)](https://github.com/anuraghazra/github-readme-stats)
 
 
 ## 개발환경
