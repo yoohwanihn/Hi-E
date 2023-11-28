@@ -19,7 +19,9 @@ public class MailController {
 
 	@Autowired
 	private SendEmailService sendEmailService;
-
+	
+	
+//////////////AJax처리 전에 RequestParam으로 구현하였음. 학습을 위해 남겨둠
 //    @PostMapping("/sendEmail")
 //    public String sendEmail(@RequestParam("email") String memberEmail,
 //                            @RequestParam("ename") String memberName) {
@@ -39,59 +41,6 @@ public class MailController {
 //        }
 //    }
     
-//    @PostMapping("/send_email")
-//    public String email_success(){
-//    	return "send_email";
-//    }
-
-//	@PostMapping("/sendEmail")
-//	public ResponseEntity<String> sendEmail(@RequestBody Map<String, String> requestData) {	
-//		//JSON 값이기 때문에 Map으로 받음. 키와 벨류(속성 값 쌍)
-//	    try {
-//	        // 메일을 생성하고 임시 비밀번호를 이메일로 전송
-//	        String memberEmail = requestData.get("email");
-//	        String memberName = requestData.get("ename");
-//
-//	        MailDto mailDto = sendEmailService.createMailAndChangePassword(memberEmail, memberName);
-//	        sendEmailService.mailSend(mailDto);
-//	        
-//	        System.out.println(memberEmail);
-//	        System.out.println(memberName);
-//
-//	        // 메일 전송 성공
-//	        return ResponseEntity.ok("success");
-//	    } catch (NoSuchElementException e) {
-//	        // 해당 email이 없는 경우
-//	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이메일과 이름이 일치하지 않거나 해당 이메일이 존재하지 않습니다.");
-//	    } catch (Exception e) {
-//	        // 그 외 예외 발생 시 예외 페이지로 리다이렉트
-//	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류가 발생했습니다.");
-//	    }
-//	}
-	
-//	@PostMapping("/sendEmail")
-//    public ResponseEntity<String> sendEmail(@RequestBody Member member) {
-//        try {
-//            // 메일을 생성하고 임시 비밀번호를 이메일로 전송
-//            String email = member.getEmail();
-//            String name = member.getEname();
-//
-//            System.out.println(email);
-//            System.out.println(name);
-//
-//            MailDto newMailDto = sendEmailService.createMailAndChangePassword(email, name);
-//            sendEmailService.mailSend(newMailDto);
-//
-//            // 메일 전송 성공
-//            return ResponseEntity.ok("success");
-//        } catch (NoSuchElementException e) {
-//            // 해당 email이 없는 경우
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이메일과 이름이 일치하지 않거나 해당 이메일이 존재하지 않습니다.");
-//        } catch (Exception e) {
-//            // 그 외 예외 발생 시 예외 페이지로 리다이렉트
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류가 발생했습니다.");
-//        }
-//    }
 	
 	@PostMapping("/sendEmail")
 	public ResponseEntity<String> sendEmail(@RequestBody Member member) {
