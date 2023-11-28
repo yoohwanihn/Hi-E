@@ -61,7 +61,8 @@ public class Member {
         this.email = email;
         this.ename = ename;
         this.pw = pw;
-        this.roles = Role.USER;
+        this.roles = roles;
+        //this.roles = Role.USER;
         this.birth_day = birthDay;
         this.phone_number = phoneNumber;
         this.address = address;
@@ -84,7 +85,7 @@ public class Member {
                 .detail_address(detail_address)
                 .picture("a")	// 여기 기본이미지 지정하면 됨
                 .build();
-      //객체로 보내는게 나을거 같은데 귀찮다
+      //객체로 보내는게 나을거 같은데 귀찮다. 그러면 빌더 패턴을 수정해야하나?
     }
     
     public static Member createUser2(String email, String ename, String password, String picture, PasswordEncoder passwordEncoder) {
@@ -108,6 +109,7 @@ public class Member {
         return this.roles.getKey();
     }
     
+    //OAuth 중복 가입시 데이터 업데이트 수행용 메서드
     public Member update(String email, String ename, String password, String picture, PasswordEncoder passwordEncoder){
     	this.email = email;
         this.ename = ename;
@@ -115,6 +117,12 @@ public class Member {
         this.picture = picture;
 
         return this;
+    }
+    
+    //비밀번호 변경용 메서드
+    public void update(String password, PasswordEncoder passwordEncoder){
+        this.pw = passwordEncoder.encode(password);
+
     }
     
 }

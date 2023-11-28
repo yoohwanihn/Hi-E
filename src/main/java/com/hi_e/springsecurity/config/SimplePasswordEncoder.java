@@ -11,9 +11,9 @@ public class SimplePasswordEncoder implements PasswordEncoder {
         return rawPassword.toString();
     }
     
-    //matches : rawPassword가 로그인 시 사용자가 입력한 비밀번호입니다. 'usernameParameter("pw")' 로 설정해둔 부분의 값이 rawPassword로 들어와집니다. 
-    //encodedPassword는 DB에서 조회한 이미 암호화되어있는 비밀번호 입니다. 
-    //5.1에서 설정한 loadUserByUsername 에서 UserDetails에 넣어준 password() 부분이 여기로 들어옵니다.
+    //matches : rawPassword가 로그인 시 사용자가 입력한 비밀번호. 'usernameParameter("pw")' 로 설정해둔 부분의 값이 rawPassword로 들어온다. 
+    //encodedPassword는 DB에서 조회한 이미 암호화되어있는 비밀번호. 
+    //loadUserByUsername 에서 UserDetails에 넣어준 password() 부분이 여기로 들어온다.
     @Override
     public boolean matches(CharSequence rawPassword, String encodedPassword) {
         return encodedPassword.equals(encode(rawPassword));

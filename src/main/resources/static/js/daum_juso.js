@@ -1,4 +1,4 @@
-// 다음 주소 찾기 펑션
+// 다음 주소 찾기 모듈 
 function openDaumPostcode() {
 	new daum.Postcode({
 		oncomplete: function(data) {

@@ -24,8 +24,9 @@
 	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script th:src="@{/js/daum_juso.js}"></script>
 	
-
-
+	<!-- 입력 데이터 유효성 검사 -->
+	<script th:src="@{/js/validate_check.js}"></script>
+	
 </head>
 
 <body class="bg-gradient-primary">
@@ -44,8 +45,9 @@
 							<form class="form-signin" method="post" th:id="join_form">
 								<div class="form-group">
 									<input type="email" id="email" class="form-control form-control-user" name="email"
-										placeholder="이메일 주소">
+										placeholder="이메일 주소" >
 								</div>
+								
 								<div class="form-group row">
 
 									<div class="col-sm-6">
@@ -98,6 +100,7 @@
 								-->
 							</form>
 							<!-- JavaScript 스크립트 -->
+							<!-- Ajax로 로그인 구현 , fetch API 사용-->
 							<script th:inline="javascript">
 								// 폼 요소 가져오기
 								const form = document.getElementById('join_form');
@@ -112,24 +115,27 @@
 									// FormData를 JSON 형태로 변환, 서버에서 JSON으로 처리함
 									const param = JSON.stringify(Object.fromEntries(data));
 
-									// 서버로 회원가입 데이터 전송
-									fetch('/auth/join', {
-										method: 'POST',
-										body: param,
-										headers: {
-											'Content-Type': 'application/json'
-										}
-									})
-										.then(response => {
-											// 응답 상태 확인
-											if (response.status == 200) {
-												window.location.href = '/view/login'; // 로그인 페이지로 이동
-												alert("회원가입 성공");
-											} else {
-												alert("회원가입 실패");
-											}
-										})
-										.catch(error => console.log(error));
+									// 유효성 검사 함수 호출
+        							if (validateJoinForm(form)) {
+							            // 서버로 회원가입 데이터 전송
+							            fetch('/auth/join', {
+							                method: 'POST',
+							                body: param,
+							                headers: {
+							                    'Content-Type': 'application/json'
+							                }
+							            })
+							                .then(response => {
+							                    // 응답 상태 확인
+							                    if (response.status == 200) {
+							                        window.location.href = '/view/login'; // 로그인 페이지로 이동
+							                        alert("회원가입 성공");
+							                    } else {
+							                        alert("회원가입 실패");
+							                    }
+							                })
+							                .catch(error => console.log(error));
+							        }
 								});
 							</script>
 							<hr>
