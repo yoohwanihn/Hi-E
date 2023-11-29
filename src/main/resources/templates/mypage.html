@@ -7,7 +7,10 @@
     <title>마이 페이지</title>
 
     <!-- Link to sb-admin-2 CSS -->
-    <link href="/css/sb-admin-2.css" rel="stylesheet">
+    <link th:href="@{/css/sb-admin-2.css}" rel="stylesheet">
+
+    <!-- Link to your custom CSS (if any) -->
+    <link th:href="@{/css/custom-style.css}" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -16,45 +19,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
-                <div class="sidebar-brand-icon">
-                    <i class="fas fa-user"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">대시보드 테스트1</div>
-            </a>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>ㅎㅎ</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Nav Item - Logout -->
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-sign-out-alt"></i>
-                    <span>ㄴㄴ</span></a>
-            </li>
-
-            <!-- Sidebar Toggler (Sidebar) -->
-            <!--
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-            -->
-
-        </ul>
-        <!-- End of Sidebar -->
+        <!-- Sidebar 코드 -->
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -63,46 +28,7 @@
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
-
-                    <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
-
-                        <!-- Nav Item - Alerts -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown">
-                                <i class="fas fa-bell fa-fw"></i>
-                                <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter">3+</span>
-                            </a>
-                        </li>
-
-                        <!-- Nav Item - Messages -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown">
-                                <i class="fas fa-envelope fa-fw"></i>
-                                <!-- Counter - Messages -->
-                                <span class="badge badge-danger badge-counter">7</span>
-                            </a>
-                        </li>
-
-                        <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small" th:text="${ename}">이름 없음</span>
-                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
-                            </a>
-                        </li>
-
-                    </ul>
-
-                </nav>
-                <!-- End of Topbar -->
+                <!-- Topbar 코드는 생략 -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -110,13 +36,37 @@
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">마이페이지 Context</h1>
 
+                    <!-- Profile Section -->
+                    <div class="row">
+                        <div class="col-lg-4 mb-4">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" src="/img/undraw_profile_1.svg" alt="이미지왜없어">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="h4 text-gray-900 mb-4" th:text="${ename}">이름 없음</h2>
+                                    <p th:text="${email}"></p>
+                                    <p th:text="${birth_day}"></p>
+                                    <p th:text="${phone_number}"></p>
+                                    <p th:text="${address}"></p>
+                                    <p th:text="${street_address}"></p>
+                                    <p th:text="${detail_address}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <!-- /.container-fluid -->
 
             </div>
             <!-- End of Main Content -->
 
-            <!-- Footer -->
+            <!-- 푸터 코드 -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="text-center my-auto">
@@ -141,6 +91,11 @@
     <script src="/vendor/bootstrap/jquery.min.js"></script>
     <script src="/vendor/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="/css/sb-admin-2.min.js"></script>
+    
+    <!-- Bootstrap core JavaScript-->
+	<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+	<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/js/sb-admin-2.min.js}"></script>
 
 </body>
 

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hi_e.springsecurity.dto.MailDto;
-import com.hi_e.springsecurity.model.Member;
+import com.hi_e.springsecurity.entity.Member;
 import com.hi_e.springsecurity.service.SendEmailService;
 
 //Ajax 비동기 처리를 통해 JSON 데이터를 보내기 때문에 일반 컨트롤러가 아닌 RestController 사용

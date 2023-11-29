@@ -1,4 +1,4 @@
-package com.hi_e.springsecurity.model;
+package com.hi_e.springsecurity.entity;
 
 import java.util.Date;
 
@@ -19,7 +19,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
+@Entity	// DB 테이블과 1:1 매핑
 @Data	// Getter, Setter 자동으로 만듬, 추가적으로 RequiredArgsConstructor도
 @NoArgsConstructor	// 인자 없는 생성자 만듬
 public class Member {
@@ -122,7 +122,6 @@ public class Member {
     //비밀번호 변경용 메서드
     public void update(String password, PasswordEncoder passwordEncoder){
         this.pw = passwordEncoder.encode(password);
-
     }
     
 }

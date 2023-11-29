@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.hi_e.springsecurity.model.Member;
+import com.hi_e.springsecurity.entity.Member;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 

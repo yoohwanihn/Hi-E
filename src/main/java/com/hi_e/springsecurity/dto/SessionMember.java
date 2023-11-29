@@ -2,7 +2,7 @@ package com.hi_e.springsecurity.dto;
 
 import java.io.Serializable;
 
-import com.hi_e.springsecurity.model.Member;
+import com.hi_e.springsecurity.entity.Member;
 
 import lombok.Getter;
 

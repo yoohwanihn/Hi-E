@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.hi_e.springsecurity.dto.OAuthAttributes;
 import com.hi_e.springsecurity.dto.SessionMember;
-import com.hi_e.springsecurity.model.Member;
+import com.hi_e.springsecurity.entity.Member;
 import com.hi_e.springsecurity.repository.MemberRepository;
 
 import jakarta.servlet.http.HttpSession;
@@ -77,28 +77,50 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 //		}
 //	}
 
-	/* 소셜로그인시 기존 회원이 존재하면 수정날짜 정보만 업데이트해 기존의 데이터는 그대로 보존 */
+	/* 소셜로그인시 기존 회원이 존재하면 수정날짜 정보만 업데이트해 기존의 데이터는 그대로 보존 
+	 * 리팩토링 하였고 기존의 코드는 주석처리 하였음
+	 */
+//	private Member saveOrUpdate(OAuthAttributes attributes) {
+//		Optional<Member> member = memberRepository.findByEmail(attributes.getEmail());
+//		if (member.isPresent()) {
+//			// 기존 회원이 존재할 경우 업데이트
+//			Member updateMember = member.get().update(attributes.getEmail(), attributes.getName(),
+//					attributes.getNameAttributeKey(), attributes.getPicture(), passwordEncoder);
+//
+//			return memberRepository.save(updateMember);
+//		} else {
+//			// 기존 회원이 없을 경우 새로 생성하기
+//
+//			Member newMember = memberRepository.findByEmail(attributes.getEmail())
+//					.map(entity -> entity.update(attributes.getEmail(), 
+//							attributes.getName(),
+//							attributes.getNameAttributeKey(), 
+//							attributes.getPicture(), 
+//							passwordEncoder))
+//					.orElse(attributes.toEntity());
+//
+//			return memberRepository.save(newMember);
+//		}
+//	}
+	
 	private Member saveOrUpdate(OAuthAttributes attributes) {
-		Optional<Member> member = memberRepository.findByEmail(attributes.getEmail());
-		if (member.isPresent()) {
-			// 기존 회원이 존재할 경우 업데이트
-			Member updateMember = member.get().update(attributes.getEmail(), attributes.getName(),
-					attributes.getNameAttributeKey(), attributes.getPicture(), passwordEncoder);
+	    // 이메일을 기반으로 기존 멤버를 조회
+	    return memberRepository.findByEmail(attributes.getEmail())
+	            // 기존 멤버가 존재하는 경우 업데이트 수행
+	            .map(existingMember -> updateExistingMember(existingMember, attributes))
+	            // 기존 멤버가 없는 경우 새로운 멤버 생성
+	            .orElse(createNewMember(attributes));
+	}
 
-			return memberRepository.save(updateMember);
-		} else {
-			// 기존 회원이 없을 경우 새로 생성하기
+	/* 기존 멤버를 업데이트하는 메서드 */
+	private Member updateExistingMember(Member existingMember, OAuthAttributes attributes) {
+	    return existingMember.update(attributes.getEmail(), attributes.getName(),
+	            attributes.getNameAttributeKey(), attributes.getPicture(), passwordEncoder);
+	}
 
-			Member newMember = memberRepository.findByEmail(attributes.getEmail())
-					.map(entity -> entity.update(attributes.getEmail(), 
-							attributes.getName(),
-							attributes.getNameAttributeKey(), 
-							attributes.getPicture(), 
-							passwordEncoder))
-					.orElse(attributes.toEntity());
-
-			return memberRepository.save(newMember);
-		}
+	/* 새로운 멤버를 생성하는 메서드 */
+	private Member createNewMember(OAuthAttributes attributes) {
+	    return attributes.toEntity();
 	}
 
 }

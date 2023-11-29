@@ -2,26 +2,30 @@ package com.hi_e.springsecurity.controller;
 
 import java.util.Collection;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import com.hi_e.springsecurity.model.Member;
+import com.hi_e.springsecurity.entity.Member;
 import com.hi_e.springsecurity.service.MemberService;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/view")
 public class ViewController {
+	
+	private final MemberService memberService;
+
+    @Autowired
+    public ViewController(MemberService memberService) {
+        this.memberService = memberService;
+    }
 	
 	@GetMapping("/login")
 	public String loginPage() {
@@ -29,11 +33,25 @@ public class ViewController {
 	}
 
 	@GetMapping("/mypage")
-	public String testPage(Model model) {
-		// 인증된 사용자의 정보를 ename으로 사용 이메일로는 쉬운데 이름으로 어떻게 하지
-		model.addAttribute("ename", SecurityContextHolder.getContext().getAuthentication().getAuthorities());
-		return "mypage";
-	}
+    public String myPage(Model model) {
+        // 현재 로그인 중인 사용자의 Member 엔티티를 가져옴
+        Member loggedInMember = memberService.getCurrentLoggedInMember();
+
+        if (loggedInMember != null) {
+            // Member 엔티티에서 필요한 정보 추출하여 Thymeleaf 모델에 추가
+            model.addAttribute("ename", loggedInMember.getEname());
+            model.addAttribute("email", loggedInMember.getEmail());
+            model.addAttribute("birth_day", loggedInMember.getBirth_day() != null ? loggedInMember.getBirth_day() : "생년월일 없음");
+            model.addAttribute("phone_number", loggedInMember.getPhone_number() != null ? loggedInMember.getPhone_number() : "핸드폰 번호 없음");
+            model.addAttribute("address", loggedInMember.getAddress() != null ? loggedInMember.getAddress() : "주 없음");
+            model.addAttribute("street_address", loggedInMember.getStreet_address() != null ? loggedInMember.getAddress() : "주 없음");
+            model.addAttribute("detail_address", loggedInMember.getDetail_address() != null ? loggedInMember.getAddress() : "주 없음");
+        } else {
+            // 로그인 안됐을때
+        }
+
+        return "mypage";
+    }
 
 	@GetMapping("/service-agree")
 	public String serviceAgree() {
@@ -49,83 +67,6 @@ public class ViewController {
 	public String forgot_passWordPage() {
 		return "forgot-password";
 	}
-
-	@GetMapping("/test11")
-	public String test11() {
-		return "test11";
-	}
-
-//    // 이메일 보내기
-//    @Transactional
-//    @PostMapping("/sendEmail")
-//    public String sendEmail(@RequestParam("memberEmail") String memberEmail){
-//        MailDto dto = ms.createMailAndChangePassword(memberEmail);
-//        ms.mailSend(dto);
-//
-//        return "/member/login";
-//    }
-
-	@GetMapping("/test22")
-	public String test1() {
-		return "test22";
-	}
-	
-	@GetMapping("/test33")
-	public String test31() {
-		return "test33";
-	}
-
-//	// Email과 name의 일치여부를 check하는 컨트롤러
-//	@GetMapping("/findPw")
-//    public @ResponseBody Map<String, Boolean> pwFind(String email, String ename) {
-//		MemberService memberService = null;
-//        Map<String, Boolean> json = new HashMap<>();
-//        boolean pwFindCheck = memberService.memberEmailCheck(email, ename);
-//
-//        System.out.println(pwFindCheck);
-//        json.put("check", pwFindCheck);
-//        return json;
-//    }
-//
-//	// 등록된 이메일로 임시비밀번호를 발송하고 발송된 임시비밀번호로 사용자의 pw를 변경하는 컨트롤러
-//	@PostMapping("/findPw/sendEmail")
-//	public @ResponseBody void sendEmail(String userEmail, String userName) {
-//		SendEmailService sendEmailService = null;
-//		MailDto dto = sendEmailService.createMailAndChangePassword(userEmail, userName);
-//		sendEmailService.mailSend(dto);
-//
-//	}
-
-//    @GetMapping("/pwd_result")
-//    public String findPwdCheck(HttpServletRequest request, Model model,
-//			@RequestParam String id, @RequestParam String ename,@RequestParam String email, 
-//			Member dto) {
-//		try {
-//			MemberService ms;
-//			dto.setEname(ename);
-//			dto.setEmail(email);
-//			int search = ms.pwdCheck(dto);
-//
-//			if(search == 0) {
-//				model.addAttribute("msg", "기입된 정보가 잘못되었습니다. 다시 입력해주세요.");
-//			}
-//
-//			String newPwd = RandomStringUtils.randomAlphanumeric(10);
-//			dto.setPwd(newPwd);
-//			ms.pwdUpdate(dto);
-//			model.addAttribute("newPwd", newPwd);
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			model.addAttribute("msg", "오류가 발생되었습니다.");
-//		}
-//		return "member/findPwdResult";
-//	}
-	
-//    @GetMapping("/dashboard")
-//    public String dashboardPage(Model model) {
-//        return "dashboard";
-//    }
 
 	@GetMapping("/dashboard")
 	public String dashboardPage(@AuthenticationPrincipal Object principal, Model model) {

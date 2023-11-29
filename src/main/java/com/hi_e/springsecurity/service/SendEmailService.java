@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.hi_e.springsecurity.dto.MailDto;
-import com.hi_e.springsecurity.model.Member;
+import com.hi_e.springsecurity.entity.Member;
 import com.hi_e.springsecurity.repository.MemberRepository;
 
 import lombok.AllArgsConstructor;
@@ -39,33 +39,31 @@ public class SendEmailService {
 
         return dto;
     }
-
-//	public void updatePassword(String newPassword, String userEmail) {
-//        Optional<Member> optionalMember = repository.findByEmail(userEmail);
+	
+	//리팩토링 하였고 주석처리함
+//	public void updatePassword(String newPassword, String userEmail, String userName) {
+//	    Optional<Member> optionalMember = repository.findByEmailAndEname(userEmail, userName);
 //
-//        if (optionalMember.isPresent()) {
-//            Member member = optionalMember.get();
-//            member.update(newPassword, passwordEncoder);
-//            repository.save(member);
-//        } else {
-//            // 해당 email이 없을 경우 예외 처리 로직 추가하기
-//            System.out.println("해당 email이 없습니다."); // sysout보단 로깅을 통해 확인하는게 좋다. log4j와 같은 것 나중에 꼭 공부하자
-//            throw new NoSuchElementException("해당 email이 없습니다.");
-//        }
-//    }
+//	    if (optionalMember.isPresent()) {
+//	        Member member = optionalMember.get();
+//	        member.update(newPassword, passwordEncoder);
+//	        repository.save(member);
+//	    } else {
+//	        // 해당 email과 이름이 일치하는 회원이 없을 경우 예외 처리 로직 추가
+//	        System.out.println("해당 email과 이름이 일치하는 회원이 없습니다."); 
+//	        throw new NoSuchElementException("해당 email과 이름이 일치하는 회원이 없습니다.");
+//	    }
+//	}
 	
 	public void updatePassword(String newPassword, String userEmail, String userName) {
-	    Optional<Member> optionalMember = repository.findByEmailAndEname(userEmail, userName);
+	    Member member = repository.findByEmailAndEname(userEmail, userName)
+	            .orElseThrow(() -> {
+	                System.out.println("해당 email과 이름이 일치하는 회원이 없습니다.");
+	                return new NoSuchElementException("해당 email과 이름이 일치하는 회원이 없습니다.");
+	            });
 
-	    if (optionalMember.isPresent()) {
-	        Member member = optionalMember.get();
-	        member.update(newPassword, passwordEncoder);
-	        repository.save(member);
-	    } else {
-	        // 해당 email과 이름이 일치하는 회원이 없을 경우 예외 처리 로직 추가
-	        System.out.println("해당 email과 이름이 일치하는 회원이 없습니다."); 
-	        throw new NoSuchElementException("해당 email과 이름이 일치하는 회원이 없습니다.");
-	    }
+	    member.update(newPassword, passwordEncoder);
+	    repository.save(member);
 	}
 	
 	//11자리의 랜덤난수를 생성하는 메소드

@@ -2,8 +2,10 @@ package com.hi_e.springsecurity.dto;
 
 import java.util.Map;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.hi_e.role.Role;
-import com.hi_e.springsecurity.model.Member;
+import com.hi_e.springsecurity.entity.Member;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -16,6 +18,7 @@ public class OAuthAttributes {
     private String email;
     private String picture;
     private String phone;
+    private PasswordEncoder passwordEncoder;
 
     @Builder
     public OAuthAttributes(Map<String, Object> attributes,
@@ -50,6 +53,7 @@ public class OAuthAttributes {
 
     private static OAuthAttributes ofGoogle(String userNameAttributeName,
                                             Map<String, Object> attributes){
+    	
         return OAuthAttributes.builder()
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
@@ -76,6 +80,11 @@ public class OAuthAttributes {
     private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
         Map<String,Object> properties = (Map<String, Object>) attributes.get("properties");
         Map<String, Object> kakaoAccount  = (Map<String, Object>) attributes.get("kakao_account");
+        
+        System.out.println(properties);
+        System.out.println(kakaoAccount);
+
+        System.out.println(kakaoAccount);
         return OAuthAttributes.builder()
                 .email((String) kakaoAccount.get("email"))
                 .name((String) properties.get("nickname"))
@@ -87,7 +96,7 @@ public class OAuthAttributes {
     public Member toEntity() {
     	return Member.builder()
                 .email(email)
-                .pw(nameAttributeKey)	// 비밀번호 대신 토큰키(?)값을 넣음 개야매
+                .pw(passwordEncoder.encode(nameAttributeKey))	// 비밀번호 대신 토큰키(?)값을 넣음 개야매
     			.ename(name)
     			.phoneNumber(phone)
                 .picture(picture)
