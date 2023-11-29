@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.hi_e.role.Role;
 import com.hi_e.springsecurity.entity.Member;
+import com.hi_e.springsecurity.service.SendEmailService;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -96,7 +97,7 @@ public class OAuthAttributes {
     public Member toEntity() {
     	return Member.builder()
                 .email(email)
-                .pw(passwordEncoder.encode(nameAttributeKey))	// 비밀번호 대신 토큰키(?)값을 넣음 개야매
+                .pw(SendEmailService.getTempPassword())	// 난수화 했던 것 사용
     			.ename(name)
     			.phoneNumber(phone)
                 .picture(picture)

@@ -27,15 +27,6 @@ public class MemberService {
 	public Optional<Member> findOne(String email) {
 		return repository.findByEmail(email);
 	}
-
-//    //해당 멤버의 비밀번호가 일치하는지 체크하기(로그인) 시큐리티 사용하고선 쓸 일 없음
-//    public boolean isValidMember(String email, String password) {
-//        Optional<Member> member = findOne(email);
-//        if (member.isPresent()) {
-//            return member.get().getPw().equals(password);
-//        }
-//        return false;
-//    }
 	
 	// PW찾기를 수행해줄 메서드
 	public boolean memberEmailCheck(String email, String name) {
