@@ -20,9 +20,10 @@ public class RegisterMemberService {
     	this.repository = repository;
     }
     
-    public Long join(String email, String ename, String pw, Date birth_day, String phone_number, String address, String street_address, String detail_address) {
+    public Long join(String email, String ename, String pw, Date birth_day, String phone_number, String address, String street_address, String detail_address, 
+    		String picture) {
         // PasswordEncoder의 encode 함수가 불려 비밀번호를 암호화한 후 DB에 넣도록 세팅.
-    	Member member = Member.createUser(email, ename, pw, birth_day, phone_number, address, street_address, detail_address, passwordEncoder);
+    	Member member = Member.createUser(email, ename, pw, birth_day, phone_number, address, street_address, detail_address, picture, passwordEncoder);
         validateDuplicateMember(member);
         repository.save(member);
 

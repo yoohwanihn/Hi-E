@@ -11,7 +11,7 @@ create table member
     address varchar(255) ,
     street_address varchar(255) ,
     detail_address varchar(255) ,
-    picture varchar(255) default null ,
+    picture varchar(1000) default '/img/undraw_profile_1.svg' ,
     primary key (id),
     unique (email)
 );

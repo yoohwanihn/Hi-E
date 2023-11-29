@@ -53,6 +53,7 @@ public class Member {
 	
     private String detail_address;		// 상세 주소
     
+    @Column(columnDefinition = "varchar(1000) default '/img/undraw_profile_1.svg'")
     private String picture;
 
     @Builder// 빌더 패턴을 클래스에 추가하여 객체 생성 간소화 용이
@@ -72,7 +73,7 @@ public class Member {
     }
     
     
-    public static Member createUser(String email, String ename, String pw, Date birthDay, String phoneNumber, String address, String street_address, String detail_address, PasswordEncoder passwordEncoder) {
+    public static Member createUser(String email, String ename, String pw, Date birthDay, String phoneNumber, String address, String street_address, String detail_address, String picture, PasswordEncoder passwordEncoder) {
         return Member.builder()
                 .email(email)
                 .ename(ename)

@@ -44,6 +44,7 @@ public class WebSecurityConfig {
                     //.requestMatchers("/view/setting/user", "h2-console").hasRole("USER")	// User 권한이 접근 가능하도록 Url Path 설정
                 	//requestMatchers로 url path 설정 대신 컨트롤러에서 지정하는게 더 좋은것 같다고 생각이 들어 주석처리하였음.
                 	.anyRequest().authenticated()	// 그 외의 모든 사이트는 어떠한 요청이라도 인증필요
+                	
                 )
                 
                 /*폼로그인 처리 */

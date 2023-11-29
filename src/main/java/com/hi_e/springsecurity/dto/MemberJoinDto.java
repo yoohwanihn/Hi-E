@@ -16,4 +16,5 @@ public class MemberJoinDto {
     private String address;
     private String street_address;
     private String detail_address;
+    private String picture;
 }

@@ -43,9 +43,10 @@ public class ViewController {
             model.addAttribute("email", loggedInMember.getEmail());
             model.addAttribute("birth_day", loggedInMember.getBirth_day() != null ? loggedInMember.getBirth_day() : "생년월일 없음");
             model.addAttribute("phone_number", loggedInMember.getPhone_number() != null ? loggedInMember.getPhone_number() : "핸드폰 번호 없음");
-            model.addAttribute("address", loggedInMember.getAddress() != null ? loggedInMember.getAddress() : "주 없음");
-            model.addAttribute("street_address", loggedInMember.getStreet_address() != null ? loggedInMember.getAddress() : "주 없음");
-            model.addAttribute("detail_address", loggedInMember.getDetail_address() != null ? loggedInMember.getAddress() : "주 없음");
+            model.addAttribute("address", loggedInMember.getAddress() != null ? loggedInMember.getAddress() : "우편번호 없음");
+            model.addAttribute("street_address", loggedInMember.getStreet_address() != null ? loggedInMember.getAddress() : "주소 없음");
+            model.addAttribute("detail_address", loggedInMember.getDetail_address() != null ? loggedInMember.getAddress() : "상세주소 없음");
+            model.addAttribute("picture", loggedInMember.getPicture() != null ? loggedInMember.getPicture() : "/img/undraw_profile_1.svg");
         } else {
             // 로그인 안됐을때
         }

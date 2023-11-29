@@ -29,7 +29,8 @@ public class AuthorizationController {
             		dto.getPhone_number(),
             		dto.getAddress(), 
             		dto.getStreet_address(), 
-            		dto.getDetail_address());
+            		dto.getDetail_address(),
+            		dto.getPicture());
             return ResponseEntity.ok("join success");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
