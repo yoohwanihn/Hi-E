@@ -76,6 +76,8 @@ public class WebSecurityConfig {
 	            .logout(logout -> logout
                         .logoutSuccessUrl("/login")  // 로그아웃은 기본설정으로 (/logout으로 인증해제)
                         .permitAll())
+	            
+	            .exceptionHandling().accessDeniedPage("/view/login"); // accessDenied 처리
                 ;	
         
         http.headers().frameOptions().disable();	// 마찬가지로 h2-console을 사용하기 위해. 배포할때 지우기

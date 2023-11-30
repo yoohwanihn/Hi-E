@@ -29,7 +29,7 @@ public class ViewController {
 	
 	@GetMapping("/login")
 	public String loginPage() {
-		return "login";
+		return "account/login";
 	}
 
 	@GetMapping("/mypage")
@@ -44,11 +44,12 @@ public class ViewController {
             model.addAttribute("birth_day", loggedInMember.getBirth_day() != null ? loggedInMember.getBirth_day() : "생년월일 없음");
             model.addAttribute("phone_number", loggedInMember.getPhone_number() != null ? loggedInMember.getPhone_number() : "핸드폰 번호 없음");
             model.addAttribute("address", loggedInMember.getAddress() != null ? loggedInMember.getAddress() : "우편번호 없음");
-            model.addAttribute("street_address", loggedInMember.getStreet_address() != null ? loggedInMember.getAddress() : "주소 없음");
-            model.addAttribute("detail_address", loggedInMember.getDetail_address() != null ? loggedInMember.getAddress() : "상세주소 없음");
+            model.addAttribute("street_address", loggedInMember.getStreet_address() != null ? loggedInMember.getStreet_address() : "주소 없음");
+            model.addAttribute("detail_address", loggedInMember.getDetail_address() != null ? loggedInMember.getDetail_address() : "상세주소 없음");
             model.addAttribute("picture", loggedInMember.getPicture() != null ? loggedInMember.getPicture() : "/img/undraw_profile_1.svg");
         } else {
-            // 로그인 안됐을때
+            // 로그인 안됐을때 로그인 페이지로 이동시키기
+        	return "account/login";
         }
 
         return "mypage";
@@ -56,17 +57,17 @@ public class ViewController {
 
 	@GetMapping("/service-agree")
 	public String serviceAgree() {
-		return "service-agree";
+		return "account/service-agree";
 	}
 
 	@GetMapping("/join")
 	public String joinPage() {
-		return "join";
+		return "account/join";
 	}
 
 	@GetMapping("/forgot-password")
 	public String forgot_passWordPage() {
-		return "forgot-password";
+		return "account/forgot-password";
 	}
 
 	@GetMapping("/dashboard")

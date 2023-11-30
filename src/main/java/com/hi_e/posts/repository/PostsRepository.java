@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import com.hi_e.posts.entity.Posts;
 
 public interface PostsRepository extends JpaRepository<Posts, Long> {
-    @Query("SELECT p FROM Posts p ORDER BY p.id DESC")
+    //글목록 내림차순으로 받기
+	@Query("SELECT p FROM Posts p ORDER BY p.id DESC")
     List<Posts> findAllDesc();
 }

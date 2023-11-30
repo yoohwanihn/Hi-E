@@ -84,12 +84,12 @@ public class Member {
                 .address(address)
                 .street_address(street_address)
                 .detail_address(detail_address)
-                .picture("a")	// 여기 기본이미지 지정하면 됨
+                .picture(picture)	// 여기 기본이미지 지정하면 됨
                 .build();
-      //객체로 보내는게 나을거 같은데 귀찮다. 그러면 빌더 패턴을 수정해야하나?
+      // Join 메서드를 수정해서 객체로 받을 경우 Dto파일에 메서드를 만들어야 하는데 어떤게 더 효율적인지 모르겠다.
     }
     
-    public static Member createUser2(String email, String ename, String password, String picture, PasswordEncoder passwordEncoder) {
+    public static Member createUser(String email, String ename, String password, String picture, PasswordEncoder passwordEncoder) {
         return Member.builder()
                 .email(email)
                 .ename(ename)
@@ -98,13 +98,6 @@ public class Member {
                 .picture(picture)	//OAuth2 프로필 이미지
                 .build();
     }
-	
-//	Member mem = memberRepository.findByEmails(attributes.getEmail())
-//			.map(entity -> entity.createMember2(attributes.getNickname(), attributes.getNameAttributeKey(),
-//					attributes.getEmail(), attributes.getPhone(), attributes.getPicture(), passwordEncoder))
-//			.orElse(attributes.toEntity());
-//
-//	return memberRepository.save(mem);
     
     public String getRoleKey() {
         return this.roles.getKey();
