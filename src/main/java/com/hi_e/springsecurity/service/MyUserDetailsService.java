@@ -12,7 +12,6 @@ import com.hi_e.springsecurity.entity.Member;
 
 @Component
 //스프링부트가 제공하는 임시 비밀번호가 아니라 DB에서 가져온 회원정보 데이터를 사용하기 위해 UserDetailService 구현을 이용함.
-//스프링 시큐리티 자체 설정도 가능하지만 이 방법이 더 대중적인것 같음???
 public class MyUserDetailsService implements UserDetailsService {
     private final MemberService memberService;
 
