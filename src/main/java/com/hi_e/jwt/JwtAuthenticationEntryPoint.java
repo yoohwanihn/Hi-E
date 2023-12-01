@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
-// 유효한 자격 증명을 제공하지 않고 접근하려 할 때 401 UnAuthorized Error를 Return
+/* 유효한 자격 증명을 제공하지 않고 접근하려 할 때 401 UnAuthorized Error를 Return */
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
 	@Override

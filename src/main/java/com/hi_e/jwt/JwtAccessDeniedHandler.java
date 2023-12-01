@@ -9,7 +9,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-//필요한 권한이 존재하지 않는 경우에 403 Forbidden Error Return
+/*필요한 권한이 존재하지 않는 경우에 403 Forbidden Error Return */
 public class JwtAccessDeniedHandler implements AccessDeniedHandler {
 
 	@Override
