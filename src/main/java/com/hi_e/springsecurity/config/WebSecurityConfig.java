@@ -34,7 +34,7 @@ public class WebSecurityConfig {
 				
 			
 				.authorizeHttpRequests(request -> request.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-						.requestMatchers("/status", "/images/**", "/view/login", "/view/service-agree", "/view/join",
+						.requestMatchers("/status", "/img/**", "/view/login", "/view/service-agree", "/view/join",
 								"/auth/join", "/css/**", "/js/**", "vendor/**", "/view/forgot-password", "/sendEmail",
 								"/send_email", "/h2-console/**")
 						.permitAll() // 인증 필요없이 나올 사이트

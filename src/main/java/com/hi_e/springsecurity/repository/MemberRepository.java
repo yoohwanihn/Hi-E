@@ -17,12 +17,26 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     
     // Email과 이름을 비교해 임시 비밀번호를 전송할 때 사용
 	Optional<Member> findByEmailAndEname(String email, String ename);
+	
+	// 쓸 곳 많음
+	Optional<Member> findById(Long id);
     
-    // 기존 비밀번호를 변경하는 메서드
-    // 수정할 일 있을거 같음
+    // 임시 비밀번호 발급용 쿼리문
     @Modifying
     @Query("UPDATE Member m SET m.pw = :newPassword WHERE m.email = :email")
     void updateUserPassword(@Param("email") String email, @Param("newPassword") String newPassword);
-
+    
+    @Modifying
+    @Query("UPDATE Member m SET m.picture = :newPicture WHERE m.email = :email")
+    void updateUserProfile(@Param("email") String email, @Param("newPicture") String newPicture);
+    
+//    // 비밀번호 수정용 쿼리문 위와 중복이긴 한데 다음생에 바꾸자
+//    @Modifying
+//    @Query("UPDATE Member m SET m.pw = :newPassword WHERE m.id = :id")
+//    void updatePasswordById(@Param("id") Long id, @Param("newPassword") String newPassword);
+    
+//    @Transactional
+//	@Query("SELECT M.pw FROM Member M WHERE M.id = :id")
+//	String findpw(@Param("id") Long id);
 
 }

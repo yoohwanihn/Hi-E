@@ -19,7 +19,6 @@ public class OAuthAttributes {
     private String email;
     private String picture;
     private String phone;
-    private PasswordEncoder passwordEncoder;
 
     @Builder
     public OAuthAttributes(Map<String, Object> attributes,

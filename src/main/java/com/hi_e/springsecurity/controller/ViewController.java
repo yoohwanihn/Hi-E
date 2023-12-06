@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import com.hi_e.springsecurity.service.MemberService;
 
 @Controller
 @RequestMapping("/view")
+
 public class ViewController {
 	
 	private final MemberService memberService;
@@ -47,6 +49,7 @@ public class ViewController {
             model.addAttribute("street_address", loggedInMember.getStreet_address() != null ? loggedInMember.getStreet_address() : "주소 없음");
             model.addAttribute("detail_address", loggedInMember.getDetail_address() != null ? loggedInMember.getDetail_address() : "상세주소 없음");
             model.addAttribute("picture", loggedInMember.getPicture() != null ? loggedInMember.getPicture() : "/img/undraw_profile_1.svg");
+            
         } else {
             // 로그인 안됐을때 로그인 페이지로 이동시키기
         	return "account/login";
@@ -100,4 +103,23 @@ public class ViewController {
 	public String userSettingPage() {
 		return "user_setting";
 	}
+
+	@GetMapping("/change-password")
+	public String change_passWordPage() {
+		return "account/change-password";
+	}
+	
+	@GetMapping("/change-profile")
+	public String change_profilePage() {
+		return "account/change-profile";
+	}
+//	
+//	@GetMapping("/test123123")
+//	public String test123123(Model model) {
+//
+//        Member loggedInMember = memberService.getCurrentLoggedInMember();
+//		model.addAttribute("picture", "/img/undraw_profile.svg");
+//        
+//		return "account/test";
+//	}
 }
