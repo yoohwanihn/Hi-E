@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
@@ -16,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.hi_e.springsecurity.entity.Member;
 import com.hi_e.springsecurity.service.MemberService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/view")
@@ -35,12 +36,13 @@ public class ViewController {
 	}
 
 	@GetMapping("/mypage")
-    public String myPage(Model model) {
+    public String myPage(Model model, HttpSession session) {
         // 현재 로그인 중인 사용자의 Member 엔티티를 가져옴
         Member loggedInMember = memberService.getCurrentLoggedInMember();
 
         if (loggedInMember != null) {
             // Member 엔티티에서 필요한 정보 추출하여 Thymeleaf 모델에 추가
+        	session.setAttribute("good", loggedInMember.getEname());
             model.addAttribute("ename", loggedInMember.getEname());
             model.addAttribute("email", loggedInMember.getEmail());
             model.addAttribute("birth_day", loggedInMember.getBirth_day() != null ? loggedInMember.getBirth_day() : "생년월일 없음");
@@ -48,8 +50,8 @@ public class ViewController {
             model.addAttribute("address", loggedInMember.getAddress() != null ? loggedInMember.getAddress() : "우편번호 없음");
             model.addAttribute("street_address", loggedInMember.getStreet_address() != null ? loggedInMember.getStreet_address() : "주소 없음");
             model.addAttribute("detail_address", loggedInMember.getDetail_address() != null ? loggedInMember.getDetail_address() : "상세주소 없음");
-            model.addAttribute("picture", loggedInMember.getPicture() != null ? loggedInMember.getPicture() : "/img/undraw_profile_1.svg");
-            
+            //session.setAttribute("profileImage1", loggedInMember.getPicture());
+            model.addAttribute("profileImage", loggedInMember.getPicture() != null ? loggedInMember.getPicture() : "/img/undraw_profile_1.svg");
         } else {
             // 로그인 안됐을때 로그인 페이지로 이동시키기
         	return "account/login";
@@ -113,13 +115,19 @@ public class ViewController {
 	public String change_profilePage() {
 		return "account/change-profile";
 	}
-//	
-//	@GetMapping("/test123123")
-//	public String test123123(Model model) {
-//
-//        Member loggedInMember = memberService.getCurrentLoggedInMember();
-//		model.addAttribute("picture", "/img/undraw_profile.svg");
-//        
-//		return "account/test";
-//	}
+	
+	@GetMapping("/test123123")
+	public String test123123(HttpSession session, Model model) {
+		System.out.println(session);
+		Long loginedMemberId = (Long) session.getAttribute("loginedMemberId");
+		System.out.println(loginedMemberId);
+//		if(loginedMemberId == null) {
+//			return "account/login";
+//		}
+		
+		Member loginedMember = memberService.getMemberById(loginedMemberId);
+        model.addAttribute("loginedMember", loginedMember);
+		
+		return "account/test";
+	}
 }

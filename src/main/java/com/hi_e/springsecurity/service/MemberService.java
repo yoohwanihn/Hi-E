@@ -120,18 +120,25 @@ public class MemberService {
 	}
 	
 	@Transactional
-	private String saveProfileImage(MultipartFile uploadFile) throws IOException {
+	private String saveProfileImage(MultipartFile uploadFile) {
 	    // 기존의 이미지 저장 로직을 분리하여 메서드로 만듭니다.
 	    // 이 메서드에서 발생한 예외는 상위 메서드로 전파됩니다.
 
 	    String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\img\\";
-	    UUID uuid = UUID.randomUUID();
-	    String fileName = uuid + "_" + uploadFile.getOriginalFilename();
+	    //String fileName = UUID.randomUUID().toString() + "_" + uploadFile.getOriginalFilename();
+	    String fileName = UUID.randomUUID().toString() + uploadFile.getOriginalFilename();
 	    File saveFile = new File(projectPath, fileName);
-	    uploadFile.transferTo(saveFile);
+	    saveFile.mkdirs(); //관련된 폴더가 없다면 만들어줌
+	    try {
+			uploadFile.transferTo(saveFile);
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	    System.out.println("저장 경로: " + saveFile.getAbsolutePath());
-
-	    
 	    return "/img/" +fileName;
 	}
 	
@@ -142,6 +149,11 @@ public class MemberService {
 	 */
 	public void deletemember(Member member) {
 		repository.delete(member);
+	}
+	
+	public Member getMemberById(Long id) {
+		
+		return repository.findById(id).orElse(null);
 	}
 
 }
