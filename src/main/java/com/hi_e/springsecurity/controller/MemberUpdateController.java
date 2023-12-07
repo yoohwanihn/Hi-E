@@ -5,7 +5,6 @@ import java.security.Principal;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +16,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.hi_e.springsecurity.dto.ChangePasswordRequestDto;
 import com.hi_e.springsecurity.service.MemberService;
 
+
+/**
+ * Member의 정보를 수정하는 API들을 담당하는 컨트롤러입니다.
+ * 
+ */
 @RestController
 @RequestMapping("/api")
 public class MemberUpdateController {
@@ -73,5 +77,4 @@ public class MemberUpdateController {
 		
 		return null;
 	}
-
 }
