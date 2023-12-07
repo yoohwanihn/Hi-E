@@ -23,7 +23,6 @@ public class WebSecurityConfig {
 
 	// RequiredArgs로 생성자를 초기화하면 순환 참조 에러로 실행이 안됨.
 	// Lazy로 실제 실행할때 생성자를 만들도록
-	
 	public WebSecurityConfig(@Lazy CustomOAuth2UserService customOAuth2UserServicer) {
 		this.customOAuth2UserServicer = customOAuth2UserServicer;
 	}
@@ -34,12 +33,15 @@ public class WebSecurityConfig {
 				
 			
 				.authorizeHttpRequests(request -> request.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-						.requestMatchers("/status", "/img/**", "/view/login", "/view/service-agree", "/view/join",
-								"/auth/join", "/css/**", "/js/**", "vendor/**", "/view/forgot-password", "/sendEmail",
-								"/send_email", "/h2-console/**")
+						.requestMatchers("/status", "/img/**","/auth/join", "/css/**", "/js/**", "vendor/**", 
+								"/view/forgot-password", "/sendEmail", "/send_email", "/h2-console/**")
 						.permitAll() // 인증 필요없이 나올 사이트
 						// 테스트를 위해 h2-console도 열어두자. 배포할때 지우기!
 						// 이미지 폴더의 이미지와 회원가입 페이지는 로그인 전에도 접근할 수 있어야 하기 때문이다.
+						
+						.requestMatchers("/view/login", "/view/join", "/view/service-agree").anonymous() 
+						// 인증 안한 유저만 접근 가능
+						
 						.anyRequest().authenticated() // 그 외의 모든 사이트는 어떠한 요청이라도 인증필요
 
 				)
@@ -54,7 +56,8 @@ public class WebSecurityConfig {
 
 				/* 폼 로그아웃 처리 */
 				.logout(logout -> logout.logoutSuccessUrl("/login") // 로그아웃은 기본설정으로 (/logout으로 인증해제)
-						.permitAll())
+						.permitAll()
+						.invalidateHttpSession(true)) // 로그아웃 후 세션 초기화 설정)
 
 				/* OAuth 로그인 처리 */
 				.oauth2Login() // OAuth2 로그인 기능에 대한 설정 진입점
@@ -67,7 +70,8 @@ public class WebSecurityConfig {
 
 				/* OAuth 로그아웃 처리 */
 				.logout(logout -> logout.logoutSuccessUrl("/login") // 로그아웃은 기본설정으로 (/logout으로 인증해제)
-						.permitAll())
+						.permitAll()
+						.invalidateHttpSession(true)) // 로그아웃 후 세션 초기화 설정
 
 				
 

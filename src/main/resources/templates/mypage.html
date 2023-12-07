@@ -11,6 +11,14 @@
 
     <!-- Link to your custom CSS (if any) -->
     <link th:href="@{/css/custom-style.css}" rel="stylesheet">
+    <script>
+        function openChangePasswordPopup() {
+            window.open('/view/change-password', '_blank', 'width=600,height=400');
+        }
+        function openChangeProfilePopup() {
+            window.open('/view/change-profile', '_blank', 'width=800,height=600');
+        }
+    </script>
 </head>
 
 <body id="page-top">
@@ -59,11 +67,14 @@
                             </div>
                         </div>
                         <div>
-							<button><a href="/view/change-password">비번 변경</a></button>
-							<button><a href="/view/change-profile">프로필 이미지 변경</a></button>
+							<button onclick="openChangePasswordPopup()">비번 변경</button>
+							<button onclick="openChangeProfilePopup()">프로필 이미지 변경</button>
 							<form method="post" action="/logout">
 					            <button type="submit" id="logout_btn">로그아웃</button>
 					        </form>
+                        </div>
+                        <div>
+							<button><a href="/test12">글고고</a></button>
                         </div>
                     </div>
 
