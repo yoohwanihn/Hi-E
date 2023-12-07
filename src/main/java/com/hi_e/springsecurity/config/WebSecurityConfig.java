@@ -14,6 +14,9 @@ import com.hi_e.springsecurity.service.CustomOAuth2UserService;
 
 import jakarta.servlet.DispatcherType;
 
+/**
+ * 웹 보안 설정 클래스입니다.
+ */
 @EnableWebSecurity // 스프링 security 지원
 @EnableMethodSecurity(prePostEnabled = true)
 @Configuration
@@ -26,12 +29,18 @@ public class WebSecurityConfig {
 	public WebSecurityConfig(@Lazy CustomOAuth2UserService customOAuth2UserServicer) {
 		this.customOAuth2UserServicer = customOAuth2UserServicer;
 	}
-
+	
+	/**
+     * SecurityFilterChain을 설정하는 메서드입니다.
+     *
+     * @param http HttpSecurity 객체
+     * @return SecurityFilterChain
+     * @throws Exception 예외
+     */
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable()) // token을 사용하는 방식이기 때문에 csrf disable
 				
-			
 				.authorizeHttpRequests(request -> request.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
 						.requestMatchers("/status", "/img/**","/auth/join", "/css/**", "/js/**", "vendor/**", 
 								"/view/forgot-password", "/sendEmail", "/send_email", "/h2-console/**")
@@ -89,7 +98,12 @@ public class WebSecurityConfig {
 	 * @Bean PasswordEncoder passwordEncoder() { return new SimplePasswordEncoder();
 	 * }
 	 */
-
+	
+	/**
+     * PasswordEncoder를 빈으로 등록합니다.
+     *
+     * @return BCryptPasswordEncoder 객체
+     */
 	@Bean
 	PasswordEncoder passwordEncoder() {
 		// 단방향 암호화가 아닌 BCrypt암호화 알고리즘을 사용하기 때문에

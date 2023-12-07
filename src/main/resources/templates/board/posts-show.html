@@ -13,6 +13,35 @@
           rel="stylesheet">
 
     <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet">
+    <style>
+        /* 글 내용을 감싸는 컨테이너에 여백 추가 */
+        .content-container {
+            padding: 30px;
+        }
+
+        /* 글 제목 스타일 수정 */
+        h2 {
+            color: #4e73df; /* 부트스트랩 테마에서 사용하는 파란색 */
+        }
+
+        /* 글 내용 스타일 수정 */
+        .lead {
+            font-size: 18px;
+        }
+
+        /* 작성자 정보 스타일 수정 */
+        .author-info {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #6e707e; /* 부트스트랩 테마에서 사용하는 회색 */
+        }
+
+        /* 수정하기 버튼 스타일 수정 */
+        .edit-button {
+            margin-top: 20px;
+        }
+    </style>
+
 </head>
 <body>
 
@@ -21,8 +50,10 @@
         <div class="col-md-6">
             <h2 th:text="${post.title}" class="mb-4"></h2>
             <p th:text="${post.content}" class="lead"></p>
-            <p>작성자: <span th:text="${post.author}"></span></p>
-            <a th:href="@{/posts/update/{id}(id=${post.id})}"><button type="button" class="btn btn-primary">수정하기</button></a>
+            <p class="author-info">작성자: <span th:text="${post.author}"></span></p>
+            <a th:href="@{/posts/update/{id}(id=${post.id})}">
+                <button type="button" class="btn btn-primary edit-button">수정하기</button>
+            </a>
         </div>
     </div>
 </div>

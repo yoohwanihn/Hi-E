@@ -28,9 +28,10 @@ public class MemberUpdateController {
 	}
 	
 	/**
-     * 비밀번호 변경
-     * @param ChangePasswordRequestDTO 비밀번호 변경 정보
-     * @return 변경 응답 상태
+     * 비밀번호 변경 API
+     *
+     * @param requestDto ChangePasswordRequestDto: 비밀번호 변경 정보 DTO
+     * @return ResponseEntity<String>: 변경 성공 여부에 따른 응답 상태
      */
 	@PostMapping("/change-password")
 	public ResponseEntity<String> changePassword(@RequestBody ChangePasswordRequestDto requestDto) {
@@ -43,9 +44,10 @@ public class MemberUpdateController {
 	}
 	
 	/**
-     * 프로필 사진 등록
-     * @param ProfileImage 사진 정보
-     * @return 응답 상태
+     * 프로필 사진 변경 API
+     *
+     * @param profileImage MultipartFile: 사진 정보
+     * @return ResponseEntity<String>: 변경 성공 여부에 따른 응답 상태
      */
 	@PostMapping("/change-profile")
 	public ResponseEntity<String> changeProfile(@RequestParam("profileImage") MultipartFile profileImage) {
@@ -57,6 +59,14 @@ public class MemberUpdateController {
 	    }
 	}
 	
+	/**
+	 * 이메일을 기반으로 사용자를 삭제하기 위한 HTTP POST 요청을 처리합니다.
+	 *
+	 * @param email     삭제할 사용자의 이메일입니다.
+	 * @param model     뷰에 데이터를 전달하기 위한 Spring MVC 모델입니다.
+	 * @param principal 현재 인증된 사용자를 나타냅니다.
+	 * @return 삭제 프로세스의 결과를 나타내는 문자열이거나 해당하지 않는 경우 null을 반환합니다.
+	 */
 	@PostMapping("/delete/{email}")
 	public String deleteById(@PathVariable String email, Model model, Principal principal) {
 		// 각종 정보 삭제 로직 만들어야함

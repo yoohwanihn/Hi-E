@@ -8,10 +8,14 @@ import org.springframework.data.repository.query.Param;
 
 import com.hi_e.posts.entity.Posts;
 
+/**
+ * 
+ */
 public interface PostsRepository extends JpaRepository<Posts, Long> {
     //글목록 내림차순으로 받기
 	@Query("SELECT p FROM Posts p ORDER BY p.id DESC")
     List<Posts> findAllDesc();
+	
 	
 	@Query("SELECT p FROM Posts p WHERE LOWER(p.title) LIKE LOWER(CONCAT('%', :title, '%'))")
 	List<Posts> findByTitleContainingIgnoreCase(@Param("title") String title);

@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * 이메일 전송을 위한 DTO (Data Transfer Object) 클래스입니다.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

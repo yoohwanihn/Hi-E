@@ -1,14 +1,11 @@
 package com.hi_e.springsecurity.entity;
 
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.hi_e.posts.entity.Posts;
 import com.hi_e.role.Role;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -16,7 +13,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -24,6 +20,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * 회원 정보를 나타내는 엔티티 클래스입니다.
+ */
 @Entity	// DB 테이블과 1:1 매핑
 @Data	// Getter, Setter 자동으로 만듬, 추가적으로 RequiredArgsConstructor도
 @NoArgsConstructor	// 인자 없는 생성자 만듬
@@ -78,7 +77,21 @@ public class Member {
         this.picture = picture;
     }
     
-    
+    /**
+     * 회원 정보를 생성하는 정적 팩토리 메서드입니다.
+     *
+     * @param email             이메일
+     * @param ename             사용자 이름
+     * @param pw                비밀번호
+     * @param birthDay          생년월일
+     * @param phoneNumber       전화번호
+     * @param address           주소
+     * @param street_address    도로명 주소
+     * @param detail_address    상세 주소
+     * @param picture           프로필 사진 경로
+     * @param passwordEncoder   비밀번호 암호화를 위한 PasswordEncoder
+     * @return 생성된 Member 객체
+     */
     public static Member createUser(String email, String ename, String pw, Date birthDay, String phoneNumber, String address, String street_address, String detail_address, String picture, PasswordEncoder passwordEncoder) {
         return Member.builder()
                 .email(email)
@@ -92,9 +105,18 @@ public class Member {
                 .detail_address(detail_address)
                 .picture(picture)	// 여기 기본이미지 지정하면 됨
                 .build();
-      // Join 메서드를 수정해서 객체로 받을 경우 Dto파일에 메서드를 만들어야 하는데 어떤게 더 효율적인지 모르겠다.
     }
     
+    /**
+     * OAuth2 프로필 정보를 기반으로 하는 회원 정보를 생성하는 정적 팩토리 메서드입니다.
+     *
+     * @param email             이메일
+     * @param ename             사용자 이름
+     * @param password          비밀번호
+     * @param picture           프로필 사진 경로
+     * @param passwordEncoder   비밀번호 암호화를 위한 PasswordEncoder
+     * @return 생성된 Member 객체
+     */
     public static Member createUser(String email, String ename, String password, String picture, PasswordEncoder passwordEncoder) {
         return Member.builder()
                 .email(email)
@@ -105,11 +127,25 @@ public class Member {
                 .build();
     }
     
+    /**
+     * 회원의 권한(Role)을 통해 역할의 키를 반환합니다.
+     *
+     * @return 권한의 키
+     */
     public String getRoleKey() {
         return this.roles.getKey();
     }
     
-    //OAuth 중복 가입시 데이터 업데이트 수행용 메서드
+    /**
+     * OAuth 중복 가입 시 데이터 업데이트를 수행하는 메서드입니다.
+     *
+     * @param email             이메일
+     * @param ename             사용자 이름
+     * @param password          비밀번호
+     * @param picture           프로필 사진 경로
+     * @param passwordEncoder   비밀번호 암호화를 위한 PasswordEncoder
+     * @return 업데이트된 Member 객체
+     */
     public Member update(String email, String ename, String password, String picture, PasswordEncoder passwordEncoder){
     	this.email = email;
         this.ename = ename;
@@ -119,7 +155,12 @@ public class Member {
         return this;
     }
     
-    //비밀번호 변경용 메서드
+    /**
+     * 비밀번호를 변경하는 메서드입니다.
+     *
+     * @param password          새로운 비밀번호
+     * @param passwordEncoder   비밀번호 암호화를 위한 PasswordEncoder
+     */
     public void update(String password, PasswordEncoder passwordEncoder){
         this.pw = passwordEncoder.encode(password);
     }

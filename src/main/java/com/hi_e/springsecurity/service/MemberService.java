@@ -21,6 +21,9 @@ import com.hi_e.springsecurity.repository.MemberRepository;
 
 import jakarta.transaction.Transactional;
 
+/**
+ * 회원과 관련된 비즈니스 로직을 처리하는 서비스 클래스입니다.
+ */
 @Service
 public class MemberService {
 
@@ -33,18 +36,33 @@ public class MemberService {
 		this.passwordEncoder = passwordEncoder;
 	}
 
-	// 이메일에 해당하는 멤버 정보 찾는 메서드
+	/**
+     * 이메일에 해당하는 멤버 정보를 찾는 메서드입니다.
+     *
+     * @param email 찾을 멤버의 이메일
+     * @return 찾은 멤버의 Optional
+     */
 	public Optional<Member> findOne(String email) {
 		return repository.findByEmail(email);
 	}
 
-	// 입력받은 email을 갖고 있는 DB정보의 이름과 입력받은 이름이 같은지 체크하는 메서드
+	/**
+     * 입력받은 이메일을 가진 멤버의 이름과 입력받은 이름이 일치하는지 체크하는 메서드입니다.
+     *
+     * @param email 이메일
+     * @param name  이름
+     * @return 일치 여부
+     */
 	public boolean memberEmailCheck(String email, String name) {
 		return findOne(email).filter(member -> member.getEname().equals(name)) 
 				.isPresent(); // 그리고 해당 DB가 존재하는지 체크
 	}
 
-	// 현재 로그인한 멤버의 Repository 정보
+	/**
+     * 현재 로그인한 멤버의 정보를 가져오는 메서드입니다.
+     *
+     * @return 현재 로그인한 멤버
+     */
 	public Member getCurrentLoggedInMember() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		// Spring Security의 SecurityContextHolder를 사용하여 현재 로그인 중인 사용자의 Principal을 가져옴
@@ -66,7 +84,12 @@ public class MemberService {
 		}
 	}
 
-	// 로그인 종류에 따른 Email 추출 메서드
+	/**
+	 * 로그인 종류에 따라 Email을 추출하는 메서드입니다.
+	 *
+	 * @param principal 현재 로그인한 사용자의 Principal
+	 * @return 추출된 이메일
+	 */
 	private String extractUserEmail(Object principal) {
 		try {
 			if (principal instanceof OAuth2User) {
@@ -86,8 +109,12 @@ public class MemberService {
 		}
 	}
 	
+	/**
+	 * 마이페이지에서 비밀번호를 수정하는 메서드입니다.
+	 *
+	 * @param requestDto 수정할 비밀번호 정보가 담긴 DTO
+	 */
 	@Transactional
-	// 마이페이지 비밀번호 수정
     public void changePassword(ChangePasswordRequestDto requestDto) {
         // 로그인중인지 확인
         //String db_email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -106,8 +133,12 @@ public class MemberService {
         repository.updateUserPassword(member.getEmail(), passwordEncoder.encode(requestDto.getNewPassword()));
     }
 	
+	/**
+	 * 회원의 프로필 이미지를 변경하는 메서드입니다.
+	 *
+	 * @param uploadFile 변경할 프로필 이미지 파일
+	 */
 	@Transactional
-	//이거 해야함
 	public void changeProfileImage(MultipartFile uploadFile) {
 	    try {
 	        Member member = getCurrentLoggedInMember();
@@ -119,6 +150,12 @@ public class MemberService {
 	    }
 	}
 	
+	/**
+	 * 프로필 이미지를 저장하고 해당 경로를 반환하는 메서드입니다.
+	 *
+	 * @param uploadFile 저장할 이미지 파일
+	 * @return 저장된 이미지의 경로
+	 */
 	@Transactional
 	private String saveProfileImage(MultipartFile uploadFile) {
 	    // 기존의 이미지 저장 로직을 분리하여 메서드로 만듭니다.
@@ -144,15 +181,21 @@ public class MemberService {
 	
 	
 	/**
-	 * 아직 안씀
-	 * @param member
+	 * 회원을 삭제하는 메서드입니다. (아직 사용되지 않음)
+	 *
+	 * @param member 삭제할 회원
 	 */
 	public void deletemember(Member member) {
 		repository.delete(member);
 	}
 	
+	/**
+	 * ID를 기반으로 회원 정보를 가져오는 메서드입니다.
+	 *
+	 * @param id 조회할 회원의 ID
+	 * @return 조회된 회원
+	 */
 	public Member getMemberById(Long id) {
-		
 		return repository.findById(id).orElse(null);
 	}
 

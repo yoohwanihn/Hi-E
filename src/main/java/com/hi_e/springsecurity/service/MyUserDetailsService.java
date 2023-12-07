@@ -10,15 +10,30 @@ import org.springframework.stereotype.Component;
 
 import com.hi_e.springsecurity.entity.Member;
 
+/**
+ * Spring Security에서 사용하는 UserDetailsService를 구현한 클래스입니다.
+ */
 @Component
-//스프링부트가 제공하는 임시 비밀번호가 아니라 DB에서 가져온 회원정보 데이터를 사용하기 위해 UserDetailService 구현을 이용함.
 public class MyUserDetailsService implements UserDetailsService {
+	//스프링부트가 제공하는 임시 비밀번호가 아니라 DB에서 가져온 회원정보 데이터를 사용하기 위해 UserDetailService 구현을 이용함.
     private final MemberService memberService;
-
+    
+    /**
+     * 생성자로 MemberService를 주입받습니다.
+     *
+     * @param memberService 사용할 MemberService
+     */
     public MyUserDetailsService(MemberService memberService) {
         this.memberService = memberService;
     }
-
+    
+    /**
+     * Spring Security 인증 시 사용되는 메서드로, 입력된 이메일을 기반으로 회원 정보를 가져와 UserDetails 객체를 생성합니다.
+     *
+     * @param insertedUserEmail 로그인 시 입력된 이메일
+     * @return UserDetails 객체
+     * @throws UsernameNotFoundException 해당 이메일을 가진 회원이 없을 때 발생하는 예외
+     */
     @Override 
     public UserDetails loadUserByUsername(String insertedUserEmail) throws UsernameNotFoundException {
         // 파라미터인 insertedId 부분에는 기존에 설정해두었던 usernameParameter("email")에 해당하는 정보가 들어오게 된다. 

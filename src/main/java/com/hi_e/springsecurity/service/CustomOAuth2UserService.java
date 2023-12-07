@@ -20,13 +20,23 @@ import com.hi_e.springsecurity.repository.MemberRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * OAuth2 로그인 시 사용되는 커스텀한 OAuth2UserService 구현 클래스입니다.
+ */
 @RequiredArgsConstructor
 @Service
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 	private final MemberRepository memberRepository;
 	private final HttpSession httpSession;
 	private final PasswordEncoder passwordEncoder;
-
+	
+	/**
+     * OAuth2 로그인 사용자 정보를 로드하는 메서드입니다.
+     *
+     * @param userRequest OAuth2 로그인 요청 정보
+     * @return OAuth2User 인터페이스를 구현한 객체
+     * @throws OAuth2AuthenticationException OAuth2 로그인 인증 예외
+     */
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 		OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
@@ -55,8 +65,12 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 				attributes.getAttributes(), attributes.getNameAttributeKey());
 	}
 
-
-	/* 소셜로그인시 기존 회원이 존재하면 수정정보만 업데이트, 리팩토링 */
+	/**
+     * 소셜 로그인 시 기존 회원이 존재하면 정보를 업데이트하고, 존재하지 않으면 신규 회원으로 등록합니다.
+     *
+     * @param attributes OAuth 로그인 정보를 담은 객체
+     * @return 업데이트 또는 신규 등록된 Member 객체
+     */
 	private Member saveOrUpdate(OAuthAttributes attributes) {
 	    // 이메일을 기반으로 기존 멤버를 조회
 		Member member = memberRepository.findByEmail(attributes.getEmail())

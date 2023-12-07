@@ -16,33 +16,59 @@ import com.hi_e.posts.service.PostsService;
 
 import lombok.RequiredArgsConstructor;
 
-// Web Layer
-// Controller와 JSP 등 뷰 템플릿 영역
-// 이외에서 필터, 인터셉터, 컨트롤러 어드바이스 등 외부 요청과 응답에 대한 영역을 의미
+/**
+ * 웹 레이어의 컨트롤러 클래스입니다.
+ * 컨트롤러는 클라이언트의 요청을 처리하고 응답을 반환하는 역할을 수행합니다.
+ * PostMapping, PutMapping, GetMapping, DeleteMapping 어노테이션을 사용하여 각각의 HTTP 메서드에 대한 매핑을 정의합니다.
+ */
 @RequiredArgsConstructor
-// Controller은 토스해주는 역할
 @RestController
 public class PostsApiController {
+
     private final PostsService postsService;
 
-    // PostMapping으로 숨김
+    /**
+     * 새로운 게시글을 등록하는 메서드입니다.
+     *
+     * @param requestDto 등록할 게시글 정보를 담은 DTO
+     * @return 등록된 게시글의 ID
+     */
     @PostMapping("/api/v1/posts")
     public Long save(@RequestBody PostsSaveRequestDto requestDto) {
         return postsService.save(requestDto);
     }
 
+    /**
+     * 주어진 ID의 게시글을 수정하는 메서드입니다.
+     *
+     * @param id         수정할 게시글의 ID
+     * @param requestDto 수정할 내용을 담은 DTO
+     * @return 수정된 게시글의 ID
+     */
     @PutMapping("/api/v1/posts/{id}")
-    public Long update(@PathVariable Long id, @RequestBody PostsUpdateRequestDto requestDto){
+    public Long update(@PathVariable Long id, @RequestBody PostsUpdateRequestDto requestDto) {
         return postsService.update(id, requestDto);
     }
 
+    /**
+     * 주어진 ID의 게시글을 조회하는 메서드입니다.
+     *
+     * @param id 조회할 게시글의 ID
+     * @return 조회된 게시글 정보를 담은 DTO
+     */
     @GetMapping("/api/v1/posts/{id}")
-    public PostsResponseDto findById(@PathVariable Long id){
+    public PostsResponseDto findById(@PathVariable Long id) {
         return postsService.findById(id);
     }
 
+    /**
+     * 주어진 ID의 게시글을 삭제하는 메서드입니다.
+     *
+     * @param id 삭제할 게시글의 ID
+     * @return 삭제된 게시글의 ID
+     */
     @DeleteMapping("/api/v1/posts/{id}")
-    public Long delete(@PathVariable Long id){
+    public Long delete(@PathVariable Long id) {
         postsService.delete(id);
         System.out.println("삭제 확인");
         return id;

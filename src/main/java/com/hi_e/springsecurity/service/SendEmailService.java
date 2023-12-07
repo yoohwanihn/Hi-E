@@ -15,6 +15,9 @@ import com.hi_e.springsecurity.repository.MemberRepository;
 
 import lombok.AllArgsConstructor;
 
+/**
+ * 이메일 전송과 관련된 비즈니스 로직을 처리하는 서비스 클래스입니다.
+ */
 @Service
 @AllArgsConstructor
 public class SendEmailService {
@@ -25,7 +28,14 @@ public class SendEmailService {
 	private JavaMailSender mailSender;
 	private static final String FROM_ADDRESS = "Hi-E";
 	private PasswordEncoder passwordEncoder;
-
+	
+	/**
+     * 이메일과 사용자 이름을 받아 임시 비밀번호를 생성하고, 이메일 전송을 위한 MailDto를 생성합니다.
+     *
+     * @param email 이메일
+     * @param ename 사용자 이름
+     * @return 이메일 전송을 위한 MailDto
+     */
 	public MailDto createMailAndChangePassword(String email, String ename) {
         String newPassword = getTempPassword();
         MailDto dto = new MailDto();
@@ -55,6 +65,13 @@ public class SendEmailService {
 //	    }
 //	}
 	
+	/**
+     * 이메일과 사용자 이름을 기반으로 회원의 비밀번호를 업데이트합니다.
+     *
+     * @param newPassword 새로운 비밀번호
+     * @param userEmail   회원 이메일
+     * @param userName    회원 이름
+     */
 	public void updatePassword(String newPassword, String userEmail, String userName) {
 	    Member member = repository.findByEmailAndEname(userEmail, userName)
 	            .orElseThrow(() -> {
@@ -66,7 +83,11 @@ public class SendEmailService {
 	    repository.save(member);
 	}
 	
-	//11자리의 랜덤난수를 생성하는 메소드
+	/**
+     * 랜덤한 임시 비밀번호를 생성하는 메서드입니다. 11자리를 만듭니다.
+     *
+     * @return 생성된 임시 비밀번호
+     */
 	public static String getTempPassword() {
 	    char[] charSet = new char[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
 	            'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
@@ -88,6 +109,11 @@ public class SendEmailService {
 	    return password.toString();
 	}
 	
+	/**
+     * 생성된 이메일 정보를 이용하여 메일을 전송합니다.
+     *
+     * @param mailDto 이메일 정보를 담은 MailDto
+     */
 	public void mailSend(MailDto mailDto){
         System.out.println("이메일 전송 완료");	//테스트 후 지움. 해당 email이 없는데 이게 왜 뜨지 예외처리 해야할듯
         SimpleMailMessage message = new SimpleMailMessage();

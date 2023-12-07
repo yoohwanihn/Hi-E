@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * 비밀번호 변경 요청을 위한 DTO (Data Transfer Object) 클래스입니다.
+ */
 @Getter 
 @Setter 
 @AllArgsConstructor 
