@@ -1,11 +1,14 @@
 package com.hi_e.springsecurity.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.hi_e.posts.entity.Posts;
 import com.hi_e.role.Role;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,6 +16,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.Builder;
@@ -22,6 +27,7 @@ import lombok.NoArgsConstructor;
 @Entity	// DB 테이블과 1:1 매핑
 @Data	// Getter, Setter 자동으로 만듬, 추가적으로 RequiredArgsConstructor도
 @NoArgsConstructor	// 인자 없는 생성자 만듬
+@Table(name = "member")
 public class Member {
 
     @Id
@@ -56,7 +62,7 @@ public class Member {
     @Column(columnDefinition = "varchar(1000) default '/img/undraw_profile_1.svg'")
     private String picture;
 
-    @Builder// 빌더 패턴을 클래스에 추가하여 객체 생성 간소화 용이
+    @Builder// 빌더 패턴을 클래스에 추가하여 객체 생성 간소화
     private Member(Long id, String email, String ename, String pw, Role roles, Date birthDay, String phoneNumber, String address, String street_address, String detail_address, String picture) {
         this.id = id;
         this.email = email;

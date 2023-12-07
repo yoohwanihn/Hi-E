@@ -49,14 +49,16 @@
                         <div class="col-lg-4 mb-4">
                             <div class="card">
                                 <div class="card-body text-center">
-                                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" th:src="${picture}" alt="프로필 이미지">
+									<!-- 세션용 -->
+                                    <!--<img class="img-fluid px-3 px-sm-4 mt-3 mb-4" th:src="${session.profileImage1}" alt="프로필 이미지"> -->
+                             		<img class="img-fluid px-3 px-sm-4 mt-3 mb-4" th:src="${profileImage}" alt="프로필 이미지">
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-8 mb-4">
                             <div class="card">
                                 <div class="card-body">
-                                    <h2 class="h4 text-gray-900 mb-4" th:text="${ename}">이름 없음</h2>
+                                    <h2 class="h4 text-gray-900 mb-4" th:text="${ename}">이름 없음</h2>\
                                     <p th:text="${email}"></p>
                                     <p th:text="${birth_day}"></p>
                                     <p th:text="${phone_number}"></p>

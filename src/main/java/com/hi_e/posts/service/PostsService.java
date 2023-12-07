@@ -28,9 +28,14 @@ public class PostsService {
 
     @Transactional
     public Long update(Long id, PostsUpdateRequestDto requestDto){
+
+        System.out.println("업데이트 확인 1차");
         Posts posts = postsRepository.findById(id)
                 .orElseThrow(()->new IllegalArgumentException("해당 게시글이 없습니다 id=" + id));
+
+        System.out.println("업데이트 확인 2차");
         posts.update(requestDto.getTitle(), requestDto.getContent());
+        System.out.println("업데이트 확인 3차");
         return id;
     }
 
@@ -51,6 +56,13 @@ public class PostsService {
     @Transactional
     public List<PostsListResponseDto> findAllDesc() {
         return postsRepository.findAllDesc().stream()
+                .map(PostsListResponseDto::new)
+                .collect(Collectors.toList());
+    }
+    
+    @Transactional
+    public List<PostsListResponseDto> searchByTitle(String title) {
+        return postsRepository.findByTitleContainingIgnoreCase(title).stream()
                 .map(PostsListResponseDto::new)
                 .collect(Collectors.toList());
     }
