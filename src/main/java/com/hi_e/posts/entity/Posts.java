@@ -17,6 +17,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * 게시글 엔티티 클래스
+ */
 @Getter
 @NoArgsConstructor
 @Entity
@@ -45,7 +48,13 @@ public class Posts {
         this.author = author;
         this.createdDate = createdDate;
     }
-
+    
+    /**
+     * 게시글 정보 업데이트
+     * @param title 새로운 제목
+     * @param content 새로운 내용
+     * @param createdDate 새로운 생성 날짜
+     */
     public void update(String title, String content, LocalDateTime createdDate){
         this.title=title;
         this.content=content;
