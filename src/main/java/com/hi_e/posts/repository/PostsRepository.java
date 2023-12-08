@@ -2,6 +2,8 @@ package com.hi_e.posts.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -29,7 +31,8 @@ public interface PostsRepository extends JpaRepository<Posts, Long> {
      * @return 대소문자 구분 없이 제목에 특정 단어를 포함하는 글 목록
      */
 	@Query("SELECT p FROM Posts p WHERE LOWER(p.title) LIKE LOWER(CONCAT('%', :title, '%'))")
-	List<Posts> findByTitleContainingIgnoreCase(@Param("title") String title);
+	Page<Posts> findByTitleContainingIgnoreCase(@Param("title") String title, Pageable pageable);
+	//List<Posts> findByTitleContainingIgnoreCase(@Param("title") String title);
 	
 	
 	/**

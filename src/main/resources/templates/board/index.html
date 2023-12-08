@@ -40,7 +40,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="post : ${posts}" th:onclick="'window.location.href = \'' + @{/posts/show/{id}(id=${post.id})} + '\''">
+                <tr th:each="post : ${postsPages}" th:onclick="'window.location.href = \'' + @{/posts/show/{id}(id=${post.id})} + '\''">
 	                    <td th:text="${post.id}"></td>
 	                    <td th:text="${post.title}"></td>
 	                    <td th:text="${post.author}"></td>
@@ -50,11 +50,35 @@
             </tbody>
     		
         </table>
+        <!-- 첫번째 페이지로 이동 -->
+        <a th:href="@{/test12(page=1)}">첫 페이지 </a>
+        
+        <!-- 이전 링크 활성화 비활성화 -->
+        <a th:href="${postsPages.first} ? '#' : @{/test12(page=${postsPages.number})}"> 이전 </a>
+ 
+        <!-- 페이지 번호 링크(현재 페이지는 숫자만)
+                for(int page=startPage; page<=endPage; page++)-->
+        <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
+        
+		<!-- 현재페이지는 링크 없이 숫자만 -->
+            <span th:if="${page == postsPages.number + 1}" th:text="${page}"></span>
+            <!-- 현재페이지 링크 X, 다른 페이지번호에는 링크를 보여준다 -->
+            <span th:unless="${page == postsPages.number + 1}">
+        <a th:href="@{/test12(page=${page})}" th:text="${page}"></a>
+            </span>
+        </span>
+ 
+        <!-- 다음 링크 활성화 비활성화 -->
+        <a th:href="${postsPages.last} ? '#' : @{/post/paging(page=${postsPages.number + 2})}"> 다음 </a>
+        
+        <!-- 마지막 페이지로 이동 -->
+        <a th:href="@{/test12(page=${postsPages.totalPages})}"> 마지막 페이지</a>
+        
         <!-- 검색 -->
-			<form th:action="@{/posts/search}" method="get" class="form-inline mb-3">
-		        <input type="text" th:name="query" class="form-control mr-2" placeholder="검색어를 입력하세요">
-		        <button type="submit" class="btn btn-primary">글제목 검색</button>
-		    </form>
+		<form th:action="@{/posts/search}" method="get" class="form-inline mb-3">
+	        <input type="text" th:name="query" class="form-control mr-2" placeholder="검색어를 입력하세요">
+	        <button type="submit" class="btn btn-primary">글제목 검색</button>
+	    </form>
     </div>
 
     <!-- 부트스트랩 JavaScript 및 부가적인 JavaScript 파일 추가 -->

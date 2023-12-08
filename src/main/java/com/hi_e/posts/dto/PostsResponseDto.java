@@ -14,6 +14,7 @@ public class PostsResponseDto {
     private String title;
     private String author;
     private String content;
+    private String created_date;
     private int view;
 
     /**
@@ -26,6 +27,7 @@ public class PostsResponseDto {
         this.title = entity.getTitle();
         this.author = entity.getAuthor();
         this.content = entity.getContent();
+        this.created_date = entity.getCreatedDate();
         this.view = entity.getView();
     }
 }
