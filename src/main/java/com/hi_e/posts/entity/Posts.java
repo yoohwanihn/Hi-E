@@ -1,12 +1,18 @@
 package com.hi_e.posts.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hi_e.date.entity.TimeEntity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,10 +24,11 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name="posts")
+@Table
 public class Posts extends TimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)	// 글번호 용
+    @Column(name="post_id")
     private long id;
 
     @Column(length = 500, nullable = false)
@@ -34,6 +41,10 @@ public class Posts extends TimeEntity {
     
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int view;
+    
+    // 댓글 연관관계
+    @OneToMany(mappedBy = "posts", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE) //게시글 지우면 댓글도 지움
+    private List<Comments> commentsList = new ArrayList<>();
 
     @Builder
     public Posts(String title, String content, String author){

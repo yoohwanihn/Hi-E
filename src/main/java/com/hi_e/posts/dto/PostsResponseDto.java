@@ -1,5 +1,8 @@
 package com.hi_e.posts.dto;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.hi_e.posts.entity.Posts;
 
 import lombok.Getter;
@@ -16,6 +19,8 @@ public class PostsResponseDto {
     private String content;
     private String created_date;
     private int view;
+//    private Long memberId;
+//    private List<CommentsResponseDto> comments;
 
     /**
      * 게시글 엔티티를 기반으로하는 수동 생성자입니다.
@@ -29,5 +34,10 @@ public class PostsResponseDto {
         this.content = entity.getContent();
         this.created_date = entity.getCreatedDate();
         this.view = entity.getView();
+//        this.memberId = entity.getMember().get
+//        this.comments = entity.getComments().stream()
+//        			.map(CommentsResponseDto::new)
+//        			.collect(Collectors.toList())
+        ;
     }
 }
