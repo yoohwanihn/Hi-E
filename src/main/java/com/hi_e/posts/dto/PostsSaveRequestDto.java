@@ -1,7 +1,5 @@
 package com.hi_e.posts.dto;
 
-import java.time.LocalDateTime;
-
 import com.hi_e.posts.entity.Posts;
 
 import lombok.Builder;
@@ -17,7 +15,7 @@ public class PostsSaveRequestDto {
     private String title;
     private String content;
     private String author;
-    private LocalDateTime createdDate;
+    private String created_date;
 
     /**
      * 빌더 패턴을 활용한 생성자입니다.
@@ -28,11 +26,11 @@ public class PostsSaveRequestDto {
      * @param createdDate 게시글 작성일
      */
     @Builder
-    public PostsSaveRequestDto(String title, String content, String author, LocalDateTime createdDate) {
+    public PostsSaveRequestDto(String title, String content, String author, String created_date) {
         this.title = title;
         this.content = content;
         this.author = author;
-        this.createdDate = createdDate;
+        this.created_date = created_date;
     }
 
     /**
@@ -45,7 +43,6 @@ public class PostsSaveRequestDto {
                 .title(title)
                 .content(content)
                 .author(author)
-                .createdDate(createdDate)
                 .build();
     }
 }

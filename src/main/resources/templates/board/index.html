@@ -35,14 +35,17 @@
                     <th scope="col">게시글번호</th>
                     <th scope="col">제목</th>
                     <th scope="col">작성자</th>
+                    <th scope="col">작성일</th>
+                    <th scope="col">조회수</th>
                 </tr>
-					<!--<a th:href="@{/posts/show/{id}(id=${post.id})}" th:text="${post.title}" class="text-dark"> -->
             </thead>
             <tbody>
                 <tr th:each="post : ${posts}" th:onclick="'window.location.href = \'' + @{/posts/show/{id}(id=${post.id})} + '\''">
 	                    <td th:text="${post.id}"></td>
 	                    <td th:text="${post.title}"></td>
 	                    <td th:text="${post.author}"></td>
+	                    <td th:text="${post.created_date != null} ? ${post.created_date} : ''"></td>
+	                    <td th:text="${post.view}"></td>
                 </tr>
             </tbody>
     		

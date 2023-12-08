@@ -1,9 +1,6 @@
 package com.hi_e.posts.entity;
 
-import java.time.LocalDateTime;
-import java.util.Date;
-
-import org.springframework.data.annotation.CreatedDate;
+import com.hi_e.date.entity.TimeEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,8 +8,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name="posts")
-public class Posts {
+public class Posts extends TimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)	// 글번호 용
     private long id;
@@ -37,16 +32,14 @@ public class Posts {
 
     private String author;
     
-    @CreatedDate // Entity가 생성되어 저장될 때 시간 자동 저장
-    @Column(name = "created_date")
-    private LocalDateTime createdDate;
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private int view;
 
     @Builder
-    public Posts(String title, String content, String author, LocalDateTime createdDate){
+    public Posts(String title, String content, String author){
         this.title = title;
         this.content = content;
         this.author = author;
-        this.createdDate = createdDate;
     }
     
     /**
@@ -55,9 +48,8 @@ public class Posts {
      * @param content 새로운 내용
      * @param createdDate 새로운 생성 날짜
      */
-    public void update(String title, String content, LocalDateTime createdDate){
+    public void update(String title, String content){
         this.title=title;
         this.content=content;
-        this.createdDate=createdDate;
     }
 }

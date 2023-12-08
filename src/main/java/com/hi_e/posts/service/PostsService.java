@@ -47,7 +47,7 @@ public class PostsService {
         Posts posts = postsRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
 
-        posts.update(requestDto.getTitle(), requestDto.getContent(), requestDto.getCreatedDate());
+        posts.update(requestDto.getTitle(), requestDto.getContent());
 
         return id;
     }
@@ -101,6 +101,15 @@ public class PostsService {
         return postsRepository.findByTitleContainingIgnoreCase(title).stream()
                 .map(PostsListResponseDto::new)
                 .collect(Collectors.toList());
+    }
+    
+    /**
+     * @param Long id 게시글 번호를 받음
+     * @return 해당하는 글 조회수 리턴
+     */
+    @Transactional
+    public int updateView(Long id){
+    	return postsRepository.updateView(id);
     }
 }
 

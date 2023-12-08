@@ -35,6 +35,7 @@ public class IndexController {
     @GetMapping("/test12")
     public String index(Model model) {
         model.addAttribute("posts", postsService.findAllDesc());
+        
         return "board/index";
     }
 
@@ -79,8 +80,10 @@ public class IndexController {
      */
     @GetMapping("/posts/show/{id}")
     public String showPost(@PathVariable Long id, Model model) {
+        postsService.updateView(id);
         PostsResponseDto dto = postsService.findById(id);
         model.addAttribute("post", dto);
+        
         return "board/posts-show";
     }
 

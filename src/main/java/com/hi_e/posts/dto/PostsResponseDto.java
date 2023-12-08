@@ -1,7 +1,5 @@
 package com.hi_e.posts.dto;
 
-import java.time.LocalDateTime;
-
 import com.hi_e.posts.entity.Posts;
 
 import lombok.Getter;
@@ -16,7 +14,7 @@ public class PostsResponseDto {
     private String title;
     private String author;
     private String content;
-    private LocalDateTime createdDate;
+    private int view;
 
     /**
      * 게시글 엔티티를 기반으로하는 수동 생성자입니다.
@@ -28,6 +26,6 @@ public class PostsResponseDto {
         this.title = entity.getTitle();
         this.author = entity.getAuthor();
         this.content = entity.getContent();
-        this.createdDate = entity.getCreatedDate();
+        this.view = entity.getView();
     }
 }
