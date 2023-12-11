@@ -51,20 +51,20 @@
                                 <div class="card-body text-center">
 									<!-- 세션용 -->
                                     <!--<img class="img-fluid px-3 px-sm-4 mt-3 mb-4" th:src="${session.profileImage1}" alt="프로필 이미지"> -->
-                             		<img class="img-fluid px-3 px-sm-4 mt-3 mb-4" th:src="${profileImage}" alt="프로필 이미지">
+                             		<img class="img-fluid px-3 px-sm-4 mt-3 mb-4" th:src="${member.picture}" alt="프로필 이미지">
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-8 mb-4">
                             <div class="card">
                                 <div class="card-body">
-                                    <h2 class="h4 text-gray-900 mb-4" th:text="${ename}">이름 없음</h2>\
-                                    <p th:text="${email}"></p>
-                                    <p th:text="${birth_day}"></p>
-                                    <p th:text="${phone_number}"></p>
-                                    <p th:text="${address}"></p>
-                                    <p th:text="${street_address}"></p>
-                                    <p th:text="${detail_address}"></p>
+                                    <h2 class="h4 text-gray-900 mb-4" th:text="${member.ename}">이름 없음</h2>
+                                    <p th:text="${member.email}"></p>
+                                    <p th:text="${member.birth_day}"></p>
+                                    <p th:text="${member.phone_number}"></p>
+                                    <p th:text="${member.address}"></p>
+                                    <p th:text="${member.street_address}"></p>
+                                    <p th:text="${member.detail_address}"></p>
                                 </div>
                             </div>
                         </div>

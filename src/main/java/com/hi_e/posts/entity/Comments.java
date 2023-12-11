@@ -1,7 +1,6 @@
 package com.hi_e.posts.entity;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import com.hi_e.date.entity.TimeEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,13 +18,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "comments")
-public class Comments{
+public class Comments extends TimeEntity{
     // 댓글번호, 작성자, 내용, 원글
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="comment_id")
     private Long id;    
-    
     
     @Column
     private String comment_writer;
@@ -37,13 +35,4 @@ public class Comments{
     @JoinColumn(name = "posts_id") // 부모테이블(참조하고자 하는 테이블)의 pk 컬럼 이름을 작성한다.
     private Posts posts; // 참조하고자 하는 테이블을 관리하는 Entity
     
-    /* 상속 고려 하기 */
-    
-    @Column(name = "created_date")
-	@CreatedDate
-	private String created_date;
-	
-	@Column(name = "modified_date")
-	@LastModifiedDate
-	private String modified_date;
 }

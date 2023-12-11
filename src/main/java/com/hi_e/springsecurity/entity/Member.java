@@ -2,6 +2,7 @@ package com.hi_e.springsecurity.entity;
 
 import java.util.Date;
 
+import org.hibernate.annotations.DynamicInsert;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.hi_e.role.Role;
@@ -26,6 +27,7 @@ import lombok.NoArgsConstructor;
 @Entity	// DB 테이블과 1:1 매핑
 @Data	// Getter, Setter 자동으로 만듬, 추가적으로 RequiredArgsConstructor도
 @NoArgsConstructor	// 인자 없는 생성자 만듬
+@DynamicInsert // null 제외 쿼리 실행, 쿼리문 성능 향상
 @Table(name = "member")
 public class Member {
 

@@ -10,8 +10,9 @@ import lombok.Data;
  */
 @Data
 public class MemberJoinDto {
-
-    private String email;           // 이메일
+	
+	private Long id;
+	private String email;           // 이메일
     private String ename;           // 사용자 이름
     private String pw;              // 비밀번호
     private Date birth_day;         // 생년월일
@@ -20,4 +21,5 @@ public class MemberJoinDto {
     private String street_address;  // 도로명 주소
     private String detail_address;  // 상세 주소
     private String picture;         // 프로필 사진 경로
+    
 }

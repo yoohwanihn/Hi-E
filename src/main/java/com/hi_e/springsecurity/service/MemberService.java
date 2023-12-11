@@ -15,7 +15,10 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.hi_e.posts.dto.PostsResponseDto;
+import com.hi_e.posts.entity.Posts;
 import com.hi_e.springsecurity.dto.ChangePasswordRequestDto;
+import com.hi_e.springsecurity.dto.MemberJoinDto;
 import com.hi_e.springsecurity.entity.Member;
 import com.hi_e.springsecurity.repository.MemberRepository;
 
@@ -130,7 +133,7 @@ public class MemberService {
         }
 
         // 새 비밀번호로 업데이트
-        repository.updateUserPassword(member.getEmail(), passwordEncoder.encode(requestDto.getNewPassword()));
+        repository.updateMemberPassword(member.getEmail(), passwordEncoder.encode(requestDto.getNewPassword()));
     }
 	
 	/**
@@ -143,7 +146,9 @@ public class MemberService {
 	    try {
 	        Member member = getCurrentLoggedInMember();
 	        String newPicture = saveProfileImage(uploadFile);
-	        repository.updateUserProfile(member.getEmail(), newPicture);
+	        repository.updateMemberProfile(member.getEmail(), newPicture);
+
+		    System.out.println("프로필 이미지 변경 완료: "  + newPicture);
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        // 예외 처리 로직 추가
@@ -158,25 +163,12 @@ public class MemberService {
 	 */
 	@Transactional
 	private String saveProfileImage(MultipartFile uploadFile) {
-	    // 기존의 이미지 저장 로직을 분리하여 메서드로 만듭니다.
-	    // 이 메서드에서 발생한 예외는 상위 메서드로 전파됩니다.
 
-	    String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\img\\";
-	    //String fileName = UUID.randomUUID().toString() + "_" + uploadFile.getOriginalFilename();
-	    String fileName = UUID.randomUUID().toString() + uploadFile.getOriginalFilename();
-	    File saveFile = new File(projectPath, fileName);
-	    saveFile.mkdirs(); //관련된 폴더가 없다면 만들어줌
-	    try {
-			uploadFile.transferTo(saveFile);
-		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	    System.out.println("저장 경로: " + saveFile.getAbsolutePath());
-	    return "/img/" +fileName;
+	    String projectPath = "\\Hi-E\\src\\main\\resources\\static\\img\\";
+	    String fileName = UUID.randomUUID().toString() + "_" + uploadFile.getOriginalFilename();
+	    //String fileName = uploadFile.getOriginalFilename();
+	    System.out.println("그냥1"  + "/profile_img/" +fileName );
+	    return "/img/" +fileName ;
 	}
 	
 	

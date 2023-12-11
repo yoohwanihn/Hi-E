@@ -24,11 +24,11 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table
+@Table(name = "posts")
 public class Posts extends TimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)	// 글번호 용
-    @Column(name="post_id")
+    @Column(name="posts_id")
     private long id;
 
     @Column(length = 500, nullable = false)

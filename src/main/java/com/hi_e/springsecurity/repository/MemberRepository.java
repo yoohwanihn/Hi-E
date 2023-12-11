@@ -48,7 +48,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
      */
     @Modifying
     @Query("UPDATE Member m SET m.pw = :newPassword WHERE m.email = :email")
-    void updateUserPassword(@Param("email") String email, @Param("newPassword") String newPassword);
+    void updateMemberPassword(@Param("email") String email, @Param("newPassword") String newPassword);
     
     /**
      * 회원의 프로필 사진을 업데이트하는 쿼리문입니다.
@@ -58,6 +58,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
      */
     @Modifying
     @Query("UPDATE Member m SET m.picture = :newPicture WHERE m.email = :email")
-    void updateUserProfile(@Param("email") String email, @Param("newPicture") String newPicture);
+    void updateMemberProfile(@Param("email") String email, @Param("newPicture") String newPicture);
 
 }

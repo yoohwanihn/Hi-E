@@ -83,6 +83,11 @@ public class PostsService {
 				.orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다 id=" + id));
 		return new PostsResponseDto(entity);
 	}
+	
+	@Transactional
+	public Posts findByPostId(Long id) {
+        return postsRepository.findById(id).orElse(null);
+    }
 
 	/**
 	 * 글 정보를 내림차순으로 조회하여 반환하는 메서드.
