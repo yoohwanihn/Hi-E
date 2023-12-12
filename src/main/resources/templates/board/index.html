@@ -8,83 +8,77 @@
     <!-- 부트스트랩 CSS 추가 -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     
-	<link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet">
-	<link
-		href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-		rel="stylesheet">
-		
-	<link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet">
+    <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+    
+    <link th:href="@{/css/board_style.css}" rel="stylesheet">
+    
+    
 </head>
 <body>
 
-    <!-- header -->
-    <div class="container mt-3">
-        <a href="/test12"><h1 class="display-4">게시판</h1></a>
-        <div class="row">
-            <div class="col-md-6">
-                <a th:href="@{/posts/save}" role="button" class="btn btn-primary">글 등록</a>
-            </div>
+<!-- header -->
+<div class="card">
+    <div class="card-header">
+        <h1>게시판</h1>
+    </div>
+
+    <!-- card-body 추가 시작 -->
+    <div class="card-body">
+		<form th:action="@{/posts/search}" method="get">
+	        <input type="search" th:name="query" placeholder="검색어를 입력하세요">
+	        <button type="submit" class="search">글제목 검색</button>
+   		</form>	
+
+        <div th:each="post, iterStat : ${postsPages}" th:onclick="'window.location.href = \'' + @{/posts/show/{id}(id=${post.id})} + '\''"
+             th:class="content-box">
+            <div class="postid" th:text="${post.id}"></div>
+            <div class="title" th:text="${post.title}"></div>
+            <div class="author" th:text="${post.author}"></div>
         </div>
+        
+        
+	    
     </div>
+    <ul class="number">
+		    <!-- 첫번째 페이지로 이동 -->
+		    <li><a th:href="@{/test12(page=1)}"><</a></li>
+		
+		    <!-- 이전 링크 활성화 비활성화 -->
+		    <li th:class="${postsPages.first} ? 'disabled'">
+		        <a th:href="${postsPages.first} ? '#' : @{/test12(page=${postsPages.number})}">이전</a>
+		    </li>
+		
+		    <!-- 페이지 번호 링크 -->
+		    <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
+		        <!-- 현재 페이지 -->
+		        <li th:if="${page == postsPages.number + 1}" th:text="${page}" class="active"></li>
+		
+		        <!-- 다른 페이지 -->
+		        <li th:unless="${page == postsPages.number + 1 or page == 0}">
+			        <a th:href="@{/test12(page=${page})}" th:text="${page}"></a>
+			    </li>
+		    </span>
+		
+		    <!-- 다음 링크 활성화 비활성화 -->
+		    <li th:class="${postsPages.last} ? 'disabled'">
+		        <a th:href="${postsPages.last} ? '#' : @{/test12(page=${postsPages.number + 2})}">다음</a>
+		    </li>
+		
+		    <!-- 마지막 페이지로 이동 -->
+		    <li><a th:href="@{/test12(page=${postsPages.totalPages})}">></a></li>
+		    
+			<div class="postbtn">
+			    <a th:href="@{/posts/save}">글쓰기</a>
+			</div>
+		</ul>
+</div>
 
-    <!-- 목록 출력 영역 -->
-    <div class="container mt-3">
-        <table class="table table-bordered">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">게시글번호</th>
-                    <th scope="col">제목</th>
-                    <th scope="col">작성자</th>
-                    <th scope="col">작성일</th>
-                    <th scope="col">조회수</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="post : ${postsPages}" th:onclick="'window.location.href = \'' + @{/posts/show/{id}(id=${post.id})} + '\''">
-	                    <td th:text="${post.id}"></td>
-	                    <td th:text="${post.title}"></td>
-	                    <td th:text="${post.author}"></td>
-	                    <td th:text="${post.created_date != null} ? ${post.created_date} : ''"></td>
-	                    <td th:text="${post.view}"></td>
-                </tr>
-            </tbody>
-    		
-        </table>
-        <!-- 첫번째 페이지로 이동 -->
-        <a th:href="@{/test12(page=1)}">첫 페이지 </a>
-        
-        <!-- 이전 링크 활성화 비활성화 -->
-        <a th:href="${postsPages.first} ? '#' : @{/test12(page=${postsPages.number})}"> 이전 </a>
- 
-        <!-- 페이지 번호 링크(현재 페이지는 숫자만)
-                for(int page=startPage; page<=endPage; page++)-->
-        <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
-        
-		<!-- 현재페이지는 링크 없이 숫자만 -->
-            <span th:if="${page == postsPages.number + 1}" th:text="${page}"></span>
-            <!-- 현재페이지 링크 X, 다른 페이지번호에는 링크를 보여준다 -->
-            <span th:unless="${page == postsPages.number + 1}">
-        <a th:href="@{/test12(page=${page})}" th:text="${page}"></a>
-            </span>
-        </span>
- 
-        <!-- 다음 링크 활성화 비활성화 -->
-        <a th:href="${postsPages.last} ? '#' : @{/post/paging(page=${postsPages.number + 2})}"> 다음 </a>
-        
-        <!-- 마지막 페이지로 이동 -->
-        <a th:href="@{/test12(page=${postsPages.totalPages})}"> 마지막 페이지</a>
-        
-        <!-- 검색 -->
-		<form th:action="@{/posts/search}" method="get" class="form-inline mb-3">
-	        <input type="text" th:name="query" class="form-control mr-2" placeholder="검색어를 입력하세요">
-	        <button type="submit" class="btn btn-primary">글제목 검색</button>
-	    </form>
-    </div>
-
-    <!-- 부트스트랩 JavaScript 및 부가적인 JavaScript 파일 추가 -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="/js/app/index.js"></script> 
+<!-- 부트스트랩 JavaScript 및 부가적인 JavaScript 파일 추가 -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="/js/app/index.js"></script>
 
 </body>
 </html>

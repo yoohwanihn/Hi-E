@@ -2,6 +2,8 @@ package com.hi_e.springsecurity.repository;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -59,5 +61,10 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Modifying
     @Query("UPDATE Member m SET m.picture = :newPicture WHERE m.email = :email")
     void updateMemberProfile(@Param("email") String email, @Param("newPicture") String newPicture);
+    
+    
+    Page<Member> findByRolesContaining(String role, Pageable pageable);
+
+    Page<Member> findByEnameContaining(String name, Pageable pageable);
 
 }

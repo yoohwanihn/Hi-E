@@ -8,10 +8,12 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.hi_e.posts.dto.CommentsRequestDto;
 import com.hi_e.posts.dto.PostsResponseDto;
 import com.hi_e.posts.entity.Comments;
 import com.hi_e.posts.entity.Posts;
@@ -20,6 +22,9 @@ import com.hi_e.posts.service.PostsService;
 import com.hi_e.springsecurity.entity.Member;
 import com.hi_e.springsecurity.service.MemberService;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
@@ -91,25 +96,60 @@ public class PostsController {
 	}
 
 	/**
-	 * "/posts/show/{id}" 경로로 GET 요청이 들어왔을 때의 처리 메서드입니다. 주어진 ID에 해당하는 게시글을 조회하고, 해당
-	 * 게시글의 정보를 모델에 추가한 후 "board/posts-show" 뷰를 반환합니다.
+	 * "/posts/show/{id}" 경로로 GET 요청이 들어왔을 때의 처리 메서드입니다. 
+	 * 주어진 ID에 해당하는 게시글을 조회하고, 해당 게시글의 정보를 모델에 추가한 후 "board/posts-show" 뷰를 반환합니다.
 	 *
-	 * @param id    조회할 게시글의 ID
-	 * @param model Spring MVC 모델
+	 * @param id       조회할 게시글의 ID
+	 * @param model    Spring MVC 모델
+	 * @param request  HTTP 요청 객체
+	 * @param response HTTP 응답 객체
 	 * @return "board/posts-show" 뷰
 	 */
 	@GetMapping("/posts/show/{id}")
-	public String showPost(@PathVariable Long id, Model model) {
-		Member loggedInMember = memberService.getCurrentLoggedInMember();
-		postsService.updateView(id);
-		PostsResponseDto dto = postsService.findById(id);
-		List<Comments> comments = commentsService.getCommentsByPostId(id);
-		model.addAttribute("post", dto);
-		model.addAttribute("comments", comments);
-		
-		model.addAttribute("ename", loggedInMember.getEname());
+	public String showPost(@PathVariable Long id, Model model, HttpServletRequest request, HttpServletResponse response) {
+	    // 이전에 생성한 쿠키를 확인하고, 중복 조회를 방지하기 위해 업데이트합니다.
+	    Cookie oldCookie = null;
+	    Cookie[] cookies = request.getCookies();
+	    if (cookies != null) {
+	        for (Cookie cookie : cookies) {
+	            if (cookie.getName().equals("postView")) {
+	                oldCookie = cookie;
+	            }
+	        }
+	    }
+	    if (oldCookie != null) {
+	        if (!oldCookie.getValue().contains("["+ id +"]")) {
+	            // 중복 조회가 아닌 경우 조회 수 업데이트
+	            postsService.updateView(id);
+	            oldCookie.setValue(oldCookie.getValue() + "_[" + id + "]");
+	            oldCookie.setPath("/");
+	            oldCookie.setMaxAge(60 * 60 * 24);
+	            response.addCookie(oldCookie);
+	        }
+	    } else {
+	        // 기존 쿠키가 없는 경우 조회 수 업데이트
+	        postsService.updateView(id);
+	        Cookie newCookie = new Cookie("postView", "[" + id + "]");
+	        newCookie.setPath("/");
+	        newCookie.setMaxAge(60 * 60 * 24);
+	        response.addCookie(newCookie);
+	        System.out.println(newCookie);
+	    }
+	    
+	    // 현재 로그인한 회원 정보 가져오기
+	    Member loggedInMember = memberService.getCurrentLoggedInMember();
+	    
+	    // 조회한 게시글과 댓글 목록을 모델에 추가
+	    PostsResponseDto dto = postsService.findById(id);
+	    List<Comments> comments = commentsService.getCommentsByPostId(id);
+	    
+	    model.addAttribute("post", dto);
+	    model.addAttribute("comments", comments);
+	    
+	    // 로그인한 회원의 이름을 모델에 추가
+	    model.addAttribute("ename", loggedInMember.getEname());
 
-		return "board/posts-show";
+	    return "board/posts-show";
 	}
 
 	/**
@@ -138,21 +178,18 @@ public class PostsController {
 	    return "board/index";
 	}
 	
-	// 댓글 추가 처리 메서드
-    @PostMapping("/api/add-comment")
-    public String addComment(@RequestParam("postId") Long postId,
-                             @RequestParam("writer") String writer,
-                             @RequestParam("content") String content) {
-    	Posts post = postsService.findByPostId(postId);
-        Comments comment = new Comments();
-        comment.setComment_writer(writer);
-        comment.setComment_contents(content);
-        System.out.println(comment.getCreatedDate());
-        comment.setPosts(post);
+	/**
+	 * 댓글을 추가하는 메서드입니다.
+	 *
+	 * @param postId       댓글이 속한 게시물의 ID
+	 * @param requestDto   댓글 내용과 작성자 정보가 담긴 DTO (Data Transfer Object)
+	 * @return             댓글이 추가된 후 해당 게시물 페이지로의 리다이렉션을 반환합니다.
+	 */
+	@PostMapping("/api/add-comment")
+	public String addComment(@RequestParam("postId") Long postId, @ModelAttribute CommentsRequestDto requestDto) {
+		Posts post = postsService.findByPostId(postId);
+	    commentsService.saveComment(post, requestDto);
 
-        commentsService.saveComment(comment); // 댓글 저장
-
-        return "redirect:/posts/show/" + postId; // 댓글을 추가한 후 해당 게시물 상세 페이지로 리다이렉트
-    }
-	
+	    return "redirect:/posts/show/" + postId;
+	}
 }

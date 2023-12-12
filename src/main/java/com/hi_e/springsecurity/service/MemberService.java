@@ -3,10 +3,16 @@ package com.hi_e.springsecurity.service;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -191,4 +197,25 @@ public class MemberService {
 		return repository.findById(id).orElse(null);
 	}
 
+	/**
+	 * 권한 관리를 위해 모든 멤버를 가져오는 메서드
+	 *
+	 * @return 모든 회원
+	 */
+	public List<Member> getAllMembers() {
+		return repository.findAll();
+	}
+	
+	public Page<Member> getAllMembers(Pageable pageable) {
+        return repository.findAll(pageable);
+    }
+
+    public Page<Member> getMembersByRole(String role, Pageable pageable) {
+        return repository.findByRolesContaining(role, pageable);
+    }
+
+    public Page<Member> getMembersByName(String name, Pageable pageable) {
+        return repository.findByEnameContaining(name, pageable);
+    }
+	
 }

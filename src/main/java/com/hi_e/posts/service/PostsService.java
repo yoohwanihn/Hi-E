@@ -99,16 +99,6 @@ public class PostsService {
 		return postsRepository.findAllDesc().stream().map(PostsListResponseDto::new).collect(Collectors.toList());
 	}
 
-//	/**
-//	 * @param String title 검색할 제목을 받음.
-//	 * @return 제목에 해당하는 글 정보를 내림차순으로 반환
-//	 */
-//	@Transactional
-//	public List<PostsListResponseDto> searchByTitle(String title) {
-//		return postsRepository.findByTitleContainingIgnoreCase(title).stream().map(PostsListResponseDto::new)
-//				.collect(Collectors.toList());
-//	}
-
 	/**
 	 * @param Long id 게시글 번호를 받음
 	 * @return 해당하는 글 조회수 리턴
@@ -123,10 +113,9 @@ public class PostsService {
 	 * @param pageable 페이지 및 정렬 정보를 담은 Pageable 객체
 	 * @return Page<Posts> 형태의 페이지 목록
 	 */
-	
 	public Page<PostsResponseDto> paging(Pageable pageable) {
         int page = pageable.getPageNumber() - 1; // page 위치에 있는 값은 0부터 시작한다.
-        int pageLimit = 10; // 한페이지에 보여줄 글 개수
+        int pageLimit = 5; // 한페이지에 보여줄 글 개수
  
         // 한 페이지당 10개식 글을 보여주고 정렬 기준은 ID기준으로 내림차순
         Page<Posts> postsPages = postsRepository.findAll(PageRequest.of(page, pageLimit, Sort.by(Direction.DESC, "id")));
