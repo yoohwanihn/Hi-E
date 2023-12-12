@@ -47,9 +47,9 @@
 </style>
 <body>
     <h1>회원 목록 페이지</h1>
-    <p>회원수: <span th:text="${members.size()}"></span></p>
+    <!-- <p>회원수: <span th:text="${members.size()}"></span></p> -->
     <hr>
-    <form method="post">
+    <form method="member">
         <select onchange="filterMembersRole()" id="roleFilter">
             <option value="BANNED">BANNED</option>
             <option value="USER">USER</option>
@@ -89,7 +89,7 @@
                 </tr>
             </thead>
             <tbody class="tbody" id="tbody">
-                <tr th:each="member : ${pagedMembers}" class="member">
+                <tr th:each="member, iterStat : ${membersPages}" class="member">
                     <td th:text="${member.id}" class="memberCenter"></td>
                     <td th:text="${member.email}" class="memberCenter"></td>
                     <td th:text="${member.ename}" class="memberCenter"></td>
@@ -100,7 +100,7 @@
                     <td th:text="${member.detail_address}" class="memberCenter"></td>
                     <td th:text="${member.roles}" class="memberCenter"></td>
                     <td>
-                        <form action="/admin/update" method="POST">
+                        <form action="/admin/update" method="post">
                             <input type="hidden" name="memberId" th:value="${member.id}" />
                             <input type="submit" class="submit" id="submit" value="관리자 등록"/>
                             <input type="submit" class="submit" id="submit" value="정지시키기"/>
@@ -109,15 +109,35 @@
                 </tr>
             </tbody>
         </table>
-
-        <!-- 페이지 번호 표시 -->
-        <div th:if="${totalPages > 1}" class="pagination">
-            <span>페이지: </span>
-            <span th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
-                <a th:href="@{/admin/members(page=${pageNumber}, role=${selectedRole}, name=${selectedMember})}"
-                   th:text="${pageNumber}" th:class="${pageNumber == currentPage} ? 'active' : ''"></a>
-            </span>
-        </div>
+        <br>
+		<ul>
+	        <!-- 첫번째 페이지로 이동 -->
+		    <li><a th:href="@{/admin/members(page=1)}"><</a></li>
+		
+		    <!-- 이전 링크 활성화 비활성화 -->
+		    <li th:class="${membersPages.first} ? 'disabled'">
+		        <a th:href="${membersPages.first} ? '#' : @{/admin/members(page=${membersPages.number})}">이전</a>
+		    </li>
+		
+		    <!-- 페이지 번호 링크 -->
+		    <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
+		        <!-- 현재 페이지 -->
+		        <li th:if="${page == membersPages.number + 1}" th:text="${page}" class="active"></li>
+		
+		        <!-- 다른 페이지 -->
+		        <li th:unless="${page == membersPages.number + 1 or page == 0}">
+			        <a th:href="@{/admin/members(page=${page})}" th:text="${page}"></a>
+			    </li>
+		    </span>
+		
+		    <!-- 다음 링크 활성화 비활성화 -->
+		    <li th:class="${membersPages.last} ? 'disabled'">
+		        <a th:href="${membersPages.last} ? '#' : @{/admin/members(page=${membersPages.number + 2})}">다음</a>
+		    </li>
+		
+		    <!-- 마지막 페이지로 이동 -->
+		    <li><a th:href="@{/admin/members(page=${membersPages.totalPages})}">></a></li>
+	    </ul>
     </div>
 </body>
 </html>

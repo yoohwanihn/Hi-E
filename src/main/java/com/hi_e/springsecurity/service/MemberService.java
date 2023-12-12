@@ -206,9 +206,37 @@ public class MemberService {
 		return repository.findAll();
 	}
 	
-	public Page<Member> getAllMembers(Pageable pageable) {
-        return repository.findAll(pageable);
+//	public Page<Member> getAllMembers(Pageable pageable) {
+//        return repository.findAll(pageable);
+//    }
+	
+	public Page<MemberJoinDto> getAllMembers(Pageable pageable) {
+		int page = pageable.getPageNumber() - 1; // page 위치에 있는 값은 0부터 시작한다.
+        int pageLimit = 5; // 한페이지에 보여줄 글 개수
+ 
+        // 한 페이지당 5개식 회원을 보여주고 정렬 기준은 ID기준으로 내림차순
+        Page<Member> membersPages = repository.findAll(PageRequest.of(page, pageLimit, Sort.by(Direction.DESC, "id")));
+ 
+        
+        Page<MemberJoinDto> memberDto = membersPages.map(
+                memberPage -> new MemberJoinDto(memberPage));
+ 
+        return memberDto;
     }
+	
+//	public Page<PostsResponseDto> paging(Pageable pageable) {
+//        int page = pageable.getPageNumber() - 1; // page 위치에 있는 값은 0부터 시작한다.
+//        int pageLimit = 5; // 한페이지에 보여줄 글 개수
+// 
+//        // 한 페이지당 5개식 글을 보여주고 정렬 기준은 ID기준으로 내림차순
+//        Page<Posts> postsPages = postsRepository.findAll(PageRequest.of(page, pageLimit, Sort.by(Direction.DESC, "id")));
+// 
+//        // 목록 : id, title, content, author, created_date, view
+//        Page<PostsResponseDto> postsResponseDto = postsPages.map(
+//                postPage -> new PostsResponseDto(postPage));
+// 
+//        return postsResponseDto;
+//    }
 
     public Page<Member> getMembersByRole(String role, Pageable pageable) {
         return repository.findByRolesContaining(role, pageable);
