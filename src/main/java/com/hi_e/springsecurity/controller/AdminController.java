@@ -33,6 +33,7 @@ public class AdminController {
     	model.addAttribute("membersPages", members);
 	    model.addAttribute("startPage", startPage);
 	    model.addAttribute("endPage", endPage);
+	    model.addAttribute("totalMembers", members.getTotalElements());
         return "admin/role-mng";
     }
 //    @GetMapping("/test12")

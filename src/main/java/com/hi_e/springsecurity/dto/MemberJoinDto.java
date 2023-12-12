@@ -6,12 +6,14 @@ import com.hi_e.role.Role;
 import com.hi_e.springsecurity.entity.Member;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 폼을 통한 회원가입 정보를 담은 DTO (Data Transfer Object) 클래스입니다.
  * 롬복의 @Data 어노테이션을 사용하여 Getter, Setter 등을 자동으로 생성합니다.
  */
 @Data
+@NoArgsConstructor
 public class MemberJoinDto {
 	
 	private Long id;
