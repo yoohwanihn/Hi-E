@@ -117,7 +117,7 @@ public class PostsService {
         int page = pageable.getPageNumber() - 1; // page 위치에 있는 값은 0부터 시작한다.
         int pageLimit = 5; // 한페이지에 보여줄 글 개수
  
-        // 한 페이지당 10개식 글을 보여주고 정렬 기준은 ID기준으로 내림차순
+        // 한 페이지당 5개식 글을 보여주고 정렬 기준은 ID기준으로 내림차순
         Page<Posts> postsPages = postsRepository.findAll(PageRequest.of(page, pageLimit, Sort.by(Direction.DESC, "id")));
  
         // 목록 : id, title, content, author, created_date, view
@@ -129,9 +129,9 @@ public class PostsService {
 	
 	public Page<PostsResponseDto> searchByTitleContainingIgnoreCase(String query, Pageable pageable) {
 		int page = pageable.getPageNumber() - 1; // page 위치에 있는 값은 0부터 시작한다.
-        int pageLimit = 10; // 한페이지에 보여줄 글 개수
+        int pageLimit = 5; // 한페이지에 보여줄 글 개수
  
-        // 한 페이지당 10개식 글을 보여주고 정렬 기준은 ID기준으로 내림차순
+        // 한 페이지당 5개식 글을 보여주고 정렬 기준은 ID기준으로 내림차순
         Page<Posts> postsPages = postsRepository.findByTitleContainingIgnoreCase(query, PageRequest.of(page, pageLimit, Sort.by(Direction.DESC, "id")));
 	
        
