@@ -79,6 +79,7 @@
 	                    <tr th:each="comment : ${comments}">
 	                        <td th:text="${comment.comment_writer}"></td>
 	                        <td th:text="${comment.comment_contents}"></td>
+	                        <td th:text="${comment.createdDate}"></td>
 	                    </tr>
 	                    <tr th:if="${#lists.isEmpty(comments)}">
 	                        <td colspan="3" class="text-center">댓글이 없습니다.</td>

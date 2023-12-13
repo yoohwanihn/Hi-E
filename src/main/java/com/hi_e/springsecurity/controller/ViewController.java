@@ -43,25 +43,6 @@ public class ViewController {
 	}
 
 	/**
-	 * 사용자 개인 페이지를 표시합니다.
-	 *
-	 * @param model   Thymeleaf 뷰를 렌더링하기 위한 모델.
-	 * @param session 추가 속성을 저장하기 위한 HTTP 세션.
-	 * @return 사용자 개인 페이지 뷰 이름.
-	 */
-	@GetMapping("/mypage")
-    public String myPage(Model model, HttpSession session) {
-        // 현재 로그인 중인 사용자의 Member 엔티티를 가져옴
-		Member member = memberService.getCurrentLoggedInMember();
-		if(member!=null) {
-			model.addAttribute("member", member);
-			System.out.println(model.getAttribute("member"));
-	        return "mypage";
-		}
-    	return "account/login";
-    }
-
-	/**
 	 * 서비스 동의 페이지를 표시합니다.
 	 *
 	 * @return 서비스 동의 페이지 뷰 이름.
@@ -157,29 +138,5 @@ public class ViewController {
 	@GetMapping("/change-profile")
 	public String change_profilePage() {
 		return "account/change-profile";
-	}
-
-	/**
-	 * 테스트 페이지를 표시합니다.
-	 *
-	 * @param session HTTP 세션 객체.
-	 * @param model   Thymeleaf 뷰를 렌더링하기 위한 모델.
-	 * @return 테스트 페이지 뷰 이름.
-	 */
-	@GetMapping("/test123123")
-	public String test123123(HttpSession session, Model model) {
-		System.out.println(session);
-		Long loginedMemberId = (Long) session.getAttribute("loginedMemberId");
-		System.out.println(loginedMemberId);
-
-		// 로그인한 회원이 없다면 로그인 페이지로 이동
-//        if (loginedMemberId == null) {
-//            return "account/login";
-//        }
-
-		Member loginedMember = memberService.getMemberById(loginedMemberId);
-		model.addAttribute("loginedMember", loginedMember);
-
-		return "account/test";
 	}
 }

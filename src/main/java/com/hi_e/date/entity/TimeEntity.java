@@ -21,7 +21,7 @@ public abstract class TimeEntity {
 	
 	@Column(name = "created_date")
 	@CreatedDate
-	public String createdDate;
+	private String createdDate;
 	
 	@Column(name = "modified_date")
 	@LastModifiedDate

@@ -4,89 +4,30 @@
     <meta charset="UTF-8">
     <title>어드민</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/header.css}">
+    <link href="/css/mng_style.css" rel="stylesheet">
 </head>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
-<style>
-	.container {
-        position: relative;
-    }
 
-    .paging {
-        position: absolute;
-        margin-top: 100px; 
-        left: 50%;
-        transform: translateX(-50%); 
-    }
-    .table {
-        border: 1px solid;
-        width: 1100px;
-    }
-    thead {
-        border-bottom: 1px solid gray;
-    }
-    .member {
-        border: 1px solid;
-    }
-    .member:hover {
-        transition: all 0.3s;
-        background: #DED369;
-    }
-    #search {
-        border: 1px solid lightgray;
-    }
-    .container {
-        display: flex;
-        justify-content: center;
-    }
-    .memberCenter {
-        text-align: center;
-    }
-    .pagination {
-        margin-top: 10px;
-    }
-    .pagination a {
-        padding: 8px;
-        margin: 0 4px;
-        background-color: #f1f1f1;
-        border: 1px solid #ddd;
-    }
-    .pagination a.active {
-        background-color: #4CAF50;
-        color: white;
-    }
-    h1, p {
-        text-align: center; 
-    }
-    .search {
-        text-align: center; 
-    }
-</style>
 <body>
     <h1>권한 관리 페이지</h1>
-    <p>전체 회원수: <span th:text="${totalMembers}"></span></p>
+    <p>해당 회원수: <span th:text="${totalMembers}"></span></p>
     <hr>
-    <form method="member" class="search">
-        <select onchange="filterMembersRole()" id="roleFilter">
+    <form method="get" class="search" action="/admin/members/search">
+        <select name="roleFilter">
             <option value="BANNED">BANNED</option>
             <option value="USER">USER</option>
             <option value="ADMIN">ADMIN</option>
+            <option value="MASTER">MASTER</option>
+            <option value="All">All</option>
         </select>
-        <select onchange="filterMembersName()" id="nameFilter">
+        <select name="nameFilter">
             <option value="이름">이름</option>
-            <option value=""></option>
+            <option value="사번">사번</option>
         </select>
-        <input type="search" th:name="search" placeholder="검색어를 입력하세요">
+        <input type="search" name="search" placeholder="검색어를 입력하세요">
         <input type="submit" value="검색">
     </form>
     <script>
-        function filterMembersRole() {
-            var selectedRole = document.getElementById("roleFilter").value;
-            window.location.href = "/admin/members?role=" + selectedRole;
-        }
-        function filterMembersName() {
-            var selectedMember = document.getElementById("nameFilter").value;
-            window.location.href = "/admin/members?name=" + selectedMember;
-        }
     </script>
     <div class="container">
         <table class="table" id="table">
@@ -105,6 +46,9 @@
                 </tr>
             </thead>
             <tbody class="tbody" id="tbody">
+				<tr th:if="${membersPages.empty}" class="no-members">
+			        <td colspan="10" align="center">해당하는 회원이 없습니다.</td>
+			    </tr>
                 <tr th:each="member, iterStat : ${membersPages}" class="member">
                     <td th:text="${member.id}" class="memberCenter"></td>
                     <td th:text="${member.email}" class="memberCenter"></td>
@@ -117,10 +61,10 @@
                     <td th:text="${member.roles}" class="memberCenter"></td>
                     <td>
                         <form action="/admin/update" method="post">
-                            <input type="hidden" name="memberId" th:value="${member.id}" />
-                            <input type="submit" class="submit" id="submit" value="관리자 등록"/>
-                            <input type="submit" class="submit" id="submit" value="정지시키기"/>
-                        </form>
+						    <input type="hidden" name="memberId" th:value="${member.id}" />
+						    <input type="submit" class="submit" id="submit" name="action" value="관리자 등록"/>
+						    <input type="submit" class="submit" id="submit" name="action" value="정지시키기"/>
+						</form>
                     </td>
                 </tr>
             </tbody>
@@ -128,31 +72,31 @@
     </div>
     <div class="paging">
         <!-- 첫번째 페이지로 이동 -->
-	    <div><a th:href="@{/admin/members(page=1)}"><</a></div>
+	    <li><a th:href="@{/admin/members(page=1)}"><</a></li>
 	
 	    <!-- 이전 링크 활성화 비활성화 -->
-	    <div th:class="${membersPages.first} ? 'disabled'">
+	    <li th:class="${membersPages.first} ? 'disabled'">
 	        <a th:href="${membersPages.first} ? '#' : @{/admin/members(page=${membersPages.number})}">이전</a>
-	    </div>
+	    </li>
 	
 	    <!-- 페이지 번호 링크 -->
 	    <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
 	        <!-- 현재 페이지 -->
-	        <div th:if="${page == membersPages.number + 1}" th:text="${page}" class="active"></div>
+	        <li th:if="${page == membersPages.number + 1}" th:text="${page}" class="active"></li>
 	
 	        <!-- 다른 페이지 -->
-	        <div th:unless="${page == membersPages.number + 1 or page == 0}">
+	        <li th:unless="${page == membersPages.number + 1 or page == 0}">
 		        <a th:href="@{/admin/members(page=${page})}" th:text="${page}"></a>
-		    </div>
+		    </li>
 	    </span>
 	
 	    <!-- 다음 링크 활성화 비활성화 -->
-	    <div th:class="${membersPages.last} ? 'disabled'">
+	    <li th:class="${membersPages.last} ? 'disabled'">
 	        <a th:href="${membersPages.last} ? '#' : @{/admin/members(page=${membersPages.number + 2})}">다음</a>
-	    </div>
+	    </li>
 	
 	    <!-- 마지막 페이지로 이동 -->
-	    <div><a th:href="@{/admin/members(page=${membersPages.totalPages})}">></a></div>
+	    <li><a th:href="@{/admin/members(page=${membersPages.totalPages})}">></a></div>
     </div>
 </body>
 </html>

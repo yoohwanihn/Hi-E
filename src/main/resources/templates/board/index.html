@@ -20,7 +20,7 @@
 
 <!-- header -->
 <div class="card">
-    <div class="card-header">
+	<div class="card-header">
         <h1>게시판</h1>
     </div>
 
@@ -38,42 +38,69 @@
             <div class="author" th:text="${post.author}"></div>
         </div>
         
-        
-	    
     </div>
     <ul class="number">
-		    <!-- 첫번째 페이지로 이동 -->
-		    <li><a th:href="@{/test12(page=1)}"><</a></li>
-		
-		    <!-- 이전 링크 활성화 비활성화 -->
-		    <li th:class="${postsPages.first} ? 'disabled'">
-		        <a th:href="${postsPages.first} ? '#' : @{/test12(page=${postsPages.number})}">이전</a>
+	    <!-- 첫번째 페이지로 이동 -->
+	    <li>
+	        <th:block th:if="${query}">
+	            <a th:href="@{/posts/search(page=1, query=${query})}" >&lt;</a>
+	        </th:block>
+	        <th:block th:unless="${query}">
+	            <a th:href="@{/test12(page=1)}">&lt;</a>
+	        </th:block>
+	    </li>
+	
+	    <!-- 이전 링크 활성화 비활성화 -->
+	    <li th:class="${postsPages.first} ? 'disabled' : ''">
+			<th:block th:if="${query}">
+	        	<a th:href="${postsPages.first} ? '#' : @{/posts/search(page=${postsPages.number}, query=${query})}">이전</a>
+        	</th:block>
+		    <th:block th:unless="${query}">
+				<a th:href="${postsPages.first} ? '#' : @{/test12(page=${postsPages.number})}">이전</a>
+		    </th:block>
+	    </li>
+	
+	    <!-- 페이지 번호 링크 -->
+	    <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
+	        <!-- 현재 페이지 -->
+	        <li th:if="${page == postsPages.number + 1}" th:text="${page}" class="active"></li>
+	
+	        <!-- 다른 페이지 -->
+	        <li th:unless="${page == postsPages.number + 1 or page == 0}">
+		        <!-- 검색어(query)가 있는 경우 -->
+		        <th:block th:if="${query}">
+		            <a th:href="@{/posts/search(page=${page}, query=${query})}" th:text="${page}"></a>
+		        </th:block>
+		        <!-- 검색어(query)가 없는 경우 -->
+		        <th:block th:unless="${query}">
+		            <a th:href="@{/test12(page=${page})}" th:text="${page}"></a>
+		        </th:block>
 		    </li>
-		
-		    <!-- 페이지 번호 링크 -->
-		    <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
-		        <!-- 현재 페이지 -->
-		        <li th:if="${page == postsPages.number + 1}" th:text="${page}" class="active"></li>
-		
-		        <!-- 다른 페이지 -->
-		        <li th:unless="${page == postsPages.number + 1 or page == 0}">
-			        <a th:href="@{/test12(page=${page})}" th:text="${page}"></a>
-			    </li>
-		    </span>
-		
-		    <!-- 다음 링크 활성화 비활성화 -->
-		    <li th:class="${postsPages.last} ? 'disabled'">
-		        <a th:href="${postsPages.last} ? '#' : @{/test12(page=${postsPages.number + 2})}">다음</a>
-		    </li>
-		
-		    <!-- 마지막 페이지로 이동 -->
-		    <li><a th:href="@{/test12(page=${postsPages.totalPages})}">></a></li>
-		    
-			<div class="postbtn">
-			    <a th:href="@{/posts/save}">글쓰기</a>
-			</div>
-		</ul>
+	    </span>
+	    <!-- 다음 링크 활성화 비활성화 -->
+	    <li th:class="${postsPages.last} ? 'disabled' : ''">
+			<th:block th:if="${query}">
+	        	<a th:href="${postsPages.last} ? '#' : @{/posts/search(page=${postsPages.number + 2}, query=${query})}">다음</a>
+        	</th:block>
+		    <th:block th:unless="${query}">
+				<a th:href="${postsPages.last} ? '#' : @{/test12(page=${postsPages.number + 2})}">다음</a>
+		    </th:block>
+	    </li>
+	    <!-- 마지막 페이지로 이동 -->
+	    <li>
+	        <th:block th:if="${query}">
+		        <a th:href="@{/posts/search(page=${postsPages.totalPages}, query=${query})}">&gt;</a>
+		    </th:block>
+		    <th:block th:unless="${query}">
+		        <a th:href="@{/test12(page=${postsPages.totalPages})}">&gt;</a>
+		    </th:block>
+	    </li>
+		<div class="postbtn">
+		    <a th:href="@{/posts/save}">글쓰기</a>
+		</div>
+	</ul>
 </div>
+   
 
 <!-- 부트스트랩 JavaScript 및 부가적인 JavaScript 파일 추가 -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

@@ -70,7 +70,6 @@ public class Member {
         this.ename = ename;
         this.pw = pw;
         this.roles = roles;
-        //this.roles = Role.USER;
         this.birth_day = birthDay;
         this.phone_number = phoneNumber;
         this.address = address;
@@ -168,5 +167,3 @@ public class Member {
     }
     
 }
-
-

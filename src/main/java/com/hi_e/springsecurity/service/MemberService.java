@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.hi_e.posts.dto.PostsResponseDto;
 import com.hi_e.posts.entity.Posts;
+import com.hi_e.role.Role;
 import com.hi_e.springsecurity.dto.ChangePasswordRequestDto;
 import com.hi_e.springsecurity.dto.MemberJoinDto;
 import com.hi_e.springsecurity.entity.Member;
@@ -196,19 +197,6 @@ public class MemberService {
 	public Member getMemberById(Long id) {
 		return repository.findById(id).orElse(null);
 	}
-
-	/**
-	 * 권한 관리를 위해 모든 멤버를 가져오는 메서드
-	 *
-	 * @return 모든 회원
-	 */
-	public List<Member> getAllMembers() {
-		return repository.findAll();
-	}
-	
-//	public Page<Member> getAllMembers(Pageable pageable) {
-//        return repository.findAll(pageable);
-//    }
 	
 	public Page<MemberJoinDto> getAllMembers(Pageable pageable) {
 		int page = pageable.getPageNumber() - 1; // page 위치에 있는 값은 0부터 시작한다.
@@ -223,27 +211,53 @@ public class MemberService {
  
         return memberDto;
     }
-	
-//	public Page<PostsResponseDto> paging(Pageable pageable) {
-//        int page = pageable.getPageNumber() - 1; // page 위치에 있는 값은 0부터 시작한다.
-//        int pageLimit = 5; // 한페이지에 보여줄 글 개수
-// 
-//        // 한 페이지당 5개식 글을 보여주고 정렬 기준은 ID기준으로 내림차순
-//        Page<Posts> postsPages = postsRepository.findAll(PageRequest.of(page, pageLimit, Sort.by(Direction.DESC, "id")));
-// 
-//        // 목록 : id, title, content, author, created_date, view
-//        Page<PostsResponseDto> postsResponseDto = postsPages.map(
-//                postPage -> new PostsResponseDto(postPage));
-// 
-//        return postsResponseDto;
-//    }
 
-    public Page<Member> getMembersByRole(String role, Pageable pageable) {
-        return repository.findByRolesContaining(role, pageable);
-    }
 
-    public Page<Member> getMembersByName(String name, Pageable pageable) {
-        return repository.findByEnameContaining(name, pageable);
+    public Page<MemberJoinDto> getMembersByName(String name, String roles, Pageable pageable) {
+    	int page = pageable.getPageNumber() - 1; // page 위치에 있는 값은 0부터 시작한다.
+        int pageLimit = 5; // 한페이지에 보여줄 글 개수
+        Page<Member> membersPages = null;
+        
+    	// 한 페이지당 5개식 회원을 보여주고 정렬 기준은 ID기준으로 내림차순
+        if(roles.equals("All")) {
+        	membersPages = repository.findByEname(name, PageRequest.of(page, pageLimit, Sort.by(Direction.DESC, "id")));
+        }
+        else {
+        	membersPages = repository.findByEname(name, Role.valueOf(roles), PageRequest.of(page, pageLimit, Sort.by(Direction.DESC, "id")));   
+        }
+        
+        Page<MemberJoinDto> memberDto = membersPages.map(
+                memberPage -> new MemberJoinDto(memberPage));
+        return memberDto;
     }
+    
+    public Page<MemberJoinDto> getMembersById(Long id, String roles, Pageable pageable) {
+    	int page = pageable.getPageNumber() - 1; // page 위치에 있는 값은 0부터 시작한다.
+        int pageLimit = 5; // 한페이지에 보여줄 글 개수
+        
+        Page<Member> membersPages;
+ 
+    	// 한 페이지당 5개식 회원을 보여주고 정렬 기준은 ID기준으로 내림차순
+        if(roles.equals("All")) {
+        	membersPages = repository.findById(id, PageRequest.of(page, pageLimit, Sort.by(Direction.DESC, "id")));
+        }
+        else {
+        	membersPages = repository.findById(id, Role.valueOf(roles), PageRequest.of(page, pageLimit, Sort.by(Direction.DESC, "id")));
+        }
+        Page<MemberJoinDto> memberDto = membersPages.map(
+                memberPage -> new MemberJoinDto(memberPage));
+        return memberDto;
+    }
+    
+    /**
+	 * 권한을 업데이트 하는 메서드
+	 *
+	 * @param id 권한을 수정할 회원 ID 
+	 * @param newRole 업데이트 할 권한
+	 */
+    @Transactional
+	public void updateMemberRole(Long id, Role newRole) {
+		repository.updateMemberRole(id, newRole);
+	}
 	
 }

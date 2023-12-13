@@ -28,6 +28,7 @@ public class MemberJoinDto {
     private String detail_address;  // 상세 주소
     private String picture;         // 프로필 사진 경로
     
+    /* 추가적인 DTO를 만들고 싶지 않아서 회원가입뿐만 아니라 다양한 용도로 사용중인 DTO */
     public MemberJoinDto(Member entity) {
     	this.id = entity.getId();
     	this.email = entity.getEmail();

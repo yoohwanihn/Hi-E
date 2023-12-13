@@ -173,7 +173,7 @@ public class PostsController {
 	    model.addAttribute("postsPages", postsPages);
 	    model.addAttribute("startPage", startPage);
 	    model.addAttribute("endPage", endPage);
-	    model.addAttribute("query", query); // 추가: 검색어도 모델에 추가
+	    model.addAttribute("query", query); 
 	    
 	    return "board/index";
 	}

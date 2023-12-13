@@ -3,6 +3,7 @@ package com.hi_e.posts.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.catalina.startup.ClassLoaderFactory.Repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -141,4 +142,10 @@ public class PostsService {
 
         return postsResponseDto;
     }
+	
+	/* MyPage의 내가 작성한 글을 위한 서비스. ename과 author가 일치. */
+	public List<Posts> getMyPosts(String ename) {
+		List<Posts> posts = postsRepository.findByAuthor(ename);
+		return posts;
+	}
 }

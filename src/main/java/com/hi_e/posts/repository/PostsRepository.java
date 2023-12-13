@@ -32,8 +32,6 @@ public interface PostsRepository extends JpaRepository<Posts, Long> {
      */
 	@Query("SELECT p FROM Posts p WHERE LOWER(p.title) LIKE LOWER(CONCAT('%', :title, '%'))")
 	Page<Posts> findByTitleContainingIgnoreCase(@Param("title") String title, Pageable pageable);
-	//List<Posts> findByTitleContainingIgnoreCase(@Param("title") String title);
-	
 	
 	/**
      * 조회수 올려주는 쿼리
@@ -44,4 +42,7 @@ public interface PostsRepository extends JpaRepository<Posts, Long> {
 	@Modifying
 	@Query("update Posts p set p.view = p.view + 1 where p.id = :id")
 	int updateView(@Param("id") Long id);
+	
+	@Query("SELECT p FROM Posts p WHERE p.author = :author ORDER BY p.id DESC")
+	List<Posts> findByAuthor(@Param("author")String author);
 }

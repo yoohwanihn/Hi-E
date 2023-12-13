@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.hi_e.role.Role;
 import com.hi_e.springsecurity.entity.Member;
 
 /**
@@ -62,9 +63,21 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("UPDATE Member m SET m.picture = :newPicture WHERE m.email = :email")
     void updateMemberProfile(@Param("email") String email, @Param("newPicture") String newPicture);
     
+    @Modifying
+    @Query("UPDATE Member m SET m.roles = :newRole WHERE m.id = :id")
+    void updateMemberRole(@Param("id") Long id, @Param("newRole") Role newRole);
     
-    Page<Member> findByRolesContaining(String role, Pageable pageable);
+    @Query("SELECT m FROM Member m WHERE m.ename = :name")
+    Page<Member> findByEname(@Param("name")String name, Pageable pageable);
+    
+    @Query("SELECT m FROM Member m WHERE m.id = :id")
+    Page<Member> findById(@Param("id")Long id, Pageable pageable);
 
-    Page<Member> findByEnameContaining(String name, Pageable pageable);
-
+    @Query("SELECT m FROM Member m WHERE m.ename = :name AND m.roles = :roles")
+    Page<Member> findByEname(@Param("name")String name, @Param("roles")Role roles, Pageable pageable);
+    
+    @Query("SELECT m FROM Member m WHERE m.id = :id AND m.roles = :roles")
+    Page<Member> findById(@Param("id")Long id, @Param("roles")Role roles, Pageable pageable);
+    
+    
 }
