@@ -1,8 +1,5 @@
 package com.hi_e.posts.dto;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.hi_e.posts.entity.Posts;
 
 import lombok.Getter;

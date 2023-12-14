@@ -279,6 +279,21 @@ body {
 .btn-view a {
     padding: 10px;
     border-radius: 10px;
+    background-color: orange;
+    color: #fff;
+}
+
+.btn-view2 {
+    position: absolute;
+    right: 110px;
+    bottom: 0;
+    padding: 10px;
+    margin: 10px 10px 20px 10px;
+}
+
+.btn-view2 a {
+    padding: 10px;
+    border-radius: 10px;
     background-color: tomato;
     color: #fff;
 }
@@ -286,10 +301,12 @@ body {
 <!-- -->
 .table {
     margin-top: 20px;
+    border-radius: 4px;
 }
 
 .table th, .table td {
     text-align: center;
+    border-radius: 4px;
 }
 
 .table th {
@@ -300,6 +317,7 @@ body {
 .thead-custom {
     background-color: #3498db;
     color: #fff;
+    border-radius: 4px;
 }
 
 .text-center {

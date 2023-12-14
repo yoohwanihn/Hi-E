@@ -41,6 +41,9 @@
        		<div class="btn-view">
 	            <a th:href="@{/posts/update/{id}(id=${post.id})}">글 수정하기</a>
         	</div>
+        	<div class="btn-view2">
+	            <a th:href="@{/test12}">목록으로</a>
+        	</div>
     	</div>	
     </div>
     <div class="card">
@@ -56,9 +59,6 @@
 	                <div class="form-group">
 	                    <input type="hidden" th:name="postId" th:value="${post.id}">
 	                    <button type="submit" class="btn btn-primary">댓글 작성</button>
-	                </div>
-	                <div class="">
-	                    <a th:href="@{/test12}" class="btn btn-secondary">목록으로</a>
 	                </div>
 	            </form>
 	        </div>
