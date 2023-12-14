@@ -48,6 +48,11 @@ public class OAuthAttributes {
                                      String userNameAttributeName,
                                      Map<String, Object> attributes){
     	//네이버 카카오 구글마다 지원하는 API Attribute들이 다름. registrationId로 해당하는 API 메서드를 호출하는 방식으로 하였음.
+    	System.out.println("ㅎㅎㅎ");
+    	System.out.println("ㅎㅎㅎ");
+    	System.out.println("ㅎㅎㅎ");
+    	System.out.println("ㅎㅎㅎ");
+    	System.out.println("ㅎㅎㅎ");
         if("naver".equals(registrationId)) {
             return ofNaver("id", attributes);
         } else if ("kakao".equals(registrationId)) {
@@ -90,7 +95,13 @@ public class OAuthAttributes {
         
         System.out.println(properties);
         System.out.println(kakaoAccount);
-
+        
+        System.out.println("야야야");
+        System.out.println("야야야");
+        System.out.println("야야야");
+        System.out.println("야야야");
+        System.out.println("야야야");
+        
         System.out.println(kakaoAccount);
         return OAuthAttributes.builder()
                 .email((String) kakaoAccount.get("email"))

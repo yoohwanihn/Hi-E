@@ -139,4 +139,14 @@ public class ViewController {
 	public String change_profilePage() {
 		return "account/change-profile";
 	}
+	
+	@GetMapping("/nav")
+	public String nav() {
+		return "nav";
+	}
+	
+	@GetMapping("/nav2")
+	public String nav2() {
+		return "nav2";
+	}
 }

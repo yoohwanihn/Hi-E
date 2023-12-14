@@ -6,14 +6,13 @@
     <title>게시글 등록</title>
     <!-- 부트스트랩 CSS 추가 -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/layout/nav.css" rel="stylesheet">
 	<link th:href="@{/css/board_style.css}" rel="stylesheet">
 	<script src = "https://code.jquery.com/jquery-3.3.1.min.js"></script> 
 </head>
 <body>
+	<div th:replace="nav :: nav"></div>
 	<div class="card">
-	    <div class="card-header1">
-			<h1><a href="/test12">게시판</a></h1>
-	    </div>
 	    <form>
 			<div class="card-write">
 		        <div class="title-w">
@@ -31,7 +30,7 @@
 			</div>
 	    </form>
 		
-	    <a th:href="@{/test12}" role="button" class="btn btn-x">취소</a>
+	    <a th:href="@{/test12}" role="button" class="btn-x">취소</a>
 	    <button type="button" class="btn-w" id="btn-save">등록</button>
 	</div>
 <script src="/js/app/index.js"></script>

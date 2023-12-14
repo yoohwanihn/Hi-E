@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>어드민</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/header.css}">
     <link href="/css/mng_style.css" rel="stylesheet">
+    <link href="/css/layout/nav.css" rel="stylesheet">
 </head>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 
 <body>
+	<div th:replace="nav :: nav"></div>
     <h1>권한 관리 페이지</h1>
     <p>해당 회원수: <span th:text="${totalMembers}"></span></p>
     <hr>

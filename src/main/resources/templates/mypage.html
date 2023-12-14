@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>ERP 마이페이지</title>
-
+    <title>Hi-E 마이페이지</title>
+	<link href="/css/layout/nav.css" rel="stylesheet">
     <!-- 부트스트랩 CSS 추가 -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 	<script>
@@ -19,6 +19,7 @@
 </head>
 
 <body>
+	<div th:replace="nav :: nav"></div>
     <div class="container mt-5">
         <!-- 기본 정보 -->
         <div class="card mb-4">
@@ -47,7 +48,7 @@
             </div>
             <div class="card-body">
                 <!-- 업무 내용 표시 -->
-                <p>[업무 내용을 여기에 표시]</p>
+                <p>진행중인 업무가 없습니다.</p>
             </div>
         </div>
         
@@ -79,15 +80,6 @@
         <div>
 	        <button class="action-button" onclick="openChangePasswordPopup()">비번 변경</button>
 	        <button class="action-button" onclick="openChangeProfilePopup()">프로필 이미지 변경</button>
-	    </div>
-	    <div>
-	        <button class="action-button"><a href="/test12">자유게시판 이동</a></button>
-	    </div>
-	    <div>
-	        <button class="action-button"><a href="/admin/members">권한관리 이동</a></button>
-	    </div>
-	    <div>
-	        <button class="action-button"><a href="/admin/groups">그룹관리 이동</a></button>
 	    </div>
     </div>
 </body>

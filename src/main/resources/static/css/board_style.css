@@ -22,8 +22,9 @@ body {
 
 .card {
     width: 600px;
-    height: 600px;
+    height: 800px;
     margin: 100px auto;
+    display: flex;
 
     box-shadow: 3px 3px 50px #e6e6e6;
     /* box-shadow: 1px 1px 10px #000; */
@@ -135,16 +136,16 @@ body {
     background-color: rgb(252, 212, 205);
 }
 
-.postbtn {
+.card .number .postbtn {
     /* position: absolute; 는 절대적인 값으로 상대적인 값이 필요하다. */
     /* 상대적인 값은 전체 영역을 담당하는 class="card"에 position: relative; 을 추가한다. */
     position: absolute; /* 절대적인 값 */
     right: 0;
     bottom: 0;
     padding: 10px;
-    margin: 10px 10px 20px 10px  ;
+    width : 150px;
 }
-.postbtn a {
+.card .number .postbtn a {
     padding: 10px;
     background-color: tomato;
     color: #fff;
@@ -211,18 +212,20 @@ body {
     border-radius: 10px;
     padding: 10px;
     border: 1px solid #ccc; /* 테두리 스타일 */
+    width: 70px;
 }
 
 .btn-x {
     position: absolute;
-    right: 60px;
+    right: 80px;
     bottom: 0;
-    padding: 10px;
-    background-color:darkslategray;
+    margin: 10px 10px 20px 10px;
+    background-color: darkgrey;
     color: #fff;
     border-radius: 10px;
-    margin: 10px 10px 20px 10px;
+    padding: 10px;
     border: 1px solid #ccc; /* 테두리 스타일 */
+    width: 70px;
 }
 
 .card-view {
@@ -274,6 +277,7 @@ body {
     bottom: 0;
     padding: 10px;
     margin: 10px 10px 20px 10px;
+    width: 180px;
 }
 
 .btn-view a {
@@ -285,10 +289,11 @@ body {
 
 .btn-view2 {
     position: absolute;
-    right: 110px;
+    right: 125px;
     bottom: 0;
     padding: 10px;
     margin: 10px 10px 20px 10px;
+    width: 180px;
 }
 
 .btn-view2 a {
