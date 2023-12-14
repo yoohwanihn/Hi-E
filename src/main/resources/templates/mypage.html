@@ -55,16 +55,32 @@
         <!-- 작성한 글 -->
         <div class="card mb-4">
             <div class="card-header">
-                <h5>작성한 글</h5>
+                <h5>작성한 글📝</h5>
             </div>
             <div class="card-body">
                 <!-- 글 목록을 동적으로 표시 -->
 	            <div th:if="${not #lists.isEmpty(mypost)}">
-	                <div th:each="post : ${mypost}">
-	                    <a th:href="@{'/posts/show/' + ${post.id}}">
-	                        <strong>자유게시판 | 제목 : [[${post.title}]] | 조회수 : [[${post.view}]]</strong>
-	                    </a>
-	                </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>게시판</th>
+                                <th>제목</th>
+                                <th>조회수</th>
+                                <th>작성일자</th>
+                                <th>이동하기</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="post : ${mypost}">
+								
+	                            <td>자유게시판</td>
+	                            <td th:text="${post.title}"></td>
+	                            <td th:text="${post.view}"></td>
+	                            <td th:text="${post.createdDate}"></td>
+	                            <td><a th:href="@{'/posts/show/' + ${post.id}}">이동하기</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
 	            </div>
 	            <p th:if="${#lists.isEmpty(mypost)}">작성한 글이 없습니다.</p>
             </div>
