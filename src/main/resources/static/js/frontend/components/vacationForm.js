@@ -1,18 +1,27 @@
 import React , { useState, useEffect } from 'react';
 
+    /**
+     * 휴가 신청 양식 컴퍼넌트
+     * @param vacationDate
+     * @param setFormData 입력값을 담은 변수
+     */
+
 const VacationForm = () => {
     const [formData, setFormData] = useState({
         vacationtype: '',
         startday: '',
         endday: '',
-        startTime: '09:00', // 기본값
-        endTime: '18:00', // 기본값
+        startTime: '09:00', // 기본값 : 오전 9시부터
+        endTime: '18:00',   // 기본값 : 오후 6시까지
         currentTime: '',
         reason: '',
       });
+
     const [vacationDate, setVacationDate] = useState(0);
 
-    // 폼 제출을 처리하는 함수
+    /**
+     * 양식 제출을 처리하는 함수
+     * */
     const submitHandler = (e) => {
         e.preventDefault();
 
@@ -30,7 +39,12 @@ const VacationForm = () => {
       };
 
 
-    // 휴가 기간에 따라 신청일수를 계산하는 함수
+    /**
+     * 휴가 기간에 따라 신청일수를 자동으로 계산하는 함수
+     * 단, 주말과 휴일을 자동으로 빼서 순수 휴가일자만 노출되도록 한다
+     * @param startday 휴가 시작일
+     * @param endday 휴가 종료일
+     * */
     const calculateVacationDate = () => {
         const { startday, endday } = formData;
         if (startday && endday) {
@@ -67,7 +81,7 @@ const VacationForm = () => {
         <form method="post" action="/HieVacation/vac">
           <input type="reset" value="신청취소" />
 
-          {/* <!-- hidden 태그로 값 전달 --> */}
+          {/* <!-- hidden 태그로 값 전달 (아직 미완)--> */}
           <input type="hidden" name="command" value="CONFIRM" />
 
           <table>
@@ -75,7 +89,7 @@ const VacationForm = () => {
                 <td>
                     휴가구분
                         <select name="vacationtype" value={formData.vacationtype} onChange={handleChange}>
-                        {/* <!-- -선택- 눌렀을 때 정보 안 넘어오는거 예외처리 --> */}
+                        {/* <!-- -선택- 눌렀을 때 정보 안 넘어오는게 예외처리(아직 미완) --> */}
                         <option value=""> —선택— </option>
                         <option value="Monthly leave"> 월차 </option>
                         <option value="HalfDay"> 반차 </option>
@@ -92,13 +106,13 @@ const VacationForm = () => {
 	        		<input type="date" name="endday" required onChange={handleChange}/>
 	        	</td>
                 
-                {/* 사용자가 기간 입력하면 계산해서 출력 */}
+            {/* 사용자가 기간 입력하면 계산해서 출력 */}
 	        	<td>신청일수 {vacationDate}일</td>
 	        </tr>
 
 	      	<tr>
 	        	<td>휴가 시작 / 종료시간
-                    {/* 15분 단위로만 입력이 가능하게 */}
+                {/* 15분 단위로만 입력이 가능하게 제약을 둠 */}
 	            	<input type="time" 
                     name="startTime" 
                     value={formData.startTime} 	
@@ -107,7 +121,7 @@ const VacationForm = () => {
                     step="900" 
                     onChange={handleChange}/> ~
 
-                    {/* 종료시간 */}
+                {/* 종료시간 */}
 	            	<input type="time" 
                     name="endTime" 
                     value={formData.endTime} 
@@ -119,7 +133,7 @@ const VacationForm = () => {
             </tr>
 
                 <td>신청시간
-                    {/* 신청시간은 사용자가 별도로 입력 할 수 없다 */}
+                    {/* 신청시간은 사용자가 별도로 입력 할 수 없다 submit 눌렀을때의 시간이 출력 */}
                     <input type="time" id="currentTime" name="currentTime"
                         value={formData.currentTime} 
                         style={{ width: '120px' }}
@@ -144,7 +158,7 @@ const VacationForm = () => {
           <input type="submit" onSubmit={submitHandler} value="신청완료" />
         
         </form>
-        {/* <!-- 휴가신청란 끝 --> */}
+        {/* <!-- 휴가 신청란 끝 --> */}
       </div>
     );
   };
