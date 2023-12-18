@@ -182,10 +182,10 @@ public class MemberService {
 	/**
 	 * 회원을 삭제하는 메서드입니다. (아직 사용되지 않음)
 	 *
-	 * @param member 삭제할 회원
+	 * @param memberId 삭제할 회원 Id
 	 */
-	public void deletemember(Member member) {
-		repository.delete(member);
+	public void deletemember(Long memberId) {
+		repository.deleteById(memberId);
 	}
 	
 	/**

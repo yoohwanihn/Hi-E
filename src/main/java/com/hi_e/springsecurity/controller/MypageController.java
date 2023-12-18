@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hi_e.posts.entity.Posts;
 import com.hi_e.posts.service.PostsService;
@@ -52,6 +54,12 @@ public class MypageController {
 	        return "mypage";
 		}
     	return "account/login";
+    }
+	
+	@PostMapping("/withdrawal")
+    public String withdrawMember(@RequestParam Long memberId) {
+        memberService.deletemember(memberId);
+        return "redirect:/view/login"; // 회원탈퇴 후 메인 페이지로 리다이렉트
     }
 	
 }
