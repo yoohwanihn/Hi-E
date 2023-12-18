@@ -50,21 +50,6 @@ public class SendEmailService {
         return dto;
     }
 	
-	//리팩토링 하였고 주석처리함
-//	public void updatePassword(String newPassword, String userEmail, String userName) {
-//	    Optional<Member> optionalMember = repository.findByEmailAndEname(userEmail, userName);
-//
-//	    if (optionalMember.isPresent()) {
-//	        Member member = optionalMember.get();
-//	        member.update(newPassword, passwordEncoder);
-//	        repository.save(member);
-//	    } else {
-//	        // 해당 email과 이름이 일치하는 회원이 없을 경우 예외 처리 로직 추가
-//	        System.out.println("해당 email과 이름이 일치하는 회원이 없습니다."); 
-//	        throw new NoSuchElementException("해당 email과 이름이 일치하는 회원이 없습니다.");
-//	    }
-//	}
-	
 	/**
      * 이메일과 사용자 이름을 기반으로 회원의 비밀번호를 업데이트합니다.
      *

@@ -46,7 +46,7 @@ public class PostsController {
 	 * @param model Spring MVC 모델
 	 * @return "board/index" 뷰
 	 */
-	@GetMapping("/test12")
+	@GetMapping("/freeboard")
 	public String index(Model model, @PageableDefault(page = 1) Pageable pageable) {
 		Page<PostsResponseDto> postsPages = postsService.paging(pageable);
 
@@ -71,7 +71,7 @@ public class PostsController {
 	 * @param session HttpSession 객체
 	 * @return "board/posts-save" 뷰
 	 */
-	@GetMapping("/posts/save")
+	@GetMapping("/freeboard/save")
 	public String postsSave(HttpSession session) {
 		Member loggedInMember = memberService.getCurrentLoggedInMember();
 		session.setAttribute("author", loggedInMember.getEname());
@@ -87,7 +87,7 @@ public class PostsController {
 	 * @param session HttpSession 객체
 	 * @return "board/posts-update" 뷰
 	 */
-	@GetMapping("/posts/update/{id}")
+	@GetMapping("/freeboard/update/{id}")
 	public String postsUpdate(@PathVariable Long id, Model model, HttpSession session) {
 		PostsResponseDto dto = postsService.findById(id);
 		model.addAttribute("postId", dto.getId());
@@ -105,7 +105,7 @@ public class PostsController {
 	 * @param response HTTP 응답 객체
 	 * @return "board/posts-show" 뷰
 	 */
-	@GetMapping("/posts/show/{id}")
+	@GetMapping("/freeboard/show/{id}")
 	public String showPost(@PathVariable Long id, Model model, HttpServletRequest request, HttpServletResponse response) {
 	    // 이전에 생성한 쿠키를 확인하고, 중복 조회를 방지하기 위해 업데이트합니다.
 	    Cookie oldCookie = null;
@@ -160,7 +160,7 @@ public class PostsController {
 	 * @param model Spring MVC 모델
 	 * @return "board/index" 뷰
 	 */
-	@GetMapping("/posts/search")
+	@GetMapping("/freeboard/search")
 	public String searchPosts(@RequestParam(name = "query", required = false) String query, Model model, @PageableDefault(page = 1) Pageable pageable) {
 		// 검색어에 따라 페이징된 결과 가져오기
 	    Page<PostsResponseDto> postsPages = postsService.searchByTitleContainingIgnoreCase(query, pageable);
@@ -190,6 +190,6 @@ public class PostsController {
 		Posts post = postsService.findByPostId(postId);
 	    commentsService.saveComment(post, requestDto);
 
-	    return "redirect:/posts/show/" + postId;
+	    return "redirect:/freeboard/show/" + postId;
 	}
 }
