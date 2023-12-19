@@ -60,6 +60,8 @@ public class Member {
 	
     private String detail_address;		// 상세 주소
     
+    private String filepath;
+    
     @Column(columnDefinition = "varchar(1000) default '/img/undraw_profile_1.svg'")
     private String picture;
 
@@ -147,11 +149,10 @@ public class Member {
      * @param passwordEncoder   비밀번호 암호화를 위한 PasswordEncoder
      * @return 업데이트된 Member 객체
      */
-    public Member update(String email, String ename, String password, String picture, PasswordEncoder passwordEncoder){
+    public Member update(String email, String ename, String password, PasswordEncoder passwordEncoder){
     	this.email = email;
         this.ename = ename;
         this.pw = passwordEncoder.encode(password);
-        this.picture = picture;
 
         return this;
     }

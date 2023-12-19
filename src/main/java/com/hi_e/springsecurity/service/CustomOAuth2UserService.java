@@ -79,7 +79,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 							attributes.getEmail(),
 							attributes.getName(),
 							attributes.getNameAttributeKey(),
-							attributes.getPicture(),
 							passwordEncoder))
 				//존재하지 않는 신규 로그인일 경우 OAuthAttribute의 toEntity 메서드 활용
 				.orElse(attributes.toEntity());

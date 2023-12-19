@@ -1,13 +1,15 @@
 package com.hi_e.springsecurity.service;
 
-import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,8 +23,6 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.hi_e.posts.dto.PostsResponseDto;
-import com.hi_e.posts.entity.Posts;
 import com.hi_e.role.Role;
 import com.hi_e.springsecurity.dto.ChangePasswordRequestDto;
 import com.hi_e.springsecurity.dto.MemberJoinDto;
@@ -36,7 +36,7 @@ import jakarta.transaction.Transactional;
  */
 @Service
 public class MemberService {
-
+	
 	private final MemberRepository repository;
 	private PasswordEncoder passwordEncoder;
 
@@ -151,9 +151,9 @@ public class MemberService {
 	@Transactional
 	public void changeProfileImage(MultipartFile uploadFile) {
 	    try {
-	        Member member = getCurrentLoggedInMember();
-	        String newPicture = saveProfileImage(uploadFile);
-	        repository.updateMemberProfile(member.getEmail(), newPicture);
+	    	Member member = getCurrentLoggedInMember();
+            String newPicture = saveProfileImage(uploadFile);
+            repository.updateMemberProfile(member.getEmail(), newPicture, newPicture);
 
 		    System.out.println("프로필 이미지 변경 완료: "  + newPicture);
 	    } catch (Exception e) {
@@ -167,15 +167,37 @@ public class MemberService {
 	 *
 	 * @param uploadFile 저장할 이미지 파일
 	 * @return 저장된 이미지의 경로
+	 * @throws IOException 
+	 * @throws IllegalStateException 
 	 */
 	@Transactional
-	private String saveProfileImage(MultipartFile uploadFile) {
+	private String saveProfileImage(MultipartFile uploadFile) throws IllegalStateException, IOException {
+		String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd"));
+		String uploadFolder= Paths.get("C:", "Hi_E", "upload").toString();
+		String profileUploadFolder = Paths.get("profileImage", today).toString();
+		String uploadPath = Paths.get(uploadFolder, profileUploadFolder).toString();
+//	    String projectPath = System.getProperty("user.dir")+ "\\src\\main\\resources\\static\\img\\profile_img\\";
+//	    String fileName = UUID.randomUUID().toString() + "_" + uploadFile.getOriginalFilename();
+//	    File saveFile = new File(projectPath, fileName);
+//	    uploadFile.transferTo(saveFile);
+		
+		File dir = new File(uploadPath);
+		if (dir.exists() == false) {
+			dir.mkdirs();
+		}
+		
+		UUID uuid = UUID.randomUUID();
+		String profileImageName = uuid+"_"+uploadFile.getOriginalFilename(); 
+		
+		try {
+			File target = new File(uploadPath, profileImageName);
+			uploadFile.transferTo(target);
 
-	    String projectPath = "\\Hi-E\\src\\main\\resources\\static\\img\\";
-	    String fileName = UUID.randomUUID().toString() + "_" + uploadFile.getOriginalFilename();
-	    //String fileName = uploadFile.getOriginalFilename();
-	    System.out.println("그냥1"  + "/profile_img/" +fileName );
-	    return "/img/" +fileName ;
+		} catch (Exception e) {
+			return "";
+		}
+		
+	    return profileUploadFolder+"\\"+profileImageName ;
 	}
 	
 	

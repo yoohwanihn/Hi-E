@@ -25,6 +25,8 @@
 
         .profile-image {
             border-radius: 50%; /* 프로필 이미지를 원형으로 */
+            width : 120px;
+            height : 120px;
         }
 
         .btn-action {
@@ -63,7 +65,9 @@
                     </div>
                     <div class="col-md-6">
                         <!-- 프로필 이미지 -->
-                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4 profile-image" th:src="${member.picture}" alt="프로필 이미지">
+					     <img class="img-fluid px-3 px-sm-4 mt-3 mb-4 profile-image"
+						     th:src="@{${member.filepath == null ? member.picture : '/upload/' + member.picture}}"
+						     alt="프로필 이미지">
                     </div>
                 </div>
             </div>

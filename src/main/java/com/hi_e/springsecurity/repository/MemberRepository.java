@@ -60,8 +60,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
      * @param newPicture  새로운 프로필 사진 경로
      */
     @Modifying
-    @Query("UPDATE Member m SET m.picture = :newPicture WHERE m.email = :email")
-    void updateMemberProfile(@Param("email") String email, @Param("newPicture") String newPicture);
+    @Query("UPDATE Member m SET m.picture = :newPicture, m.filepath = :newFilePath WHERE m.email = :email")
+    void updateMemberProfile(@Param("email") String email, @Param("newPicture") String newPicture, @Param("newFilePath") String newFilePath);
     
     @Modifying
     @Query("UPDATE Member m SET m.roles = :newRole WHERE m.id = :id")
