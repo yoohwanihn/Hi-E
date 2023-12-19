@@ -1,6 +1,6 @@
 body {
     font-family: 'Arial', sans-serif; 
-    background-color: #f5f5f5; 
+    background-color: #ffffff; 
 }
 
 h1 {
@@ -86,9 +86,11 @@ h1, p {
     box-shadow: 0 5px 10px #f1f1f1;
 }
 
-.paging li a.active {
-    background-color: rgb(252, 212, 205);
+.paging .active {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
 }
+
 
 input[type="submit"] {
   display: inline-block;
