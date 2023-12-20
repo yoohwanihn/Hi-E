@@ -21,8 +21,7 @@ public interface PostsRepository extends JpaRepository<Posts, Long> {
      *
      * @return 내림차순으로 정렬된 모든 글 목록
      */
-	@Query("SELECT p FROM Posts p ORDER BY p.id DESC")
-    List<Posts> findAllDesc();
+	List<Posts> findAllByOrderByIdDesc();
 	
 	/**
      * 제목에 특정 단어를 포함하는 글을 대소문자 구분 없이 조회하는 쿼리입니다.
@@ -30,8 +29,7 @@ public interface PostsRepository extends JpaRepository<Posts, Long> {
      * @param title 제목에 포함된 단어
      * @return 대소문자 구분 없이 제목에 특정 단어를 포함하는 글 목록
      */
-	@Query("SELECT p FROM Posts p WHERE LOWER(p.title) LIKE LOWER(CONCAT('%', :title, '%'))")
-	Page<Posts> findByTitleContainingIgnoreCase(@Param("title") String title, Pageable pageable);
+	Page<Posts> findByTitleIgnoreCaseContaining(String title, Pageable pageable);
 	
 	/**
      * 조회수 올려주는 쿼리
@@ -43,6 +41,5 @@ public interface PostsRepository extends JpaRepository<Posts, Long> {
 	@Query("update Posts p set p.view = p.view + 1 where p.id = :id")
 	int updateView(@Param("id") Long id);
 	
-	@Query("SELECT p FROM Posts p WHERE p.author = :author ORDER BY p.id DESC")
-	List<Posts> findByAuthor(@Param("author")String author);
+	List<Posts> findByAuthorOrderByIdDesc(String author);
 }

@@ -96,7 +96,7 @@ public class PostsService {
 	 */
 	@Transactional
 	public List<PostsListResponseDto> findAllDesc() {
-		return postsRepository.findAllDesc().stream().map(PostsListResponseDto::new).collect(Collectors.toList());
+		return postsRepository.findAllByOrderByIdDesc().stream().map(PostsListResponseDto::new).collect(Collectors.toList());
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class PostsService {
         int pageLimit = 8; // 한페이지에 보여줄 글 개수
  
         // 한 페이지당 5개식 글을 보여주고 정렬 기준은 ID기준으로 내림차순
-        Page<Posts> postsPages = postsRepository.findByTitleContainingIgnoreCase(query, PageRequest.of(page, pageLimit, Sort.by(Direction.DESC, "id")));
+        Page<Posts> postsPages = postsRepository.findByTitleIgnoreCaseContaining(query, PageRequest.of(page, pageLimit, Sort.by(Direction.DESC, "id")));
 	
        
         // 목록 : id, title, content, author, created_date, view
@@ -144,7 +144,7 @@ public class PostsService {
 	
 	/* MyPage의 내가 작성한 글을 위한 서비스. ename과 author가 일치. */
 	public List<Posts> getMyPosts(String ename) {
-		List<Posts> posts = postsRepository.findByAuthor(ename);
+		List<Posts> posts = postsRepository.findByAuthorOrderByIdDesc(ename);
 		return posts;
 	}
 }

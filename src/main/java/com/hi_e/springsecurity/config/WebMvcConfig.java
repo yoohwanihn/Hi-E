@@ -13,8 +13,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	
     @Override
     public void  addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(uploadPath) // --1
-                .addResourceLocations("file:///C:/Hi_E/upload/"); //--2
+        registry.addResourceHandler(uploadPath) // /upload/**
+                .addResourceLocations("file:///C:/Hi_E/upload/"); //이미지 여기다 저장함, 저장한 날짜 기준으로 폴더 나눠놓음
     }
 
 }

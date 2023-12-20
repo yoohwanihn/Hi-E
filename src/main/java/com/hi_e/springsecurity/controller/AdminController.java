@@ -10,10 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.hi_e.posts.dto.PostsResponseDto;
 import com.hi_e.role.Role;
 import com.hi_e.springsecurity.dto.MemberJoinDto;
-import com.hi_e.springsecurity.entity.Member;
 import com.hi_e.springsecurity.service.MemberService;
 
 @Controller
