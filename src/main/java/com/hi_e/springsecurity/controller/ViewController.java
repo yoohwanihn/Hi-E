@@ -149,4 +149,9 @@ public class ViewController {
 	public String nav2() {
 		return "nav2";
 	}
+	
+	@GetMapping("/test")
+	public String ttt(){
+		return "account/login2";
+	}
 }

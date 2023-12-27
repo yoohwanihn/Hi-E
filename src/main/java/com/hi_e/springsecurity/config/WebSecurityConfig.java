@@ -43,7 +43,7 @@ public class WebSecurityConfig {
 				
 				.authorizeHttpRequests(request -> request.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
 						.requestMatchers("/status", "/img/**","/auth/join", "/css/**", "/js/**", "vendor/**", 
-								"/view/forgot-password", "/sendEmail", "/send_email", "/h2-console/**")
+								"/view/forgot-password", "/sendEmail", "/send_email", "/h2-console/**", "/view/test")
 						.permitAll() // 인증 필요없이 나올 사이트
 						// 테스트를 위해 h2-console도 열어두자. 배포할때 지우기!
 						// 이미지 폴더의 이미지와 회원가입 페이지는 로그인 전에도 접근할 수 있어야 하기 때문이다.
