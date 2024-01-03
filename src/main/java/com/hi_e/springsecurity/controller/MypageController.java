@@ -59,7 +59,7 @@ public class MypageController {
 	@PostMapping("/withdrawal")
     public String withdrawMember(@RequestParam Long memberId) {
         memberService.deletemember(memberId);
-        return "redirect:/view/login"; // 회원탈퇴 후 메인 페이지로 리다이렉트
+        return "account/remove/success"; // 회원탈퇴 후 메인 페이지로 리다이렉트
     }
 	
 }

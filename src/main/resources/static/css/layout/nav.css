@@ -1,10 +1,11 @@
 .Nav {
-  display: block;
+  float: left;
   height: 100vh; /* 화면 세로 길이에 맞게 설정 */
-  width: 256px;
+  width: 250px;
   background-color: rgb(255, 255, 255);
   font-family: 'NanumBarunGothic', 'serif'; 
-  font-weight: normal
+  font-weight: normal ;
+  overflow-y: auto;
 }
 
 ul {

@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.hi_e.springsecurity.entity.Member;
 import com.hi_e.springsecurity.service.MemberService;
 
-import jakarta.servlet.http.HttpSession;
-
 /**
  * 뷰 관련 엔드포인트 및 사용자 인터페이스 상호작용을 처리하는 컨트롤러 클래스입니다.
  */
@@ -150,8 +148,16 @@ public class ViewController {
 		return "nav2";
 	}
 	
-	@GetMapping("/test")
-	public String ttt(){
-		return "account/login2";
+	@GetMapping("/remove")
+	public String remove(){
+		return "account/remove/remove";
+	}
+	
+	@GetMapping("/survey")
+	public String survey(Model model){
+		Member member = memberService.getCurrentLoggedInMember();
+		model.addAttribute("member",member);
+		
+		return "account/remove/survey";
 	}
 }

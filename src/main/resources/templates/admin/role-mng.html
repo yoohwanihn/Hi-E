@@ -10,66 +10,68 @@
 
 <body>
 	<div th:replace="nav :: nav"></div>
-    <h1>권한 관리 페이지</h1>
-    <p>해당 회원수: <span th:text="${totalMembers}"></span></p>
-    <hr>
-    <form method="get" class="search" action="/admin/members/search">
-        <select name="roleFilter">
-            <option value="BANNED">BANNED</option>
-            <option value="USER">USER</option>
-            <option value="ADMIN">ADMIN</option>
-            <option value="MASTER">MASTER</option>
-            <option value="All">All</option>
-        </select>
-        <select name="nameFilter">
-            <option value="이름">이름</option>
-            <option value="사번">사번</option>
-        </select>
-        <input type="search" name="search" placeholder="검색어를 입력하세요">
-        <input type="submit" value="검색">
-    </form>
-    <script>
-    </script>
-    <div class="container">
-        <table class="table" id="table">
-            <thead>
-                <tr>
-                    <th>사번</th>
-                    <th>email</th>
-                    <th>name</th>
-                    <th>phone_number</th>
-                    <th>birth_day</th>
-                    <th>address</th>
-                    <th>street_address</th>
-                    <th>detail_address</th>
-                    <th>roles</th>
-                    <th>정지 회원 처리</th>
-                </tr>
-            </thead>
-            <tbody class="tbody" id="tbody">
-				<tr th:if="${membersPages.empty}" class="no-members">
-			        <td colspan="10" align="center">해당하는 회원이 없습니다.</td>
-			    </tr>
-                <tr th:each="member, iterStat : ${membersPages}" class="member">
-                    <td th:text="${member.id}" class="memberCenter"></td>
-                    <td th:text="${member.email}" class="memberCenter"></td>
-                    <td th:text="${member.ename}" class="memberCenter"></td>
-                    <td th:text="${member.phone_number}" class="memberCenter"></td>
-                    <td th:text="${member.birth_day}" class="memberCenter"></td>
-                    <td th:text="${member.address}" class="memberCenter"></td>
-                    <td th:text="${member.street_address}" class="memberCenter"></td>
-                    <td th:text="${member.detail_address}" class="memberCenter"></td>
-                    <td th:text="${member.roles}" class="memberCenter"></td>
-                    <td>
-                        <form action="/admin/update" method="post">
-						    <input type="hidden" name="memberId" th:value="${member.id}" />
-						    <input type="submit" class="submit" id="submit" name="action" value="관리자 등록"/>
-						    <input type="submit" class="submit" id="submit" name="action" value="정지시키기"/>
-						</form>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+	<div class="main">
+	    <h1>권한 관리 페이지</h1>
+	    <p>해당 회원수: <span th:text="${totalMembers}"></span></p>
+	    <hr>
+	    <form method="get" class="search" action="/admin/members/search">
+	        <select name="roleFilter">
+	            <option value="BANNED">BANNED</option>
+	            <option value="USER">USER</option>
+	            <option value="ADMIN">ADMIN</option>
+	            <option value="MASTER">MASTER</option>
+	            <option value="All">All</option>
+	        </select>
+	        <select name="nameFilter">
+	            <option value="이름">이름</option>
+	            <option value="사번">사번</option>
+	        </select>
+	        <input type="search" name="search" placeholder="검색어를 입력하세요">
+	        <input type="submit" value="검색">
+	    </form>
+	    <script>
+	    </script>
+	    <div class="container">
+	        <table class="table" id="table">
+	            <thead>
+	                <tr>
+	                    <th>사번</th>
+	                    <th>email</th>
+	                    <th>name</th>
+	                    <th>phone_number</th>
+	                    <th>birth_day</th>
+	                    <th>address</th>
+	                    <th>street_address</th>
+	                    <th>detail_address</th>
+	                    <th>roles</th>
+	                    <th>정지 회원 처리</th>
+	                </tr>
+	            </thead>
+	            <tbody class="tbody" id="tbody">
+					<tr th:if="${membersPages.empty}" class="no-members">
+				        <td colspan="10" align="center">해당하는 회원이 없습니다.</td>
+				    </tr>
+	                <tr th:each="member, iterStat : ${membersPages}" class="member">
+	                    <td th:text="${member.id}" class="memberCenter"></td>
+	                    <td th:text="${member.email}" class="memberCenter"></td>
+	                    <td th:text="${member.ename}" class="memberCenter"></td>
+	                    <td th:text="${member.phone_number}" class="memberCenter"></td>
+	                    <td th:text="${member.birth_day}" class="memberCenter"></td>
+	                    <td th:text="${member.address}" class="memberCenter"></td>
+	                    <td th:text="${member.street_address}" class="memberCenter"></td>
+	                    <td th:text="${member.detail_address}" class="memberCenter"></td>
+	                    <td th:text="${member.roles}" class="memberCenter"></td>
+	                    <td>
+	                        <form action="/admin/update" method="post">
+							    <input type="hidden" name="memberId" th:value="${member.id}" />
+							    <input type="submit" class="submit" id="submit" name="action" value="관리자 등록"/>
+							    <input type="submit" class="submit" id="submit" name="action" value="정지시키기"/>
+							</form>
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	    </div>
     </div>
     <div class="paging">
         <!-- 첫번째 페이지로 이동 -->

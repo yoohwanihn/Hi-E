@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0px solid gray;
+    box-sizing: border-box;
+}
+
+h1 {
+    font-size: 2.4rem;
+    font-family: 'Noto Serif KR', serif;
+    text-align: center;
+}
+
+h3 {
+    text-align: center;
+}
+
+button {
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+/* 공통 스타일 */
+.remove {
+    margin: 80px 8%;
+}
+
+.section {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 40px 8%;
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.section img {
+    width: 40px;
+    height: 40px;
+    margin: 40px 0 20px 0;
+}
+
+.section button {
+    width: 30%;
+    padding: 14px 0;
+    border-radius: 5px;
+    background: #ccc;
+    margin-top: 20px;
+}
+
+.section button:hover {
+    background: black;
+    color: white;
+}
+
+.section textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.section .sub {
+	text-align: left;
+}
+
+.section .select {
+	width: 100%;
+    padding: 18px 10px;
+    border: 1px solid #ccc;
+    margin: 5px 0 10px 0;
+}
+
+/* 홈 화면 스타일 */
+.remove-home {
+    width: 600px;
+    margin: 0 auto;
+}
+
+/* 탈퇴 화면 스타일 */
+.remove-confirm,
+.remove-survey,
+.remove-complete {
+    width: 600px;
+    margin: 0 auto;
+}
+
+@media screen and (min-width: 1366px) {
+    .remove {
+        width: 600px;
+        margin: 0 auto;
+    }
+}

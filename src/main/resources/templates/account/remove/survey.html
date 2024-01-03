@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remove Survey</title>
+    
+    <link href="/css/remove_account.css" rel="stylesheet">
+</head>
+
+<body>
+	<article class="remove-home">
+        <div class="section remove-survey">
+            <h3>설문조사</h3><br><br>
+
+            <p>불편했던 점, 개선할 점을 공유해주시면<br>
+                더 나은 서비스를 위해 반영하도록 하겠습니다.</p><br>
+            <div>
+                <p class="sub">탈퇴 사유</p>
+                <select class="select">
+                    <option>선택해주세요.</option>
+                    <option>기록을 삭제하기 위해서</option>
+                    <option>이용에 불편함이 많아서</option>
+                    <option>다른 사이트가 더 좋아서</option>
+                    <option>콘텐츠에 불만족</option>
+                    <option>원하는 기능이 없어서</option>
+                    <option>기타</option>
+                </select>
+            </div>
+            
+            <div>
+                <p class="sub">건의사항</p>
+                <textarea name="name" rows="12" placeholder="소중한 의견 귀담아 듣겠습니다."></textarea>
+            </div>
+
+			<form th:action="@{/withdrawal}" method="post">
+	            <input type="hidden" name="memberId" th:value="${member.id}" />
+	            <button type="submit">제출하기</button>
+			</form>
+        </div>
+	</article>
+</body>
+
+</html>

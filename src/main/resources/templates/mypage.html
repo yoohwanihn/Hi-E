@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Hi-E 마이페이지</title>
     <link href="/css/layout/nav.css" rel="stylesheet">
+    <link href="/css/modal/modal.css" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -17,6 +18,7 @@
             border-radius: 10px; /* 컨테이너 테두리 둥글게 */
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
             padding: 20px; /* 컨테이너 안 여백 */
+            padding-left: 250px;
         }
 
         .card {
@@ -50,7 +52,7 @@
 
 <body>
     <div th:replace="nav :: nav"></div>
-    <div class="container mt-5">
+    <div class="container mt-5" >
         <!-- 기본 정보 -->
         <div class="card mb-4">
             <div class="card-header">
@@ -119,11 +121,8 @@
 
         <!-- 로그아웃 버튼 -->
         <div class="d-flex justify-content-center" style="max-width: 100%;">
-            <form th:action="@{/withdrawal}" method="post">
-			    <input type="hidden" th:if="${member.id != null}" name="memberId" th:value="${member.id}" />
-			    <button type="submit" class="btn btn-sm btn-warning" th:if="${member.id != null}">회원탈퇴</button>
-			</form>
-		    <a href="/logout" class="btn btn-sm btn-danger btn-action" >로그아웃</a>
+            <a href="/view/remove" class="btn btn-sm btn-warning" style="margin-right: 350px;">회원탈퇴</a><br>
+		    <a href="#" class="btn btn-sm btn-danger btn-action" data-toggle="modal" data-target="#logoutModal" style="margin-right: 350px;">로그아웃</a>
         </div>
         <hr/>
         <!-- 무지성으로 버튼 만든 부분 -->
@@ -133,6 +132,34 @@
             <button class="action-button btn btn-primary btn-action" onclick="openChangeProfilePopup()">프로필 이미지 변경</button>
         </div>
     </div>
+    
+    <!-- 로그아웃 모달 -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">로그아웃 확인</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    정말로 로그아웃하시겠습니까?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                    <a href="/logout" class="btn btn-danger">로그아웃</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="/js/modal/modal.js"></script>>
+
 </body>
 
 </html>
