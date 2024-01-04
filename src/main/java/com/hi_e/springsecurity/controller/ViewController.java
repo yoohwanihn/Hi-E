@@ -160,19 +160,4 @@ public class ViewController {
 		
 		return "account/remove/survey";
 	}
-	
-	@GetMapping("/test")
-	public String loginPagte() {
-		return "account/login2";
-	}
-	
-	@GetMapping("/test2")
-	public String loginPagt2e() {
-		return "account/login3";
-	}
-	
-	
-	
-	
-	
 }
