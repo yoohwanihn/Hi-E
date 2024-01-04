@@ -22,8 +22,8 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 상태 코드 401 전송
 
         Map<String, Object> data = new HashMap<>();
-        data.put("error", "Authentication failed");
-        data.put("message", exception.getMessage());
+        data.put("error", "로그인 실패");
+        data.put("message", "제대로 하셈");
 
         String json = objectMapper.writeValueAsString(data);
 
