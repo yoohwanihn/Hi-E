@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 import com.hi_e.springsecurity.service.CustomOAuth2UserService;
 
@@ -30,6 +31,11 @@ public class WebSecurityConfig {
 		this.customOAuth2UserServicer = customOAuth2UserServicer;
 	}
 	
+	@Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
+    }
+	
 	/**
      * SecurityFilterChain을 설정하는 메서드입니다.
      *
@@ -43,7 +49,7 @@ public class WebSecurityConfig {
 				
 				.authorizeHttpRequests(request -> request.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
 						.requestMatchers("/status", "/img/**","/auth/join", "/css/**", "/js/**", "vendor/**", 
-								"/view/forgot-password", "/sendEmail", "/send_email", "/h2-console/**", "/view/test")
+								"/view/forgot-password", "/sendEmail", "/send_email", "/h2-console/**", "/view/test", "/view/test2")
 						.permitAll() // 인증 필요없이 나올 사이트
 						// 테스트를 위해 h2-console도 열어두자. 배포할때 지우기!
 						// 이미지 폴더의 이미지와 회원가입 페이지는 로그인 전에도 접근할 수 있어야 하기 때문이다.
@@ -61,6 +67,7 @@ public class WebSecurityConfig {
 						.usernameParameter("email") // submit할 아이디
 						.passwordParameter("pw") // submit할 비밀번호
 						.defaultSuccessUrl("/view/dashboard", true) // 성공 시 이동할 페이지
+						.failureHandler(authenticationFailureHandler()) // 실패 핸들러 등록
 						.permitAll())
 
 				/* 폼 로그아웃 처리 */

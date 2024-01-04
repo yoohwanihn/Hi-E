@@ -60,6 +60,7 @@ public class Member {
 	
     private String detail_address;		// 상세 주소
     
+    @Column(name = "FILEPATH")
     private String filepath;
     
     @Column(columnDefinition = "varchar(1000) default '/img/undraw_profile_1.svg'")

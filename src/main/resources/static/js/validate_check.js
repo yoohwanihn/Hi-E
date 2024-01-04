@@ -105,7 +105,7 @@ function validateLoginForm() {
 
 /* 비밀번호 찾기 */
 function validateSearchPassWordForm() {
-    const form = document.forms["sendEmailForm"];
+    const form = document.forms["loginInfo"];
 
     if (!form) {
         console.error("sendEmailForm 폼이 없음");

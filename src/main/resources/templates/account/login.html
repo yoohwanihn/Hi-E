@@ -6,77 +6,119 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Hi-E Login</title>
-    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="/css/layout/font.css" rel="stylesheet">
-
+	
+	<!-- BootStrap, Font-awesome 로드 -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    
     <!-- 입력 데이터 유효성 검사 -->
-    <script th:src="@{/js/validate_check.js}" type="application/javascript"></script>
+    <script th:src="@{/js/validate_check.js}" ></script>
+    
+    <script th:src="@{/js/auth/login_join.js}" ></script>
+    
+    <!-- daum 주소찾기 cdn -->
+	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script th:src="@{/js/daum_juso.js}"></script>
+    
+    <!-- 로그인 / 회원가입 페이지 style -->
+    <link href="/css/auth/auth_style.css" rel="stylesheet">
 </head>
-
-<body class="font">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-xl-10 col-lg-12 col-md-9">
-                <div class="card o-hidden border-0 shadow-lg my-5">
-                    <div>
-                        <div class="p-5">
-                            <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Hi - E 로그인</h1>
-                            </div>
-                            <form class="form-signin" name="loginInfo" method="post" action="/login-process "
-                                onsubmit="return validateLoginForm()">
-                                <div class="form-group">
-                                    <input type="email" id="email" name="email" class="form-control"
-                                        placeholder="이메일" required="/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)?$/i" />
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" id="password" class="form-control" name="pw"
-                                        placeholder="비밀번호" />
-                                </div>
-                                <div class="form-group">
-                                    <div class="custom-control custom-checkbox small">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck"
-                                            name="remember" />
-                                        <label class="custom-control-label" for="customCheck">비밀번호 기억하기</label>
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-primary btn-user btn-block">
-                                    로그인
-                                </button>
-                            </form>
-                            <hr />
-                            <a th:href="@{/oauth2/authorization/google}" class="btn btn-google btn-user btn-block" role="button">
-                                <i class="fab fa-google fa-fw"></i> 구글 로그인
-                            </a>
-                            <a th:href="@{/oauth2/authorization/naver}" class="btn btn-success btn-user btn-block">
-                                <i class="fab fa-naver fa-fw"></i> 네이버 로그인
-                            </a>
-                            <a th:href="@{/oauth2/authorization/kakao}" class="btn btn-warning btn-user btn-block">
-                                <i class="fab fa-kakao fa-fw"></i> 카카오톡 로그인
-                            </a>
-                            <hr />
-                            <div class="text-center">
-                                <a class="small" th:href="@{/view/forgot-password}">비밀번호 찾기</a>
-                            </div>
-                            <div class="text-center">
-                                <a class="small" th:href="@{/view/service-agree}">회원가입하기</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bootstrap core JavaScript-->
-    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
-    <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script th:src="@{/js/sb-admin-2.min.js}"></script>
+	<div class="container">
+	  <h1>SIGN IN</h1>
+	  
+	  <ul class="links">
+	    <li>
+	      <a href="" id="signin">SIGN IN</a>
+	    </li>
+	    <li>
+	      <a href="" id="signup">SIGN UP</a>
+	    </li>
+	    <li>
+	      <a href="" id="reset">FORGOT PASSWORD</a>
+	    </li>
+	  </ul>
+	  
+	  <form name="loginInfo" method="post" action="/login-process" id="login">
+	    <div class="first-input input__block first-input__block">
+	       <input type="email" placeholder="Email" class="input" id="email" name="email"  />
+	    </div>
+	    <div class="input__block">
+	       <input type="password" placeholder="Password" class="input" id="password" name="pw" maxlength="16"  />
+	    </div>
+	    <div class="input__block">
+	       <input type="password" placeholder="Repeat Password" class="hide" name="passwordcheck" id="repeat__password" maxlength="16"   />
+	    </div>
+	    <div class="input__block">
+		    <input type="text" placeholder="Name" class="hide" name="ename" id="ename" maxlength="15"/>
+		</div>
+	    <div class="input__block">
+	       <input type="date" placeholder="Birth_day" class="hide" name="birth_day" id="repeat__password"/>
+	    </div>
+	    <div class="input__block">
+	       <input type="text" placeholder="Phone_number" class="hide" name="phone_number" id="repeat__password"    />
+	    </div>
+	    
+	    <div class="input__block">
+		    <input type="text" id="repeat__password" class="hide" name="address" placeholder="우편번호를 입력하세요" readonly>
+		    <button type="button" onclick="openDaumPostcode()" class="btn btn-primary" id = "repeat__password" >우편번호 검색</button>
+		</div>
+		
+		<div class="input__block">
+		    <input type="text" id="repeat__password" name="street_address" class="hide"  placeholder="도로명 주소를 입력하세요" readonly>
+		</div>
+		
+		<div class="input__block">
+		    <input type="text" id="repeat__password" name="detail_address" class="hide" placeholder="상세주소를 입력하세요">
+		</div>
+	    
+	    <!-- sign in button -->
+	    <button class="signin__btn" type="submit">
+	      Sign in
+	    </button>
+	  </form>
+	  <!-- separator -->
+	  <div class="separator">
+	    <p>OR</p>
+	  </div>
+	  <a th:href="@{/oauth2/authorization/google}">
+		  <button class="google__btn">
+		    <i class="fab fa-google"></i>
+		    Sign in with Google
+		  </button>
+	  </a>
+	  <a th:href="@{/oauth2/authorization/naver}">
+		  <button class="naver__btn">
+		    <i class="fa-solid fa-n">N</i>
+		    Sign in with Naver
+		  </button>
+	  </a>
+	  <a th:href="@{/oauth2/authorization/kakao}">
+		  <button class="kakao__btn">
+		    <i class="fab fa-kickstarter-k"></i>
+		    Sign in with Kakao
+		  </button>
+	  </a>
+	</div>
+	
+	<footer>
+	  <p>
+	    푸터넣으셈
+	    <i class="fa fa-"></i> 
+	  </p>
+	  <p>
+	    Hi-E : 
+	    <a href="https://github.com/yoohwanihn">
+	      	<i class="fab fa-github" style="color: black;"></i> 
+	    </a>
+	    <a href="https://yoohwanihn.github.io/">
+	    	<i class="fa-solid fa-f" style="color: black;">Blog</i>
+	    </a>
+	  </p>
+	</footer>
+	
+	
 </body>
 
 </html>

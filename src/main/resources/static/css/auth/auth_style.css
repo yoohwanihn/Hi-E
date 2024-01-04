@@ -86,6 +86,22 @@ form .input__block.signup-input__block::before {
   border-bottom: 15px solid rgba(15, 19, 42, 0.1);
   transition: 0.2s linear;
 }
+
+form .input__block.reset-input__block::before {
+  content: "";
+  position: absolute;
+  top: -15px;
+  left: 150px;
+  display: block;
+  width: 0;
+  height: 0;
+  background: transparent;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 15px solid rgba(15, 19, 42, 0.1);
+  transition: 0.2s linear;
+}
+
 form .input__block input {
   display: block;
   width: 90%;
@@ -105,11 +121,25 @@ form .input__block input:focus, form .input__block input:active {
   border: none;
   color: #0f132a;
 }
-form .input__block input.repeat__password {
+
+form .input__block input.hide {
   opacity: 0;
   display: none;
   transition: 0.2s linear;
 }
+
+form .input__block input.hideup {
+  opacity: 0;
+  display: none;
+  transition: 0.2s linear;
+}
+
+form .input__block input.hidesend {
+  opacity: 0;
+  display: none;
+  transition: 0.2s linear;
+}
+
 form .signin__btn {
   background: #e91e63;
   color: white;
