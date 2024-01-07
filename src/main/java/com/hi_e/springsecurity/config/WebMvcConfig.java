@@ -12,9 +12,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	private String uploadPath;
 	
     @Override
-    public void  addResourceHandlers(ResourceHandlerRegistry registry) {
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler(uploadPath) // /upload/**
                 .addResourceLocations("file:///C:/Hi_E/upload/"); //이미지 여기다 저장함, 저장한 날짜 기준으로 폴더 나눠놓음
+		        
+        registry.addResourceHandler("/**")
+				.addResourceLocations("classpath:/frontend/",
+						"classpath:/static/", "classpath:/templates/") // 반드시 / 로 끝나야함
+				.setCachePeriod(20); // 캐시 지속시간 설정 (초)
     }
 
 }

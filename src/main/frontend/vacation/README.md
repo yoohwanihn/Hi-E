@@ -1,0 +1,2 @@
+# Frontend CRA
+- npm install
