@@ -1,5 +1,8 @@
-import './App.css';
-import CalendarPage from '../src/pages/CalendarPage'
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Nav from 'components/layout/nav'
+import CalendarPage from 'pages/CalendarPage'
+import 'styles/Font.css'
+import Vacation from 'pages/Vacation';
 
 const App = () => {
   // useEffect(()=>{
@@ -8,25 +11,23 @@ const App = () => {
   // })
   
   return (
-    <div>
-    	<CalendarPage/>
-    </div>
+    <div className='App'>
+      <BrowserRouter>
+        {/* <Header /> */}
+          <Nav /> 
+          <Routes>
+            {/* <Route path="/" element={<Main/>}></Route> */}
+            <Route path="/calendar" element={<CalendarPage/>}></Route>
+            <Route path="/vacation" element={<Vacation/>}></Route>
+          </Routes>
+            {/* <Main /> */}
+        {/* <Footer /> */}
+      </BrowserRouter>
+  </div>
   );
 }
 
-/* 정석방법
-<div>
-      <BrowserRouter>
-        <AuthProvider>
-          <HttpHeadersProvider>
-            <Header />
-            	<Nav /> 
-            <Main />
-            <Footer />
-          </HttpHeadersProvider>
-        </AuthProvider>
-      </BrowserRouter>
-</div>
-*/
+
+
 
 export default App;

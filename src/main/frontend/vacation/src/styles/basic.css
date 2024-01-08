@@ -1,0 +1,30 @@
+body {
+    background-color: #f8f9fa; /* 페이지 배경색 */
+}
+
+.container {
+    background-color: #ffffff; /* 컨테이너 배경색 */
+    border-radius: 10px; /* 컨테이너 테두리 둥글게 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    padding: 20px; /* 컨테이너 안 여백 */
+    padding-left: 250px;
+}
+
+.card {
+    margin-bottom: 20px;
+}
+
+.profile-image {
+    border-radius: 50%; /* 프로필 이미지를 원형으로 */
+    width : 120px;
+    height : 120px;
+}
+
+.btn-action {
+    margin-right: 10px;
+}
+
+hr {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}

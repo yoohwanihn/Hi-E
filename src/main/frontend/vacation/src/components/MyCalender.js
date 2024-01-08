@@ -5,7 +5,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import googleCalendarPlugin from '@fullcalendar/google-calendar';
 import axios from "axios";
-import './Mycalendar.css'
+import 'components/Mycalendar.css'
 
 /**
  * FullCalendar API 사용
@@ -72,67 +72,65 @@ const MyCalendar = ()=> {
   }, []);
 
   return( 
-        <div className="cal-container">
-          <FullCalendar 
-            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, googleCalendarPlugin]}
-            initialView={'dayGridMonth'} // 초기 로드될 때 보이는 캘린더 화면(기본 설정: 달)
-            buttonText= {
-              {
-                today: '오늘',
-                month: '월',
-                week:  '주',
-                day:   '일'
-              }
-            }
-            // 해더에 표시할 툴바
-            headerToolbar={{
-              left: 'prev,next,today', 
-              center: 'title',
-              right: 'dayGridMonth,timeGridWeek,timeGridDay' 
-            }}
-            /* 구글 캘린더 API 추가 */
-            googleCalendarApiKey={apiKey}
-            eventSources = {[
-              // 한국 공휴일 출력을 위한 통합 google Id
-              {
-                googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
-                className: 'ko-event'
-              }
-            ]}
-            /*
-            events={ async (info, successCallback, failureCallback)=>{
-              const eventResult = await axios({
-                method: "POST",
-                url: "/eventData"
-              })
-              const eventData = eventResult.data;
+      <FullCalendar 
+        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, googleCalendarPlugin]}
+        initialView={'dayGridMonth'} // 초기 로드될 때 보이는 캘린더 화면(기본 설정: 달)
+        buttonText= {
+          {
+            today: '오늘',
+            month: '월',
+            week:  '주',
+            day:   '일'
+          }
+        }
+        // 해더에 표시할 툴바
+        headerToolbar={{
+          left: 'prev,next,today', 
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay' 
+        }}
+        /* 구글 캘린더 API 추가 */
+        googleCalendarApiKey={apiKey}
+        eventSources = {[
+          // 한국 공휴일 출력을 위한 통합 google Id
+          {
+            googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
+            className: 'ko-event'
+          }
+        ]}
+        /*
+        events={ async (info, successCallback, failureCallback)=>{
+          const eventResult = await axios({
+            method: "POST",
+            url: "/eventData"
+          })
+          const eventData = eventResult.data;
 
-              const eventArray = [];
-              eventData.forEach((res)=>{
-                eventArray.push({
-                  title: res.title,
-                  start: res.start,
-                  end: res.end
-                })
-              })
-              successCallback(eventArray);
-            }}
-            */
-            eventDisplay={'block'}
-            eventClick={handleEventClick}
-            editable={true}
-            selectable={true} // 달력 일자 드래그 설정가능
-            dayMaxEvents={true} // 일정이 오버되면 높이 제한 +더보기 나오는 기능
-            select={handleDateSelect}
-            height={"85vh"}
-            locale={'ko'} // 한국어 설정
-            // eventContent={renderEventContent} // 일정 제목 커스텀
-            // eventChange={function(){}} // 이벤트가 수정되면 발생하는 이벤트
-            // 서버에서 출력은 되지만 날짜가 같이 입력됨. 수정해야함
-            // events={eventdata.map((title) => 
-            //   ({ title, start: '2023-12-10', end: '2023-12-13' }))} // 동적으로 불러온 데이터를 사용
-          />
-        </div>
+          const eventArray = [];
+          eventData.forEach((res)=>{
+            eventArray.push({
+              title: res.title,
+              start: res.start,
+              end: res.end
+            })
+          })
+          successCallback(eventArray);
+        }}
+        */
+        eventDisplay={'block'}
+        eventClick={handleEventClick}
+        editable={true}
+        selectable={true} // 달력 일자 드래그 설정가능
+        dayMaxEvents={true} // 일정이 오버되면 높이 제한 +더보기 나오는 기능
+        select={handleDateSelect}
+        height={"85vh"}
+        locale={'ko'} // 한국어 설정
+        // eventContent={renderEventContent} // 일정 제목 커스텀
+        // eventChange={function(){}} // 이벤트가 수정되면 발생하는 이벤트
+        // 서버에서 출력은 되지만 날짜가 같이 입력됨. 수정해야함
+        // events={eventdata.map((title) => 
+        //   ({ title, start: '2023-12-10', end: '2023-12-13' }))} // 동적으로 불러온 데이터를 사용
+      />
     )
 }
 
