@@ -22,7 +22,7 @@ repositories {
 }
 
 /* 통합 build 시 필요한 설정 ( React와 Spring 동시 build ) */
-def reactDir = "$projectDir/src/main/frontend/vacation";
+def reactDir = "$projectDir/src/main/frontend";
 
 sourceSets{
 	main{
@@ -37,8 +37,8 @@ processResources{
 }
 
 task installReact(type:Exec){
-	workingDir "$reactDir"
-	inputs.dir "$reactDir"
+	workingDir "$frontendDir"
+	inputs.dir "$frontendDir"
 	group = BasePlugin.BUILD_GROUP
 	
 	if(System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')){
@@ -52,8 +52,8 @@ task installReact(type:Exec){
 
 task buildReact(type:Exec){
 	dependsOn "installReact"
-	workingDir "$reactDir"
-	inputs.dir "$reactDir"
+	workingDir "$frontendDir"
+	inputs.dir "$frontendDir"
 	group = BasePlugin.BUILD_GROUP
 	
 	if(System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')){
@@ -65,7 +65,7 @@ task buildReact(type:Exec){
 
 task copyReactBuildFiles(type:Copy){
 	dependsOn "buildReact"
-	from "$reactDir/build"
+	from "$frontendDir/build"
 	into "$projectDir/src/main/resources/static"
 }
 
