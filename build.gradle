@@ -4,6 +4,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.1.0'
 }
 
+
 group = 'com.hi_e'
 version = '0.0.1-SNAPSHOT'
 
@@ -19,54 +20,6 @@ configurations {
 
 repositories {
 	mavenCentral()
-}
-
-/* 통합 build 시 필요한 설정 ( React와 Spring 동시 build ) */
-def reactDir = "$projectDir/src/main/frontend";
-
-sourceSets{
-	main{
-		resources{
-			srcDirs = ["$projectDir/src/main/resources"]
-		}
-	}
-}
-
-processResources{
-	dependsOn "copyReactBuildFiles"
-}
-
-task installReact(type:Exec){
-	workingDir "$frontendDir"
-	inputs.dir "$frontendDir"
-	group = BasePlugin.BUILD_GROUP
-	
-	if(System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')){
-		commandLine "npm.cmd", "audit", "fix"
-		commandLine 'npm.cmd', 'install'
-	}else{
-		commandLine "npm", "audit", "fix"
-		commandLine 'npm', 'install'
-	}
-}
-
-task buildReact(type:Exec){
-	dependsOn "installReact"
-	workingDir "$frontendDir"
-	inputs.dir "$frontendDir"
-	group = BasePlugin.BUILD_GROUP
-	
-	if(System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')){
-		commandLine "npm.cmd", "run-script", "build"
-	}else{
-		commandLine "npm", "run-script", "build"
-	}
-}
-
-task copyReactBuildFiles(type:Copy){
-	dependsOn "buildReact"
-	from "$frontendDir/build"
-	into "$projectDir/src/main/resources/static"
 }
 
 dependencies {
@@ -103,10 +56,59 @@ dependencies {
 	implementation('commons-io:commons-io:2.11.0')
 }
 
+/* 통합 build 시 필요한 설정 ( React와 Spring 동시 build ) */
+def ReactDir = "$projectDir/src/main/frontend/vacation";
+
+sourceSets{
+	main{
+		resources{
+			srcDirs = ["$projectDir/src/main/resources"]
+		}
+	}
+}
+
+processResources{
+	dependsOn "copyReactFile"
+}
+
+task installReact(type:Exec){
+	workingDir "$ReactDir"
+	inputs.dir "$ReactDir"
+	group = BasePlugin.BUILD_GROUP
+	
+	if(System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')){
+		commandLine "npm.cmd", "audit", "fix"
+		commandLine 'npm.cmd', 'install'
+	}else{
+		commandLine "npm", "audit", "fix"
+		commandLine 'npm', 'install'
+	}
+}
+
+task buildReact(type:Exec){
+	dependsOn "installReact"
+	workingDir "$ReactDir"
+	inputs.dir "$ReactDir"
+	group = BasePlugin.BUILD_GROUP
+	
+	if(System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')){
+		commandLine "npm.cmd", "run-script", "build"
+	}else{
+		commandLine "npm", "run-script", "build"
+	}
+}
+
+task copyReactFile(type:Copy){
+	dependsOn "buildReact"
+	from "$ReactDir/build"
+	into "$projectDir/src/main/resources/static"
+}
+
+// test를 빌드하지 못하는 에러가 있음
 tasks.named('bootBuildImage') {
-	builder = 'paketobuildpacks/builder-jammy-base:latest'
+builder = 'paketobuildpacks/builder-jammy-base:latest'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+useJUnitPlatform()
 }
