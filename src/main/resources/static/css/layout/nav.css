@@ -1,43 +1,75 @@
-.Nav {
-  float: left;
-  height: 100vh; /* 화면 세로 길이에 맞게 설정 */
-  width: 250px;
-  background-color: rgb(255, 255, 255);
-  font-family: 'NanumBarunGothic', 'serif'; 
-  font-weight: normal ;
-  overflow-y: auto;
+/* 공통 스타일 */
+.Nav,
+.Nav ul,
+.Nav li,
+.Nav a {
+  box-sizing: border-box;
 }
 
-ul {
+/* 네비게이션 바 전체 스타일 */
+.Nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 200px;
+  overflow-x: hidden;
+  padding-top: 20px;
+  background-color: #fff;
+  font-family: 'NanumBarunGothic', 'serif';
+}
+
+/* 로고 스타일 */
+.Nav_logo {
+  width: 100%; /* 200px로 고정되어 있는데 꽉 차게 수정 */
+  height: auto;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+/* 리스트 아이템 공통 스타일 */
+.Nav-li {
   list-style: none;
-  margin: 0;
-  padding: 13px 0px;
+  margin-bottom: 10px;
+}
+
+/* 링크 스타일 */
+.Nav-li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  font-size: 16px;
+  display: block;
+  padding: 10px;
+  width: calc(100% - 20px); /* 좀 더 조정 */
+  box-sizing: border-box;
+  transition: background-color 0.3s ease; /* 부드러운 효과 추가 */
+}
+
+/* 링크 호버 스타일 */
+.Nav-li:hover {
+  background-color: #e9ecef;
+}
+
+/* 서브메뉴 스타일 */
+.Nav-submenu {
+  display: none;
+  padding-left: 20px;
+}
+
+.Nav-li:hover .Nav-submenu {
   display: block;
 }
 
-a {
-  color: rgb(0, 0, 0);
-  display: inline-block;
-  width: calc(100% - 40px);
-  font-size: 16px;
+/* 서브메뉴 아이템 스타일 */
+.Nav-ul a {
+  font-size: 13px;
 }
-.Nav_header {
-  height: 106px;
-  overflow: hidden;
-}
-.Nav_logo {
-  width: 156px;
-  height: auto;
-  box-sizing: border-box;
-  position: relative;
-  left: calc(50% - 88px);
-  top: calc(50% - 13px);
-  cursor: pointer;
-}
-.Nav-li {
-  padding-left: 40px;
-  padding-top: 15px;
-  padding-bottom: 15px;
+
+/* 구분선 스타일 */
+.sidebar-divider {
+  border-top: 1px solid #eaecf4;
+  margin: 0 1rem 1rem;
 }
 @font-face {
     font-family: 'NanumBarunGothic';
@@ -52,8 +84,7 @@ a {
     position: fixed;
     top: 0;
     left: 0;
-    overflow-x: hidden;
-    padding-top: 20px;
+    overflow-y: auto
 }
 
 .Nav_logo {

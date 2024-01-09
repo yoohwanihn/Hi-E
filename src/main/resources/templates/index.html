@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>(OFFLINE) My Community</title>
+    <style type='text/css'>
+    </style>
+    <script type='text/javascript' src='//files.jcink.net/html/jquery-1.7.2.min.js'></script>
+    <script type='text/javascript' src='//files.jcink.net/html/jquery.cookie-1.3.1.js'></script>
+
+    <script type='text/javascript' src='//files.jcink.net/html/catcollapse.js'></script>
+
+    <!-- 폰트 -->
+    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Symbols+Outlined|Material+Icons+Round"
+        rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- 뷰포트 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- Import Fonts Below -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Poppins:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- 커스텀 스타일-->
+    <script src="/js/index/index.js"></script>
+    <link href="/css/index/index.css" rel="stylesheet">
+    <link href="/css/layout/nav.css" rel="stylesheet">
+
+</head>
+
+<!-- FONT AWESOME PSEUDO ELEMENTS -->
+<style>
+    .rec-date:nth-of-type(even):before {
+        font-family: "Material Symbols Outlined";
+        content: '\e87d';
+        margin: 2px;
+        font-size: 9px;
+        background: var(--ggradient) !important;
+        -webkit-background-clip: text !important;
+        color: transparent !important;
+        -webkit-box-decoration-break: clone !important;
+    }
+</style>
+
+<body id="idx" class="group-10">
+	<!-- <div th:replace="nav :: nav"></div> -->
+    <div id="wrapper">
+        <!-- TOP STICKY navi -->
+        <div class="al-top-navi">
+            <img th:src="@{${member.filepath == null ? member.picture : '/upload/' + member.picture}}">
+			<h1 class="gradient"><a href="/index">부서명 | [[${member.ename}]]</a></h1>
+
+            <!-- naviigation -->
+            <div class="usernaviigation">
+                <!-- User Links -->
+                <div class="m-4">
+                    <!-- 다크모드 -->
+                    <a href="#" id="toggleColor" title="다크모드">
+                        <i class="lnr lnr-sun"></i></a>
+
+                    <!-- 인사카드 관리 -->
+                    <a href="/index" title="인사카드 관리"><i class="material-symbols-outlined">group</i></a>
+
+                    <a href='/mypage' title='비밀번호 변경'>
+                        <i class="material-symbols-outlined">settings</i></a>
+
+                    <!-- 회원 탈퇴 -->
+                    <a href="/mypage" target="_blank" class="hide4 acp-1" title="마이 페이지">
+                        <i class="material-symbols-outlined">priority_high</i></a>
+
+                    <!-- LOGOUT -->
+                    <a href="/view/remove" title='회원탈퇴'><i
+                            class="material-symbols-outlined">logout</i></a>
+                </div>
+
+                <!-- Guest Links -->
+                <div class="g-4" style="display: none;">
+                    <!-- REGISTER -->
+                    <a href='/index.php?act=Reg&CODE=00' title="register">
+                        <i class="material-icons">menu_book</i>
+                    </a>
+
+                    <!-- LOGIN -->
+                    <a href='/index.php?act=Login&CODE=00' title="sign in">
+                        <i class="material-icons">menu_book</i>
+                    </a>
+                </div>
+            </div>
+
+
+            <div class="al-top-navil">
+                <div id='navistrip' align='left'>&nbsp;<a href='https://github.com/yoohwanihn/Hi-E/'>Github</a></div>
+                <br />
+                <br />
+            </div>
+        </div>
+
+
+        <!-- BANNER -->
+        <div id="al-banner">
+            <al-ban-decal><i class="material-icons gradient">hotel_class</i></al-ban-decal>
+            <al-bannerpic
+                style="background:url('https://i.ibb.co/b2rn5Sp/sonder-quest-VE9p-Ib8-QNQ4-unsplash.png');"></al-bannerpic>
+            <div class="al-banner-right">
+                <al-topbanbox>
+                    <h1 class="gradient">Hi-E</h1>
+                    <h2>최적의 <b class="gradient">인사관리 </b> 업무체계의 <b class="gradient">효율화</b></h2>
+                    <h2><b class="gradient">여기다가 </b> 저기다가 <b class="gradient">어쩌다가</b> 밥먹다가 <b class="gradient"> 그렇다가 </b> </h2>
+                    <h2>뭐가 <b class="gradient"> 어쩌고 </b> 저쩌고 <b class="gradient"> 하면됨  </b></h2>
+                </al-topbanbox>
+                <al-botbanbox>
+                    <b>Hi-E는 기업의 인사 관리 및 인력 자원을 효과적으로 관리하기 위한 통합 솔루션으로, 인사 관리, 근태 관리, 휴가 평가, 출결 관리 등 다양한 기능을 제공합니다. <br>
+                        Hi-E는 기업 내 모든 부문을 통합하여 데이터를 관리하고, 실시간으로 정보를 제공하여 의사 결정을 지원합니다.
+                </al-botbanbox>
+            </div>
+            <div class="al-modal-list">
+                유환인
+                <a href="https://github.com/yoohwanihn">
+                    <img src="https://avatars.githubusercontent.com/u/73772238?v=4" alt="이미지 없음">
+                </a>
+                박준영
+                <a href="https://github.com/jpark1125">
+                    <img src="https://avatars.githubusercontent.com/u/130987441?v=4" alt="이미지 없음">
+                </a>
+                최민지
+                <a href="https://github.com/minji856">
+                    <img src="https://avatars.githubusercontent.com/u/144756912?v=4" alt="이미지 없음">
+                </a>
+            </div>
+        </div>
+
+        <div style="display:none;">
+            <script language='JavaScript' type="text/javascript">
+                function buddy_pop() { window.open('index.php?act=buddy&s=','BrowserBuddy','width=250,height=500,resizable=yes,scrollbars=yes'); }
+                function chat_pop(cw,ch)  { window.open('index.php?s=&act=chat&pop=1','Chat','width='+cw+',height='+ch+',resizable=yes,scrollbars=yes'); }
+                function multi_page_jump( url_bit, total_posts, per_page )
+                {
+                pages = 1; cur_st = parseInt(""); cur_page  = 1;
+                if ( total_posts % per_page == 0 ) { pages = total_posts / per_page; }
+                 else { pages = Math.ceil( total_posts / per_page ); }
+                msg = "Please enter a page number to jump to between 1 and" + " " + pages;
+                if ( cur_st > 0 ) { cur_page = cur_st / per_page; cur_page = cur_page -1; }
+                show_page = 1;
+                if ( cur_page < pages )  { show_page = cur_page + 1; }
+                if ( cur_page >= pages ) { show_page = cur_page - 1; }
+                 else { show_page = cur_page + 1; }
+                userPage = prompt( msg, show_page );
+                if ( userPage > 0  ) {
+                    if ( userPage < 1 )     {    userPage = 1;  }
+                    if ( userPage > pages ) { userPage = pages; }
+                    if ( userPage == 1 )    {     start = 0;    }
+                    else { start = (userPage - 1) * per_page; }
+                    window.location = url_bit + "&st=" + start;
+                }
+                }
+                
+                Collapse="<img alt='Collapse' title='Collapse' src='https://files.jcink.net/themes/default/cat-collapse.png' />"
+                Expand="<img alt='Expand' title='Expand' src='https://files.jcink.net/themes/default/cat-expand.png' />"
+                
+                
+                
+                //-->
+            </script>
+
+            <!--IBF.BANNER-->
+            <div id='logostrip'>
+                <a href='https://lumiesq.jcink.net/index.php?' title='Board Home'></a>
+            </div>
+            <!-- IE6/Win TABLE FIX -->
+            <table width="100%" cellspacing="6" id="submenu">
+                <tr>
+                    <td><a href='index.php'>Home</a><!--IBF.RULES--></td>
+
+                    <td align="right">
+
+                        <img src="https://files.jcink.net/style_images/1/atb_help.gif" border="0" alt="" />&nbsp;<a
+                            href='https://lumiesq.jcink.net/index.php?act=Help'>Help</a>&nbsp; &nbsp;&nbsp;<img
+                            src="https://files.jcink.net/style_images/1/atb_search.gif" border="0" alt="" />&nbsp;<a
+                            href='https://lumiesq.jcink.net/index.php?act=Search&amp;f='>Search</a>&nbsp;
+                        &nbsp;&nbsp;<img src="https://files.jcink.net/style_images/1/atb_members.gif" border="0"
+                            alt="" />&nbsp;<a href='https://lumiesq.jcink.net/index.php?act=Members'>Members</a>&nbsp;
+                        &nbsp;&nbsp;<img src="https://files.jcink.net/style_images/1/atb_calendar.gif" border="0"
+                            alt="" />&nbsp;<a href='https://lumiesq.jcink.net/index.php?act=calendar'>Calendar</a>&nbsp;
+                        &nbsp;&nbsp;<img src='https://files.jcink.net/style_images/1/atb_shoutbox.gif'
+                            border='0' />&nbsp;<a href='https://lumiesq.jcink.net/index.php?&act=Shoutbox'>Shoutbox</a>
+
+                        <!--IBF.CHATLINK-->
+                        <!--IBF.TSLLINK-->
+                    </td>
+
+
+                </tr>
+            </table>
+
+           
+
+            <br />
+        </div>
+
+        <div class='newstext'>
+            <div align='left' style='text-align:left;padding-bottom:4px'>
+                <b>My Community latest news: <a href='https://lumiesq.jcink.net/index.php?showtopic=2'>Pinned
+                        Topic</a></b><br /><span>Welcome back; your last visit was on Yesterday at 06:57 pm</span>
+            </div>
+        </div><br><br><br><br>
+
+        <!-- 공지사항 -->
+        <div class="al-new-main">
+            <div class="al-new-main-insta" style="min-width: 80%;background:none;box-shadow:none;border:none;">
+                <div class="al-newtr-stats" style="border-radius: 20px;">
+                    <div class="bs-2day-who-list" style="justify-content: flex-start;flex: 0;"><span
+                            style="min-width: auto; background: none; box-shadow: none;"></span></div>
+                    <h1
+                        style="flex: 2;display: flex;justify-content: center; box-shadow: none;background: var(--ggradient)!important;-webkit-background-clip: text!important;color: transparent!important;-webkit-box-decoration-break: clone!important; font-size: 30px;">
+                        공지사항</h1>
+                    <i class="material-symbols-outlined" style="margin-right: 10px;">equalizer</i>
+
+
+                </div>
+                <div class="al-newtr-playlist">
+                    <ol>
+                        <li>
+                            <al-play-1>
+                                <h1>공지사항 제목1</h1>
+                                <b>글쓴이</b>
+                            </al-play-1>
+                            <i class="ph ph-heart-straight"></i>
+                        </li>
+                        <li>
+                            <al-play-1>
+                                <h1>공지사항 제목1</h1>
+                                <b>글쓴이</b>
+                            </al-play-1>
+                            <i class="ph ph-heart-straight"></i>
+                        </li>
+
+                        <li>
+                            <al-play-1>
+                                <h1>공지사항 제목1</h1>
+                                <b>글쓴이</b>
+                            </al-play-1>
+                            <i class="ph ph-heart-straight"></i>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- 슬로건 -->
+            <div class="al-new-main-quote">
+                <div style="flex:2;padding:10px;margin:0px 10px;position: relative;"><al-mainp-decal><i
+                            class="ph-thin ph-potted-plant"></i></al-mainp-decal>
+                    <div class="al-new-main-quote-inner">
+                        <i class="ph-fill ph-quotes" style="transform: rotate(185deg);"></i>
+                        <span>아직 부족하지만 지속적으로 발전해나가는<br> Hi-E 되겠습니다.</span><i class="ph-fill ph-quotes"
+                            style="transform: rotate(5deg); top: auto; bottom: 0; right: 0; left: auto;"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Good, Bad-->
+            <div class="al-new-main-personality">
+                <pcol1>
+                    <h1><i class="ph ph-check-circle"></i> <i class="ph ph-mask-happy"></i> GOOD</h1>
+                    <ol>
+                        <li>열심히 만듬</li>
+                        <li>꾸준히 개선</li>
+                        <li>이거로 밥먹고 살아야함</li>
+                        <li>아무튼 작동은 함</li>
+                    </ol>
+                </pcol1>
+
+                <pcol2>
+                    <h1><i class="ph ph-x-circle"></i> <i class="ph ph-mask-sad"></i> BAD</h1>
+                    <ol>
+                        <li>기능의 부족</li>
+                        <li>초보라 테스트 별로 못함</li>
+                        <li>부족한 개발기간</li>
+                    </ol>
+                </pcol2>
+            </div>
+
+            <!-- news -->
+            <div class="al-newfs-cont">
+                <newfs-col1>
+                    <div class="al-mainp-warn">
+                        <i class="material-symbols-outlined">
+                            warning</i>
+                        Hi-E: <b>중소벤처기업용 <br><br>인사관리프로그램 제공</b>
+                    </div>
+                </newfs-col1>
+                <newfs-col2>
+                    <b>(주)이카운트(www.Hi-E.com 대표이사 유환인)는 중소벤처기업이 <i>인사관리</i>를 유리하게 활용할 수 있도록 이전의 
+                        일반 중소벤처에서 활용하는 방식과는 다른 인사시스템을 중심으로 한 <i>‘Hi-E 서비스’</i>를 
+                        제공하고 있다.
+                    </b>
+                    <p>
+                        이 서비스는 초기 방문기장 단계에는 Hi-E 회사 직원이 직접 나가 설정을 해주고
+
+
+                        Hi-E 측은 “이런 과정을 2∼6개월 정도 거치면 왠만한 회사들은 자체적으로 인사를 관리할 수 있으며 그 후 회계사의 지원하에 자체 입력사항을 점검받으면 일정 기간 후 자체관리가 가능하다”고 밝혔다.
+
+
+                        또한 “이 프로그램은 회계세무대행을 외부에 맡김으로써 자체관리를 하고 있지 않은 중소벤처기업에서 적은 비용으로 보다 빠른 시간내에 자체관리 체계를 만들 수 있도록 하는 데 초점”을 맞췄다고 덧붙였다.
+
+
+                        Hi-E는 공인회계사들이 주축이 되어 설립된 회사로 기업용 회계프로그램을 인터넷상에서 최초로 개발해 화제를 모으기도 했다.
+
+
+                        서비스 요금은 방문기장 20만원, 지원지도서비스 7만원, 완전자체기장시에는 2만원의 프로그램 사용료만 내면 된다.
+
+                    </p>
+                </newfs-col2>
+            </div>
+        </div>
+        <!-- 생일 명단 -->
+
+        <div class="al-board-content">
+            <div class="c-1 al-cat-wrap">
+                <div class="al-board-content"> <br />
+                    <div class="al-bsn-wrap">
+                        <div class="al-bs-links">
+                            <h1>Happy Birth Day </h1>
+                        </div>
+                        <div class="al-bs-2day-who">
+                            <h1><i class="lnr lnr-heart"></i> <b></b> 금월 생일자</h1>
+                            <div class="bs-2day-who-list">
+                                <span><i class="material-icons">group</i> <b>1</b> users</span>
+                            </div>
+                        </div>
+                        <div class="al-bs-2day">
+                            <div style="flex:1;">
+                                이름적어
+                                
+                            </div>
+                        </div>
+                        
+                        <div class="al-bs-flex">
+                            <div style="display: flex;flex-direction: column;flex: .5;">
+                                <div class="al-bs-stat">
+                                    <joindecal><i class="material-icons gradient">hotel_class</i></joindecal>
+                                    <h1 class="gradient">Hi-E. <sub>welcome to,</sub></h1>
+                                </div>
+                            </div>
+                            <div
+                                style="flex: 1;margin-left: 40px;display: flex;flex-wrap: wrap;flex-direction: column;">
+                                <now-header> <span><b>1</b> Happy Birth Day</span></now-header>
+                                <div class="al-bs-now">
+                                    <div class="now-scroll">
+                                        <a title='Last Active: Today'>1월은 새로운 시작과 활기를 나타내는 달입니다. 많은 문화와 전통에서 1월은 새해의 시작을 의미하며, 새로운 목표를 세우고 계획을 세우는 시기로 여겨집니다. 
+                                            캘린더의 첫 달로서, 1월은 새로운 365일의 여정이 시작되는 출발점이며, 많은 사람들은 새로운 희망과 변화를 기대하며 이 달을 맞이합니다.
+                                        1월에 생일을 맞이하신 분들도 새로운 시작과 활기를 잘 느끼시길 바랍니다.</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <br />
+                    
+                    <div class="lumicred-bot">
+                        <div style="display: flex;flex-wrap: wrap;flex-direction: row;align-items: center;">
+                            <h2>designed by Hi-E. <b>@ Hi-E.com</b></h2>
+                            <!-- Copyright 정보 -->
+
+                            <div align='center' class='tableborder'>
+                                <div class='row4'
+                                    style='font-size: 7.5pt; padding-top: 1px; padding-bottom: 1px; line-height: 8pt;'>
+                                    <div align='center' class='copyright'>Powered by <a
+                                            href="https://www.invisionboard.com" target='_blank'>Invision Power
+                                            Board</a> (<a href="http://jcink.com" target="_blank">Jcink.com </a> <a
+                                            href="https://jcink.com" target="_blank">Forum Hosting</a>) &copy; 2024
+                                        &nbsp;<a href='https://www.invisionpower.com' target='_blank'>IPS, Inc.</a>
+                                        <br />Page creation time: 0.0643  &middot;
+                                        <a href='/index'>Mobile Version</a> &middot; <a
+                                            href='/index'>Privacy Policy</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <script src='//files.jcink.net/html/quickedit/qe.js?v=1.01'></script>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <!-- TOOLTIPS -->
+                <script src="https://static.tumblr.com/iuw14ew/VSQma1786/jquery.style-my-tooltips.js"></script>
+                <script type="text/javascript" src="https://static.tumblr.com/kmw8hta/NaEnnqkxd/tooltip.js"></script>
+
+                <script defer>
+                    $("#recent-topics").appendTo("#recentPostsTopics");
+                    $(document).ready(function () {
+
+                        var button = document.getElementById("toggleColor");
+                        var htmlElement = document.getElementsByTagName("html")[0];
+
+
+                        function modeSelect() {
+                            if (htmlElement.classList == "lightMode") {
+                                button.getElementsByTagName("I")[0].classList = "lnr lnr-moon";
+                                localStorage.setItem("mode", "lightMode");
+                            }
+
+                            else {
+                                button.getElementsByTagName("I")[0].classList = "lnr lnr-sun";
+                                localStorage.setItem("mode", "darkMode");
+                            }
+                        }
+
+                        if (typeof (Storage) !== "undefined" && localStorage.getItem("mode") !== null) {
+                            htmlElement.classList = localStorage.getItem("mode");
+                            modeSelect();
+                        }
+                        else {
+                            htmlElement.classList = "lightMode";
+                            modeSelect();
+                        }
+
+                        /** 다크모드 토글 **/
+                        button.addEventListener("click", function () {
+
+                            if (htmlElement.classList == "lightMode") {
+                                htmlElement.classList.remove("lightMode");
+                                htmlElement.classList.add("darkMode");
+                                modeSelect();
+                            }
+                            else {
+                                htmlElement.classList.add("lightMode");
+                                htmlElement.classList.remove("darkMode");
+                                modeSelect();
+                            }
+                        });
+						/* 모달창 */
+                        $('.modal').on("click", function () {
+                            // 모달 선택
+                            var page = $(this).data("modal");
+
+                            // limit scope of selection for posts
+                            var select = $(this).parent().parent().parent().find($(page));
+
+                            // remove the active class from other modals
+                            $(this).parent().parent().parent().find(".active").removeClass("active");
+
+                            // make the current modal active
+                            $(select).addClass("active");
+                            $(this).addClass("activel").siblings().removeClass("activel");
+
+                            //launch backup box for optional closure
+                            if ($(this).parents("navi")) {
+                                document.getElementById("modalBG").style.display = "block";
+                            }
+
+                            // Close the Modal if the background is clicked
+                            document.getElementById("modalBG").addEventListener("click", function () {
+                                var test = $(this);
+                                $("navi").find("div").removeClass("active");
+                                $("navi").find("li").removeClass("activel");
+                                $(this).css("display", "none");
+                            });
+                        });
+
+
+                        $(".toggleSub").click(function () {
+                            $(this).parent().parent().find('.subToggle').toggleClass("showSub");
+                            $(this).parent().parent().find('.lastPoster').toggleClass("showLP");
+                        });
+
+                    });
+
+                    /****************
+                    * CAROUSEL SCRIPT
+                    * @Author: W3Schools
+                    * @Modified by: Timelapse
+                    *************************/
+
+                    var slideIndex = 1;
+                    var ancestor = event.target.parentNode.parentNode;
+                    showSlides(slideIndex, ancestor);
+
+                    function plusSlides(n) {
+
+                        var ancestor = event.target.parentNode.parentNode;
+                        showSlides(slideIndex += n, ancestor);
+
+
+                    }
+
+                    function currentSlide(n) {
+                        var ancestor = event.target.parentNode.parentNode;
+                        showSlides(slideIndex = n, ancestor);
+                    }
+
+                    function showSlides(n, ancestor) {
+                        var i;
+                        var slides = ancestor.getElementsByClassName("carouselSlide");
+
+                        if (n > slides.length) { slideIndex = 1 }
+
+                        if (n < 1) { slideIndex = slides.length }
+
+                        for (i = 0; i < slides.length; i++) {
+                            slides[i].style.opacity = "0";
+                        }
+
+                        slides[slideIndex - 1].style.opacity = "1";
+
+                    }
+
+                </script>
+            </div>
+</body>
+
+</html>
