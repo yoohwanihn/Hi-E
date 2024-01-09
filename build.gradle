@@ -103,12 +103,3 @@ task copyReactFile(type:Copy){
 	from "$ReactDir/build"
 	into "$projectDir/src/main/resources/static"
 }
-
-// test를 빌드하지 못하는 에러가 있음
-tasks.named('bootBuildImage') {
-builder = 'paketobuildpacks/builder-jammy-base:latest'
-}
-
-tasks.named('test') {
-useJUnitPlatform()
-}

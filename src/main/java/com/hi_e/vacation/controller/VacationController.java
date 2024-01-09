@@ -1,5 +1,6 @@
 package com.hi_e.vacation.controller;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class VacationController {
 	
 	private final VacationService vacationService;
@@ -19,6 +21,6 @@ public class VacationController {
 		vacationService.insertVacation(vacation);
 		
 		System.out.println(vacation);
-		return "redirect:/vacation";
+		return "성공";
 	}
 }

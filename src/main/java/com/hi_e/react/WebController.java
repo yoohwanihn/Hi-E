@@ -12,6 +12,7 @@ public class WebController {
 	// forward 로 무조건 넘겨줘야 함
     @GetMapping(value =  {"", "/vacation","/calendar"})
     public String forward() {
-        return "forward:/index.html";
+    	System.out.println("React 페이지");
+        return "forward:/build/index.html";
     }
 }

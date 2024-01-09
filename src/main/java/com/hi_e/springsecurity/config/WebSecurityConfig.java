@@ -46,20 +46,18 @@ public class WebSecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable()) // token을 사용하는 방식이기 때문에 csrf disable
-				
-				.authorizeHttpRequests(request -> request.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-						.requestMatchers("/status", "/img/**","/auth/join", "/css/**", "/js/**", "vendor/**", 
-								"/view/forgot-password", "/sendEmail", "/send_email", "/h2-console/**")
-						.permitAll() // 인증 필요없이 나올 사이트
-						// 테스트를 위해 h2-console도 열어두자. 배포할때 지우기!
-						// 이미지 폴더의 이미지와 회원가입 페이지는 로그인 전에도 접근할 수 있어야 하기 때문이다.
-						
-						.requestMatchers("/view/login", "/view/join", "/view/service-agree").anonymous() 
-						// 인증 안한 유저만 접근 가능
-						
-						.anyRequest().authenticated() // 그 외의 모든 사이트는 어떠한 요청이라도 인증필요
-
-				)
+			.authorizeHttpRequests(request -> request.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+			.requestMatchers("/status", "/img/**","/auth/join", "/css/**", "/js/**", "vendor/**", 
+					"/view/forgot-password", "/sendEmail", "/send_email", "/h2-console/**")
+			.permitAll() // 인증 필요없이 나올 사이트
+			// 테스트를 위해 h2-console도 열어두자. 배포할때 지우기!
+			// 이미지 폴더의 이미지와 회원가입 페이지는 로그인 전에도 접근할 수 있어야 하기 때문이다.
+			
+			.requestMatchers("/view/login", "/view/join", "/view/service-agree").anonymous() 
+			// 인증 안한 유저만 접근 가능
+			
+			.anyRequest().authenticated() // 그 외의 모든 사이트는 어떠한 요청이라도 인증필요
+			)
 
 				/* 폼로그인 처리 */
 				.formLogin(login -> login.loginPage("/view/login") // 커스텀 로그인 페이지 지정

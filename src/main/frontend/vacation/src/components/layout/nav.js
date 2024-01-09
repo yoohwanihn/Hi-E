@@ -31,10 +31,10 @@ const nav = () => {
 	            <li className="Nav-li">
 	                <a href="#">일정</a>
 	                <ul className="Nav-submenu">
-	                    <li className="Nav-ul"><a href="@{/event}">근무일정관리</a></li>
+	                    <li className="Nav-ul"><Link to="/calendar">근무일정관리</Link></li>
 	                    <li className="Nav-ul"><a href="#">출퇴근/근태현황</a></li>
 	                    <a href="#">휴가</a>
-	                    <li className="Nav-ul"><a href="@{/api/vac}">휴가신청</a></li>
+	                    <li className="Nav-ul"><Link to="/vacation">휴가신청</Link></li>
 	                </ul>
 	            </li>
 	            <li className="Nav-li">

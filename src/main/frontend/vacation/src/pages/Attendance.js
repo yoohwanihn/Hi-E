@@ -1,5 +1,4 @@
 import React , { useState, useEffect }from 'react';
-// import '../../utils/css/sb-admin-2.css';
 
 const Attendance = () => {
     const [currentTime, setCurrentTime] = useState(new Date());
