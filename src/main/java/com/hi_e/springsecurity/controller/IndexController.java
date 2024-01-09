@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.hi_e.posts.entity.Posts;
 import com.hi_e.posts.service.PostsService;
 import com.hi_e.springsecurity.entity.Member;
 import com.hi_e.springsecurity.service.MemberService;
@@ -17,12 +16,10 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class IndexController {
 	private final MemberService memberService;
-	private final PostsService postsService;
 	
 	@Autowired
-	public IndexController(MemberService memberService, PostsService postsService) {
+	public IndexController(MemberService memberService) {
 		this.memberService = memberService;
-		this.postsService = postsService;
 	}
 	
 	
@@ -30,9 +27,11 @@ public class IndexController {
 	public String index(Model model, HttpSession session) {
 		
 		Member member = memberService.getCurrentLoggedInMember();
+		
 		if(member!=null) {
 			model.addAttribute("member", member);
-			
+			List<Member> januaryBirthday = memberService.getMembersWithJanuaryBirthDay();
+			model.addAttribute("januaryBirthdays", januaryBirthday);
 	        return "index";
 		}
 		

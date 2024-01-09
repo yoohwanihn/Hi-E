@@ -3,13 +3,15 @@ package com.hi_e.springsecurity.service;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -282,4 +284,18 @@ public class MemberService {
 		repository.updateMemberRole(id, newRole);
 	}
 	
+    /**
+	 * 1월생 멤버들을 리턴하는 메서드
+	 * @return 1월생 멤버들
+	 */
+    @Transactional
+    public List<Member> getMembersWithJanuaryBirthDay() {
+        List<Member> allMembers = repository.findAllByBirth_dayIsNotNull();
+        
+        SimpleDateFormat monthFormat = new SimpleDateFormat("MM");
+
+        return allMembers.stream()
+                .filter(member -> monthFormat.format(member.getBirth_day()).equals("01"))
+                .collect(Collectors.toList());
+    }
 }

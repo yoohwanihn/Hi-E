@@ -1,5 +1,6 @@
 package com.hi_e.springsecurity.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -79,5 +80,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("SELECT m FROM Member m WHERE m.id = :id AND m.roles = :roles")
     Page<Member> findById(@Param("id")Long id, @Param("roles")Role roles, Pageable pageable);
     
+    @Query("SELECT m FROM Member m WHERE m.birth_day IS NOT NULL")
+    List<Member> findAllByBirth_dayIsNotNull();
     
 }

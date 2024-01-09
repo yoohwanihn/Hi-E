@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>(OFFLINE) My Community</title>
+    <title>Hi-E</title>
     <style type='text/css'>
     </style>
     <script type='text/javascript' src='//files.jcink.net/html/jquery-1.7.2.min.js'></script>
@@ -332,15 +332,19 @@
                         <div class="al-bs-2day-who">
                             <h1><i class="lnr lnr-heart"></i> <b></b> 금월 생일자</h1>
                             <div class="bs-2day-who-list">
-                                <span><i class="material-icons">group</i> <b>1</b> users</span>
+                                <span><i class="material-icons">group</i> <b>[[${januaryBirthdays.size()}]]</b> users</span>
                             </div>
                         </div>
                         <div class="al-bs-2day">
                             <div style="flex:1;">
-                                이름적어
-                                
+                                <div th:if="${januaryBirthdays != null and januaryBirthdays.size() > 0}">
+	                                <tr th:each="januaryBirthday : ${januaryBirthdays}">
+		                                <td th:text="${januaryBirthday.ename}"></td>
+		                            </tr>
+                                </div>
                             </div>
                         </div>
+                        
                         
                         <div class="al-bs-flex">
                             <div style="display: flex;flex-direction: column;flex: .5;">
