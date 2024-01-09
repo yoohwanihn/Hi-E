@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,7 @@ public class AdminController {
         this.memberService = memberService;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin/members")
     public String showMembers(Model model, @PageableDefault(page = 1) Pageable pageable) {
     	Page<MemberJoinDto> members = memberService.getAllMembers(pageable);
@@ -76,6 +78,7 @@ public class AdminController {
         return "redirect:/admin/members";
     }
     
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin/groups")
     public String showGroups() {
     	return "admin/group-mng";

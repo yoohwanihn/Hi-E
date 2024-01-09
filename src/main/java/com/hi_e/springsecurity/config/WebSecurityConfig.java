@@ -63,7 +63,7 @@ public class WebSecurityConfig {
 						.loginProcessingUrl("/login-process") // submit 받을 url
 						.usernameParameter("email") // submit할 아이디
 						.passwordParameter("pw") // submit할 비밀번호
-						.defaultSuccessUrl("/view/dashboard", true) // 성공 시 이동할 페이지
+						.defaultSuccessUrl("/index", true) // 성공 시 이동할 페이지
 						.permitAll())
 
 				/* 폼 로그아웃 처리 */
@@ -76,7 +76,7 @@ public class WebSecurityConfig {
 				.userInfoEndpoint() // OAuth2 로그인 성공 이후 사용자 정보를 가져올 때 설정 담당
 				.userService(customOAuth2UserServicer) // 소셜 로그인 성공시 처리를 담당할 서비스
 				.and().loginPage("/view/login") // 커스텀 로그인 페이지 지정
-				.defaultSuccessUrl("/view/dashboard", true) // 성공 시 이동할 url
+				.defaultSuccessUrl("/index", true) // 성공 시 이동할 url
 				.failureUrl("/view/login?error") // 로그인 실패 시 이동할 페이지, 수정해야함.
 				.and()
 
