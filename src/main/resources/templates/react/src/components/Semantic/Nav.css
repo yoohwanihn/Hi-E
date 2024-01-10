@@ -1,0 +1,50 @@
+.Nav {
+  display: block;
+  height: 100vh; /* 화면 세로 길이에 맞게 설정 */
+  width: 256px;
+  background-color: rgb(255, 255, 255);
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 13px 0px;
+  display: block;
+}
+
+a {
+  color: rgb(0, 0, 0);
+  display: inline-block;
+  width: calc(100% - 40px);
+  font-size: 16px;
+}
+.Nav_header {
+  height: 106px;
+  overflow: hidden;
+}
+.Nav_logo {
+  width: 156px;
+  height: auto;
+  box-sizing: border-box;
+  position: relative;
+  left: calc(50% - 88px);
+  top: calc(50% - 13px);
+  cursor: pointer;
+}
+.Nav-li {
+  padding-left: 40px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+/* .Nav-li::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 4px;
+    background-color: yellow;
+  } */
+/* .Nav-li:focus {
+    font-weight: bold;
+  } */
