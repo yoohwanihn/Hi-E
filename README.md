@@ -3,14 +3,14 @@
 ### 1. 프로젝트 개요
 - 프로젝트 명칭: Hi-E
 - 프로젝트 소개: 스프링부트를 활용한 ERP 인사시스템
-- 개발 인원: 4명
+- 개발 인원: 3명
 - 주요 기능
 	- 폼 로그인 / OAuth 2.0 구글, 네이버, 카카오 로그인 기능
 	- 게시글(사진) 업로드
 	- 게시글 및 사용자 검색 기능
 	- 사용자 프로필, 닉네임, 비밀번호 등 회원정보 수정 기능
    	- FullCalendar API를 통한 근무 일정 등록,수정,삭제 관리
-   	- 휴가 관리 기능
+   	- 휴가 등록 및 관리 기능
    	- 출/퇴근 기록 기능
 - 백엔드 개발 언어: Java
 - 백엔드 개발 환경
@@ -35,6 +35,10 @@
 - 회원가입 시 유효성 검사
 - 게시글(사진) 업로드
 - 게시글 및 사용자 검색 기능
+- 사용자 프로필, 닉네임, 비밀번호 등 회원정보 수정 기능
+- FullCalendar API를 통한 근무 일정 등록,수정,삭제 관리
+- 휴가 등록 및 관리 기능
+- 출/퇴근 기록 기능
 
 [![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=yoohwanihn)](https://github.com/anuraghazra/github-readme-stats)
 
