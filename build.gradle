@@ -1,3 +1,6 @@
+// React 연동했을때
+def frontendDir = "$projectDir/src/main/frontend"
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.0.2'
