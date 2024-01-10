@@ -112,6 +112,11 @@ https://github.com/Envoy-VC/awesome-badges
 
 ### 4. API 설계
 
+![image](https://github.com/yoohwanihn/Hi-E/assets/73772238/b101c5bd-419e-4d12-a355-4d5d011e9fc2)
+![image](https://github.com/yoohwanihn/Hi-E/assets/73772238/b09d9e63-fca1-4fa3-b0ed-e647d7fe0562)
+![image](https://github.com/yoohwanihn/Hi-E/assets/73772238/bc844692-2c3d-4ceb-96b0-8057d4b6052a)
+
+
 <hr>
 
 ### 5. 프로젝트 후기
