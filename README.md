@@ -3,6 +3,8 @@
 ### 1. 프로젝트 개요
 - 프로젝트 명칭: Hi-E
 - 프로젝트 소개: 스프링부트를 활용한 ERP 인사시스템
+- 기획 배경 : 중소기업에게 편리한 인사관리 시스템을 제공해 경제 발전에 기여
+- 기대 효과 : 중소기업의 인사 관리 능력 향상, 필요정보의 공유화가 가능, 정보의 흐름의 일원화
 - 개발 인원: 3명
 - 주요 기능
 	- 유환인 
@@ -90,18 +92,9 @@ https://github.com/Envoy-VC/awesome-badges
 
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white)
 
-
-![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
-
-
-![TYPESCRIPT](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
-
-
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
 
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-
-![Vue.js](https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vue.js&logoColor=4FC08D)
 
 ![BootStrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)
 
