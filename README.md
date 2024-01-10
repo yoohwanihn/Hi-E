@@ -102,6 +102,7 @@ https://github.com/Envoy-VC/awesome-badges
 
 ![MySql](https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white)
 
+<hr>
 
 ### 4. API 설계
 
