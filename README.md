@@ -74,7 +74,6 @@
 > - 사용자의 권한을 BANNED로 금지할 수 있어야 한다.
 > - 페이지네이션이 적용되어야 한다. (멤버 5명)
 > - 이름이나 사번 혹은 권한으로 검색할 수 있도록 한다.
-[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=yoohwanihn)](https://github.com/anuraghazra/github-readme-stats)
 
 #### 그룹관리 기능
 > - 관리자만 접근 가능하여야 한다.
