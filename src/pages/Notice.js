@@ -45,7 +45,7 @@ export default function Notice() {
     try {
       await axios
         .get(
-          `${"http://localhost:2500"}/admin/notice/list`,
+          `${"http://localhost:8484"}/admin/notice/list`,
 
           {
             headers: {
@@ -56,48 +56,49 @@ export default function Notice() {
         )
 
         .then((res) => {
-          console.log("res.data,data", res.data.data.notice);
-          setNoticeList(res.data.data.notice);
-          setCount(res.data.data.cnt[0].cnt);
+          console.log("res.data,data", res.data.notice);
+          setNoticeList(res.data.notice);
+          setCount(res.data.cnt.cnt);
         });
       console.log(noticeList);
     } catch (error) {
-      const response = await axios.get(
-        `${"http://localhost:2500"}/admin/refresh`,
-        {
-          headers: {
-            Authorization: localStorage.getItem("accessToken"),
-          },
-          withCredentials: true,
-        }
-      );
-      if (response.data.popdata.poptext) {
-        swal(response.data.popdata.poptext, { icon: "error" });
-        return;
-      }
-      const newAct = response.data.data.Authorization;
-      console.log("newACT", newAct);
-      localStorage.setItem("accessToken", newAct);
-      dispatch(
-        userSlice.actions.updateAccessToken({
-          Authorization: localStorage.getItem("accessToken"),
-        })
-      );
-      await axios
-        .get(
-          `${"http://localhost:2500"}/admin/notice/list`,
+      // const response = await axios.get(
+      //   `${"http://localhost:8484"}/admin/refresh`,
+      //   {
+      //     headers: {
+      //       Authorization: localStorage.getItem("accessToken"),
+      //     },
+      //     withCredentials: true,
+      //   }
+      // );
+      // if (response.data.popdata.poptext) {
+      //   swal(response.data.popdata.poptext, { icon: "error" });
+      //   return;
+      // }
+      // const newAct = response.data.data.Authorization;
+      // console.log("newACT", newAct);
+      // localStorage.setItem("accessToken", newAct);
+      // dispatch(
+      //   userSlice.actions.updateAccessToken({
+      //     Authorization: localStorage.getItem("accessToken"),
+      //   })
+      // );
+      // await axios
+      //   .get(
+      //     `${"http://localhost:8484"}/admin/notice/list`,
 
-          {
-            headers: {
-              Authorization: localStorage.getItem("accessToken"),
-            },
-            withCredentials: true, // 브라우저가 세션 쿠키를 서버로 전송하도록 함
-          }
-        )
-        .then((res) => {
-          setNoticeList(res.data.data.notice);
-          setCount(res.data.data.cnt[0].cnt);
-        });
+      //     {
+      //       headers: {
+      //         Authorization: localStorage.getItem("accessToken"),
+      //       },
+      //       withCredentials: true, // 브라우저가 세션 쿠키를 서버로 전송하도록 함
+      //     }
+      //   )
+      //   .then((res) => {
+      //     setNoticeList(res.data.notice);
+      //     setCount(res.data.cnt.cnt);
+      //   });
+      console.log("dfs");
     }
   };
   const handlePageChange = (page) => {
@@ -124,7 +125,7 @@ export default function Notice() {
         try {
           await axios
             .post(
-              `${"http://localhost:2500"}/admin/notice/delete`,
+              `${"http://localhost:8484"}/admin/notice/delete`,
               { noticeno: checkedPostNos },
               {
                 headers: {
@@ -146,7 +147,7 @@ export default function Notice() {
             });
         } catch (error) {
           const response = await axios.get(
-            `${"http://localhost:2500"}/admin/refresh`,
+            `${"http://localhost:8484"}/admin/refresh`,
             {
               headers: {
                 Authorization: localStorage.getItem("accessToken"),
@@ -164,7 +165,7 @@ export default function Notice() {
           );
           const response_2 = await axios
             .post(
-              `${"http://localhost:2500"}/admin/notice/delete`,
+              `${"http://localhost:8484"}/admin/notice/delete`,
               { noticeno: checkedPostNos },
               {
                 headers: {
@@ -278,7 +279,7 @@ export default function Notice() {
                   </th>
                   <th>번호</th>
                   <th>제목</th>
-                  <th>등록일</th>
+                  {/* <th>등록일</th> */}
                   <th>작성자</th>
                   <th>조회수</th>
                 </tr>

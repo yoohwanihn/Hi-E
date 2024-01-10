@@ -15,57 +15,58 @@ export default function NoticeWrite() {
   const navigate = useNavigate();
   const location = useLocation();
   const existTitle = location.state?.title;
-  const existContent = location.state?.content;
+  const existContext = location.state?.context;
   const isEdit = location.state?.isEdit;
   const noticeno = location.state?.noticeno;
   console.log("noticeno", location);
   const [title, setTitle] = useState(existTitle || "");
-  const [content, setContent] = useState(existContent || "");
+  const [context, setContext] = useState(existContext || "");
   const editorRef = React.createRef();
   const dispatch = useAppDispatch();
   const accesstoken = useSelector((state) => state.user.accesstoken);
   useEffect(() => {});
   const handleChange = () => {
-    const newContent = editorRef.current?.getInstance().getMarkdown();
-    setContent(newContent);
+    const newContext = editorRef.current?.getInstance().getMarkdown();
+    setContext(newContext);
   };
-
-  const InsertNotice = async (title, context) => {
+  console.log(title);
+  const InsertNotice = async (title, context, noticeno) => {
     try {
       await axios.post(
-        `${"http://localhost:2500"}/admin/notice/insert`,
-        { title, context },
-        {
-          headers: {
-            Authorization: localStorage.getItem("accessToken"),
-          },
-          withCredentials: true, // 브라우저가 세션 쿠키를 서버로 전송하도록 함
-        }
+        `${"http://localhost:8484"}/admin/notice/insert`,
+        { title, context, noticeno }
+        // {
+        //   headers: {
+        //     Authorization: localStorage.getItem("accessToken"),
+        //   },
+        //   withCredentials: true, // 브라우저가 세션 쿠키를 서버로 전송하도록 함
+        // }
       );
       swal("등록되었습니다!", {
         icon: "success",
       });
       navigate("/notice");
     } catch (error) {
-      const response = await axios.get(
-        `${"http://localhost:2500"}/admin/refresh`,
-        {
-          headers: {
-            Authorization: localStorage.getItem("accessToken"),
-          },
-          withCredentials: true,
-        }
-      );
+      console.log("5454");
+      // const response = await axios.get(
+      //   `${"http://localhost:8484"}/admin/refresh`,
+      //   {
+      //     headers: {
+      //       Authorization: localStorage.getItem("accessToken"),
+      //     },
+      //     withCredentials: true,
+      //   }
+      // );
 
-      const newAct = response.data.data.accesstoken;
-      localStorage.setItem("accessToken", newAct);
-      dispatch(
-        userSlice.actions.updateAccessToken({
-          Authorization: localStorage.getItem("accessToken"),
-        })
-      );
+      // const newAct = response.data.data.accesstoken;
+      // localStorage.setItem("accessToken", newAct);
+      // dispatch(
+      //   userSlice.actions.updateAccessToken({
+      //     Authorization: localStorage.getItem("accessToken"),
+      //   })
+      // );
       const response_2 = await axios.post(
-        `${"http://localhost:2500"}/admin/notice/insert`,
+        `${"http://localhost:8484"}/admin/notice/insert`,
         { title, context },
         {
           headers: {
@@ -87,8 +88,8 @@ export default function NoticeWrite() {
   const UpdateNotice = async (title, context, noticeno) => {
     try {
       await axios.post(
-        `${"http://localhost:2500"}/admin/notice/update`,
-        { title, context, noticeno },
+        `${"http://localhost:8484"}/admin/notice/update`,
+        { title, context, noticeno }, //body
         {
           headers: {
             Authorization: localStorage.getItem("accessToken"),
@@ -102,7 +103,7 @@ export default function NoticeWrite() {
       navigate("/notice");
     } catch (error) {
       const response = await axios.get(
-        `${"http://localhost:2500"}/admin/refresh`,
+        `${"http://localhost:8484"}/admin/refresh`,
         {
           headers: {
             Authorization: localStorage.getItem("accessToken"),
@@ -119,7 +120,7 @@ export default function NoticeWrite() {
         })
       );
       const response_2 = await axios.post(
-        `${"http://localhost:2500"}/admin/notice/update`,
+        `${"http://localhost:8484"}/admin/notice/update`,
         { title, context, noticeno },
         {
           headers: {
@@ -192,9 +193,9 @@ export default function NoticeWrite() {
                   title={"등록하기"}
                   onNotice={() => {
                     if (isEdit) {
-                      UpdateNotice(title, content, noticeno);
+                      UpdateNotice(title, context, noticeno);
                     } else {
-                      InsertNotice(title, content);
+                      InsertNotice(title, context);
                     }
                   }}
                 />
@@ -219,8 +220,8 @@ export default function NoticeWrite() {
                   overflow: "scroll",
                 }}
                 placeholder="내용"
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
+                value={context}
+                onChange={(e) => setContext(e.target.value)}
               />
             </WriteCon>
           </VarticalContainer>

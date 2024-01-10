@@ -180,7 +180,7 @@ export default function Nav() {
     { title: "권한 관리", navigation: handlewaiting }, //navigation: handleNavigate_member_access },
     { title: "그룹 관리", navigation: handlewaiting }, //navigation: handleNavigate_member_group },
     { title: "사용자관리", navigation: handlewaiting }, //navigation: handleNavigate_member_user },
-    { title: "인사관리", navigation: handlewaiting }, //navigation: handleNavigate_member_info },
+    { title: "인사관리", navigation: handleNavigate_member_info },
   ];
 
   return (

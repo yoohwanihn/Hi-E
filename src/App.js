@@ -13,6 +13,7 @@ import Member from "./pages/Member";
 import MemberAccess from "./pages/MemberAccess";
 import MemberGroup from "./pages/MemberGroup";
 import MemberInfo from "./pages/MemberInfo";
+import Member_Write from "./pages/MemberWrite";
 import Notice from "./pages/Notice";
 import Post from "./pages/Event";
 import Post_Write from "./pages/EventWrite";
@@ -44,7 +45,7 @@ function App() {
   const checkAccessToken = async () => {
     try {
       const res = await axios.post(
-        `${"http://localhost:2500"}/api`,
+        `${"http://localhost:8484"}/api`,
 
         {
           headers: {
@@ -71,6 +72,8 @@ function App() {
           <Route path="member/access" element={<MemberAccess />} />
           <Route path="member/group" element={<MemberGroup />} />
           <Route path="member/info" element={<MemberInfo />} /> {/*인사관리*/}
+          <Route path="member/info/write" element={<Member_Write />} />{" "}
+          {/*인사관리*/}
           <Route path="notice" element={<Notice />} />
           <Route path="notice/write" element={<NoticeWrite />} />
           <Route path="post" element={<Post />} />

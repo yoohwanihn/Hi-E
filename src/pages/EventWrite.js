@@ -11,6 +11,9 @@ import { useSelector } from "react-redux";
 import { useAppDispatch } from "../store";
 import userSlice from "../slice/user";
 import { useLocation, useNavigate } from "react-router";
+import DaumPostcode from "react-daum-postcode"; //주소 검색 api
+import AddressModal from "../components/AddressModal";
+
 export default function NoticeWrite() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -24,6 +27,8 @@ export default function NoticeWrite() {
   const editorRef = React.createRef();
   const [date, setDate] = useState(""); //날짜입력 usestate
   const [Address, setAddress] = useState(""); //주소?
+  const [OpenPostcode, setOpenPostCode] = useState(false); //주소검색 창
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useAppDispatch();
   const accesstoken = useSelector((state) => state.user.accesstoken);
   useEffect(() => {});
@@ -32,65 +37,72 @@ export default function NoticeWrite() {
     setContent(newContent);
   };
 
-  const InsertNotice = async (title, context) => {
+  //주소검색을 위한
+  const handleSelectAddress = (data) => {
+    setAddress(data.address);
+    setIsModalOpen(false);
+  };
+
+  const InsertEvents = async (title, context, date, Address) => {
     try {
       await axios.post(
-        `${"http://localhost:2500"}/admin/notice/insert`,
-        { title, context },
-        {
-          headers: {
-            Authorization: localStorage.getItem("accessToken"),
-          },
-          withCredentials: true, // 브라우저가 세션 쿠키를 서버로 전송하도록 함
-        }
+        `${"http://localhost:8484"}/admin/events/insert`,
+        { title, context, date, Address }
+        // {
+        //   headers: {
+        //     Authorization: localStorage.getItem("accessToken"),
+        //   },
+        //   withCredentials: true, // 브라우저가 세션 쿠키를 서버로 전송하도록 함
+        // }
       );
       swal("등록되었습니다!", {
         icon: "success",
       });
-      navigate("/notice");
+      navigate("/post");
     } catch (error) {
-      const response = await axios.get(
-        `${"http://localhost:2500"}/admin/refresh`,
-        {
-          headers: {
-            Authorization: localStorage.getItem("accessToken"),
-          },
-          withCredentials: true,
-        }
-      );
+      console.log("1221231132");
+      // const response = await axios.get(
+      //   `${"http://localhost:8484"}/admin/refresh`,
+      //   {
+      //     headers: {
+      //       Authorization: localStorage.getItem("accessToken"),
+      //     },
+      //     withCredentials: true,
+      //   }
+      // );
 
-      const newAct = response.data.data.accesstoken;
-      localStorage.setItem("accessToken", newAct);
-      dispatch(
-        userSlice.actions.updateAccessToken({
-          Authorization: localStorage.getItem("accessToken"),
-        })
-      );
-      const response_2 = await axios.post(
-        `${"http://localhost:2500"}/admin/notice/insert`,
-        { title, context },
-        {
-          headers: {
-            Authorization: localStorage.getItem("accessToken"),
-          },
-          withCredentials: true, // 브라우저가 세션 쿠키를 서버로 전송하도록 함
-        }
-      );
-      if (response_2.data.popdata.poptext) {
-        swal("등록에 실패했습니다.", {
-          icon: "error",
-        });
-      }
-      swal("등록되었습니다!", {
-        icon: "success",
-      });
+      // const newAct = response.data.data.accesstoken;
+      // localStorage.setItem("accessToken", newAct);
+      // dispatch(
+      //   userSlice.actions.updateAccessToken({
+      //     Authorization: localStorage.getItem("accessToken"),
+      //   })
+      // );
+      // const response_2 = await axios.post(
+      //   `${"http://localhost:8484"}/admin/events/insert`,
+      //   { title, context, date, Address },
+      //   {
+      //     headers: {
+      //       Authorization: localStorage.getItem("accessToken"),
+      //     },
+      //     withCredentials: true, // 브라우저가 세션 쿠키를 서버로 전송하도록 함
+      //   }
+      // );
+      // if (response_2.data.popdata.poptext) {
+      //   swal("등록에 실패했습니다.", {
+      //     icon: "error",
+      //   });
+      // }
+      // swal("등록되었습니다!", {
+      //   icon: "success",
+      // });
     }
   };
-  const UpdateNotice = async (title, context, noticeno) => {
+  const UpdateEvents = async (title, context, date, Address, noticeno) => {
     try {
       await axios.post(
-        `${"http://localhost:2500"}/admin/notice/update`,
-        { title, context, noticeno },
+        `${"http://localhost:8484"}/admin/events/update`,
+        { title, context, date, Address, noticeno },
         {
           headers: {
             Authorization: localStorage.getItem("accessToken"),
@@ -104,7 +116,7 @@ export default function NoticeWrite() {
       navigate("/notice");
     } catch (error) {
       const response = await axios.get(
-        `${"http://localhost:2500"}/admin/refresh`,
+        `${"http://localhost:8484"}/admin/refresh`,
         {
           headers: {
             Authorization: localStorage.getItem("accessToken"),
@@ -121,8 +133,8 @@ export default function NoticeWrite() {
         })
       );
       const response_2 = await axios.post(
-        `${"http://localhost:2500"}/admin/notice/update`,
-        { title, context, noticeno },
+        `${"http://localhost:8484"}/admin/events/update`,
+        { title, context, date, Address, noticeno },
         {
           headers: {
             Authorization: localStorage.getItem("accessToken"),
@@ -138,7 +150,7 @@ export default function NoticeWrite() {
       swal(isEdit ? "수정되었습니다!" : "등록되었습니다!", {
         icon: "success",
       });
-      navigate("/notice");
+      navigate("/events");
     }
   };
   return (
@@ -194,9 +206,9 @@ export default function NoticeWrite() {
                   title={"등록하기"}
                   onNotice={() => {
                     if (isEdit) {
-                      UpdateNotice(title, content, noticeno);
+                      UpdateEvents(title, content, date, Address, noticeno);
                     } else {
-                      InsertNotice(title, content);
+                      InsertEvents(title, content, date, Address);
                     }
                   }}
                 />
@@ -250,19 +262,34 @@ export default function NoticeWrite() {
               <div style={{ marginBottom: "40px", marginTop: "30px" }}>
                 <hr style={{ border: "1px solid #E9EAEE" }} />
               </div>
-              <textarea
-                style={{
-                  width: "18%",
-                  height: "40px",
-                  resize: "none",
-                  marginTop: 10,
-                  //overflow: "scroll",
-                }}
-                placeholder="주소"
-                value={Address}
-                onChange={(e) => setAddress(e.target.value)}
-              />
+              <div>
+                <textarea
+                  style={{
+                    width: "40%",
+                    height: "40px",
+                    border: "1px solid #E9EAEE",
+                    borderRadius: "4px",
+                    padding: "8px 12px",
+                    resize: "none",
+                    marginTop: 10,
+                    boxSizing: "border-box",
+                    //overflow: "scroll",
+                  }}
+                  placeholder="주소"
+                  value={Address}
+                  onClick={() => setIsModalOpen(true)}
+                  readOnly
+                />
+              </div>
             </WriteCon>
+            {isModalOpen && (
+              <AddressModal onClose={() => setIsModalOpen(false)}>
+                <DaumPostcode
+                  onComplete={handleSelectAddress}
+                  autoClose={false}
+                />
+              </AddressModal>
+            )}
           </VarticalContainer>
         </>
       }

@@ -1,412 +1,389 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
-import styled, { css, keyframes } from "styled-components";
-import axios from "axios";
-import MemberBasicInfo from "../components/MemberBasicInfo";
-import MemberMychart from "../components/MemberMyChart";
-import MemberEtc from "../components/MemberEtc";
-import "../App.css";
-import { useLocation } from "react-router-dom";
+import styled from "styled-components";
+import CustomButton from "../components/CustomButton";
 import { useNavigate } from "react-router";
+import ToggleButton from "../components/ToggleButton_Notice";
+import axios from "axios";
+import Pagenation from "../components/Pagenation";
 import { useSelector } from "react-redux";
-export default function MemberInfo(props) {
-  const [list, setList] = useState([]);
-  const [risk, setRisk] = useState([]);
-  const [treat, setTreat] = useState([]);
-  const [userno, setUserno] = useState([]);
-  const [memo, setMemo] = useState([]);
-  const [catergoryIndex, setCategoryIndex] = useState(0);
-  const categories = ["", "", ""];
-  const location = useLocation();
+import { useAppDispatch } from "../store";
+import swal from "sweetalert";
+import userSlice from "../slice/user";
+
+//const ITEMSPERPAGE = 10;
+export default function Notice() {
+  const [isActive, setIsActive] = useState(false);
+  const [noticeList, setNoticeList] = useState([]);
+  const [count, setCount] = useState(0);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [isChecked, setIsChecked] = useState({});
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const accesstoken = useSelector((state) => state.user.accesstoken);
-  const no = location.state ? location.state.no : null;
-  return (
-    <Layout
-      children={
-        <>
-          <HomeContainer>
-            <div>
-              <HorizontalContainer>
-                <Text>인사관리</Text>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <text style={{ color: "#888" }}>홈 &nbsp;&nbsp;</text>
-                  <img
-                    src={process.env.PUBLIC_URL + "/ico_arrow_right_gray.png"}
-                    style={{ width: "19px", height: "19px" }}
-                  />
-                  <text style={{ color: "#888" }}>
-                    &nbsp;&nbsp;사용자관리&nbsp;&nbsp;
-                  </text>
-                  {/* <img
-                    src={process.env.PUBLIC_URL + "/ico_arrow_right_gray.png"}
-                    style={{ Width: "19px", height: "19px" }}
-                  />
-                  <text>&nbsp;&nbsp;인사관리</text> */}
-                </div>
-              </HorizontalContainer>
-              <hr
-                style={{
-                  border: "0.5px solid #E6E7EB",
-                }}
-              />
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  marginLeft: "60px",
-                  marginBottom: "17.5px",
-                  marginTop: "20px",
-                }}
-              >
-                {categories.map((item, index) => (
-                  <div key={index}>
-                    <TabContainer onClick={() => setCategoryIndex(index)}>
-                      {catergoryIndex == 0
-                        ? index === 0 && (
-                            <>
-                              <Tab>
-                                <button
-                                  style={{
-                                    backgroundColor: "#ffff",
-                                    border: "#ffff",
-                                    marginTop: "17px",
-                                    fontFamily: "NanumBarunGothicOTF",
-                                    cursor: "pointer",
-                                  }}
-                                >
-                                  기본정보
-                                </button>
-                              </Tab>
-                              <ChatButtonText>{item}</ChatButtonText>
-                            </>
-                          )
-                        : index === 0 && (
-                            <>
-                              <TabB>
-                                <button
-                                  style={{
-                                    backgroundColor: "#ffff",
-                                    border: "#ffff",
-                                    marginTop: "17px",
-                                    fontFamily: "NanumBarunGothicOTF",
-                                    color: "#C4C4C4",
-                                  }}
-                                >
-                                  기본정보
-                                </button>
-                              </TabB>
-                              <div>{item}</div>
-                            </>
-                          )}
-                      {catergoryIndex == 1
-                        ? index === 1 && (
-                            <>
-                              <Tab>
-                                <button
-                                  style={{
-                                    backgroundColor: "#ffff",
-                                    border: "#ffff",
-                                    marginTop: "17px",
-                                    fontFamily: "NanumBarunGothicOTF",
-                                  }}
-                                >
-                                  마이차트
-                                </button>
-                              </Tab>
-                              <ChatButtonText>{item}</ChatButtonText>
-                            </>
-                          )
-                        : index === 1 && (
-                            <>
-                              <TabB>
-                                <button
-                                  style={{
-                                    backgroundColor: "#ffff",
-                                    border: "#ffff",
-                                    marginTop: "17px",
-                                    fontFamily: "NanumBarunGothicOTF",
-                                    color: "#C4C4C4",
-                                  }}
-                                >
-                                  마이차트
-                                </button>
-                              </TabB>
-                              <div>{item}</div>
-                            </>
-                          )}
-                      {catergoryIndex == 2
-                        ? index === 2 && (
-                            <>
-                              <Tab>
-                                <button
-                                  style={{
-                                    backgroundColor: "#ffff",
-                                    border: "#ffff",
-                                    marginTop: "17px",
-                                    fontFamily: "NanumBarunGothicOTF",
-                                  }}
-                                >
-                                  기타정보
-                                </button>
-                              </Tab>
-                              <ChatButtonText>{item}</ChatButtonText>
-                            </>
-                          )
-                        : index === 2 && (
-                            <>
-                              <TabB>
-                                <button
-                                  style={{
-                                    backgroundColor: "#ffff",
-                                    border: "#ffff",
-                                    marginTop: "17px",
-                                    fontFamily: "NanumBarunGothicOTF",
-                                    color: "#C4C4C4",
-                                  }}
-                                >
-                                  기타정보
-                                </button>
-                              </TabB>
-                              <div>{item}</div>
-                            </>
-                          )}
-                    </TabContainer>
-                  </div>
-                ))}
-              </div>
-            </div>
-            {catergoryIndex == 0 && <MemberBasicInfo no={no && no} />}
-            {catergoryIndex == 1 && <MemberMychart no={no && no} />}
-            {catergoryIndex == 2 && <MemberEtc no={no && no} />}
-          </HomeContainer>
-        </>
+
+  const handleCheck = (e, id) => {
+    const newChecked = { ...isChecked }; // 현재 isChecked 객체 복사
+    newChecked[id] = e.target.checked;
+    setIsChecked(newChecked);
+  };
+
+  const handleCheckAll = (e) => {
+    const newChecked = {};
+    noticeList.forEach((item) => {
+      newChecked[item.boardno] = e.target.checked;
+    });
+    setIsChecked(newChecked); // 복사한 isChecked 객체를 업데이트
+  };
+
+  useEffect(() => {
+    getNoticeList();
+  }, [loading]);
+
+  const getNoticeList = async (offset) => {
+    try {
+      await axios
+        .get(
+          `${"http://localhost:8484"}/admin/member/info/list`,
+
+          {
+            headers: {
+              Authorization: localStorage.getItem("accessToken"),
+            },
+            withCredentials: true, // 브라우저가 세션 쿠키를 서버로 전송하도록 함
+          }
+        )
+
+        .then((res) => {
+          console.log("res.data,data", res.data.notice);
+          setNoticeList(res.data.notice);
+          setCount(res.data.cnt.cnt);
+        });
+      console.log(noticeList);
+    } catch (error) {
+      const response = await axios.get(
+        `${"http://localhost:8484"}/admin/refresh`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("accessToken"),
+          },
+          withCredentials: true,
+        }
+      );
+      if (response.data.popdata.poptext) {
+        swal(response.data.popdata.poptext, { icon: "error" });
+        return;
       }
-    ></Layout>
+      const newAct = response.data.data.Authorization;
+      console.log("newACT", newAct);
+      localStorage.setItem("accessToken", newAct);
+      dispatch(
+        userSlice.actions.updateAccessToken({
+          Authorization: localStorage.getItem("accessToken"),
+        })
+      );
+      await axios
+        .get(
+          `${"http://localhost:8484"}/member/info/list`,
+
+          {
+            headers: {
+              Authorization: localStorage.getItem("accessToken"),
+            },
+            withCredentials: true, // 브라우저가 세션 쿠키를 서버로 전송하도록 함
+          }
+        )
+        .then((res) => {
+          setNoticeList(res.data.notice);
+          setCount(res.data.cnt.cnt);
+        });
+    }
+  };
+  const handlePageChange = (page) => {
+    setPage(page);
+  };
+  const handleDelete = async () => {
+    const checkedPostNos = [];
+    Object.keys(isChecked).forEach((key) => {
+      if (isChecked[key]) {
+        const item = noticeList.find((item) => item.boardno === Number(key));
+        checkedPostNos.push(item.boardno);
+      }
+    });
+    console.log("checkedPostNos", checkedPostNos);
+
+    swal({
+      title: "정말 삭제하시겠습니까?",
+      text: "삭제된 게시물은 복구할 수 없습니다!",
+      icon: "warning",
+      buttons: ["취소", "삭제"],
+      dangerMode: true,
+    }).then(async (willDelete) => {
+      if (willDelete) {
+        try {
+          await axios
+            .post(
+              `${"http://localhost:8484"}/member/info/delete`,
+              { noticeno: checkedPostNos },
+              {
+                headers: {
+                  Authorization: localStorage.getItem("accessToken"),
+                },
+                withCredentials: true, // 브라우저가 세션 쿠키를 서버로 전송하도록 함
+              }
+            )
+            .then((response) => {
+              swal("삭제되었습니다!", {
+                icon: "success",
+              });
+              setNoticeList((prevItemList) =>
+                prevItemList.filter(
+                  (item) => !checkedPostNos.includes(item.boardno)
+                )
+              );
+              setIsChecked({});
+            });
+        } catch (error) {
+          const response = await axios.get(
+            `${"http://localhost:8484"}/admin/refresh`,
+            {
+              headers: {
+                Authorization: localStorage.getItem("accessToken"),
+              },
+              withCredentials: true,
+            }
+          );
+
+          const newAct = response.data.data.Authorization;
+          localStorage.setItem("accessToken", newAct);
+          dispatch(
+            userSlice.actions.updateAccessToken({
+              Authorization: localStorage.getItem("accessToken"),
+            })
+          );
+          const response_2 = await axios
+            .post(
+              `${"http://localhost:8484"}/member/info/delete`,
+              { noticeno: checkedPostNos },
+              {
+                headers: {
+                  Authorization: localStorage.getItem("accessToken"),
+                },
+                withCredentials: true, // 브라우저가 세션 쿠키를 서버로 전송하도록 함
+              }
+            )
+            .then((response) => {
+              swal("삭제되었습니다!", {
+                icon: "success",
+              });
+              setNoticeList((prevItemList) => ({
+                ...prevItemList,
+                data: prevItemList.filter(
+                  (item) => !checkedPostNos.includes(item.boardno)
+                ),
+              }));
+              setIsChecked({});
+            })
+            .catch((err) => {
+              if (response_2.data.popdata.poptext) {
+                swal(response.data.popdata.poptext, { icon: "error" });
+              }
+            });
+        }
+      } else {
+        swal("취소되었습니다.");
+      }
+    });
+  };
+  console.log("noteicelisetfsdklfsjlfksjdkf", noticeList);
+  return (
+    <Layout>
+      <HomeContainer>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            flex: 1,
+            padding: "30px 60px 30px 60px",
+          }}
+        >
+          <text
+            style={{
+              fontSize: "30px",
+              fontWeight: 600,
+            }}
+          >
+            인사관리
+          </text>
+          <div style={{ display: "flex" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <text style={{ color: "#888" }}>홈 &nbsp;&nbsp;</text>
+              <img
+                src={process.env.PUBLIC_URL + "/ico_arrow_right_gray.png"}
+                style={{ Width: "19px", height: "19px" }}
+              />
+              <text>&nbsp;&nbsp;인사관리</text>
+            </div>
+          </div>
+        </div>
+        <div
+          style={{
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            padding: "38px 60px 60px 60px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: "30px",
+            }}
+          >
+            <div>
+              인사카드등록 총 <b style={{ color: "#FF7D3B" }}>{count}</b>건
+            </div>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <CustomButton
+                title={"삭제하기"}
+                color={"#FF4D43"}
+                onClick={handleDelete}
+              ></CustomButton>
+              <CustomButton
+                title={"등록하기"}
+                onNavigate={() => {
+                  navigate("write");
+                }}
+              ></CustomButton>
+            </div>
+          </div>
+          <div style={{ marginBottom: "40px" }}>
+            <hr style={{ border: "1px solid #E9EAEE" }} />
+          </div>
+          <TableContainer>
+            <Table>
+              <thead>
+                <tr>
+                  <th style={{ width: "5%" }}>
+                    <input type="checkbox" onChange={handleCheckAll} />
+                  </th>
+                  <th>사번</th>
+                  <th>성명</th>
+                  <th>주민등록번호</th>
+                  <th>부서</th>
+                  <th>직급</th>
+                  <th>입자일자</th>
+                </tr>
+              </thead>
+              <tbody>
+                {noticeList &&
+                  noticeList.map((item, idx) => (
+                    <tr key={item.id}>
+                      <td>
+                        <input
+                          type="checkbox"
+                          checked={isChecked[item.boardno]}
+                          onChange={(e) => handleCheck(e, item.boardno)}
+                        />
+                      </td>
+                      <td>{idx + 1}</td>
+
+                      <td
+                        onClick={() =>
+                          navigate("write", {
+                            state: {
+                              title: item.title,
+                              content: item.context,
+                              noticeno: item.boardno,
+                              isEdit: true,
+                            },
+                          })
+                        }
+                        style={{ cursor: "pointer" }}
+                      >
+                        {item.title}
+                      </td>
+                      <td>{new Date(item.time * 1000).toLocaleString()}</td>
+                      <td>
+                        <ToggleButton
+                          isActive={Boolean(item.show)}
+                          noticeNo={item.boardno}
+                          onClick={() => {
+                            setLoading(!loading);
+                          }}
+                          key={item.boardno}
+                        />
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </Table>
+            <Pagenation
+              page={page}
+              itemsPerPage={10}
+              number={count}
+              handlePageChange={handlePageChange}
+            />
+          </TableContainer>
+        </div>
+        <br />
+      </HomeContainer>
+    </Layout>
   );
 }
-
 const HomeContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   grid-template-rows: repeat(1, 1fr);
   grid-gap: 10px;
-  margin-top: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
 
   > * {
     background-color: #fff;
+    padding: 20px;
     box-sizing: border-box;
   }
 
   @media screen and (max-width: 768px) {
     grid-template-columns: repeat(1, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+    grid-template-rows: repeat(1, 1fr);
   }
 `;
-const HorizontalContainer = styled.div`
-  flex: 1;
-  display: flex;
-  justify-content: space-between;
-  padding: 30px 60px 30px 60px;
-`;
-const CurrentPlaceContainer = styled.div`
-  display: flex;
-`;
-const PastText = styled.div`
-  font-size: 14px;
-  color: #888888;
-`;
-const PastsText = styled.div`
-  font-size: 14px;
-  color: #888888;
-`;
-const MemoContainer = styled.div`
-  //font-family: "NanumBarunGothicOTF";
-  //display: grid;
-  line-height: 43px;
-  border-width: 1;
-  height: 104px;
-  width: 1405px;
-  left: 0px;
-  top: 0px;
-  border-radius: 44px;
-  justify-content: center;
-  align-content: center;
-  flex-direction: row;
-`;
 const TableContainer = styled.div`
-  font-family: "NanumBarunGothicOTF";
-  font-size: 16px;
-  display: flex;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: auto 50px;
+  grid-gap: 10px;
   margin-top: 10px;
-  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Table = styled.table`
   border-collapse: collapse;
   width: 100%;
 
-  tr {
-    display: grid;
-    grid-template-columns: 160px 4fr 160px 4fr 4fr 4fr;
-    flex-direction: row;
-  }
-
   th,
   td {
     border: 1px solid #e9eaee;
     padding: 8px;
-    text-align: left;
+    text-align: center;
+    height: 28px;
   }
 
   th {
     background-color: #f2f2f2;
-    text-align: center;
-    grid-column: 1 / span 6;
+    height: 28px;
+    font-weight: 400;
   }
-
-  td:nth-child(1),
-  td:nth-child(3) {
-    background-color: #f2f2f2;
-  }
-`;
-const Table2 = styled.table`
-  border-collapse: collapse;
-  width: 100%;
-
-  tr {
-    display: grid;
-    grid-template-columns: 160px 4fr 160px 4fr;
-    flex-direction: row;
-  }
-
-  th,
-  td {
-    border: 1px solid #e9eaee;
-    padding: 8px;
-    text-align: left;
-  }
-
-  th {
-    background-color: #f2f2f2;
-    text-align: center;
-    grid-column: 1 / span 6;
-  }
-
-  td:nth-child(1),
-  td:nth-child(3) {
-    background-color: #f2f2f2;
-  }
-
-  td:nth-child(3):last-of-type {
-    grid-row-end: span 2;
-  }
-
-  td:nth-child(3):last-of-type {
-    background-color: #ffff;
-  }
-`;
-const ButtonContainer = styled.button`
-  margin-right: 50px;
-  padding: 5px 10px;
-  box-shadow: none;
-  background: rgba(255, 255, 255, 0.0001);
-  /* border: 1px solid #4674FE;
-  border-radius: 20px;
-  cursor: pointer; */
-  height: 34px;
-  width: 101px;
-  /* border-radius: 20px; */
-  margin-top: 20px;
-  flex-direction: row;
-  border: none;
-  padding-top: 13px;
-`;
-const DateText = styled.text`
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 18px;
-`;
-const BodyText = styled.div`
-  margin-left: 24px;
-  margin-top: 15px;
-  margin-bottom: 15px;
-`;
-const BodyContainer = styled.div`
-  display: block;
-  width: 100%;
-  height: 98px;
-  background: #f5f5f5;
-  overflow: auto;
-`;
-const AnserBody = styled.textarea`
-  margin-top: 10px;
-  display: flex;
-  width: 90%;
-  height: 77px;
-  background: #ffff;
-  border: 1px solid #e9eaee;
-  resize: vertical; /* optional - allows user to resize vertically */
-`;
-const Text = styled.div`
-  font-size: 30px;
-  font-weight: 600;
-`;
-const Tab = styled.div`
-  font-size: 30px;
-  font-family: NanumBarunGothicOTF;
-  font-weight: 600;
-  box-sizing: border-box;
-  right: 67.41%;
-  left: 0%;
-  bottom: 0%;
-  background-color: #fff;
-  border: 2px solid black;
-  border-radius: 4px;
-  width: 174.06px;
-  height: 54.43px;
-  text-align: center;
-  align-content: center;
-  margin-right: 6.75px;
-  cursor: pointer;
-`;
-
-const TabB = styled.div`
-  font-size: 30px;
-  font-family: NanumBarunGothicOTF;
-  font-weight: 600;
-  margin-left: 10px;
-  box-sizing: border-box;
-  right: 67.41%;
-  left: 0%;
-  bottom: 0%;
-  background-color: #ffff;
-  border: 2px solid #c4c4c4;
-  border-radius: 4px;
-  width: 174.06px;
-  height: 54.43px;
-  text-align: center;
-  align-content: center;
-  margin: 0 auto;
-  margin-right: 6.76px;
-  cursor: pointer;
-`;
-
-const TabContainer = styled.div`
-  font-size: 16px;
-  display: flex;
-  align-content: center;
-  flex-wrap: wrap;
-  cursor: pointer;
-`;
-const ChatButtonText = styled.div`
-  color: #4674fe;
+  grid-column: 1 / span 6;
 `;

@@ -45,7 +45,7 @@ export default function Notice() {
     try {
       await axios
         .get(
-          `${"http://localhost:2500"}/admin/notice/list`,
+          `${"http://localhost:8484"}/admin/events/list`,
 
           {
             headers: {
@@ -56,14 +56,14 @@ export default function Notice() {
         )
 
         .then((res) => {
-          console.log("res.data,data", res.data.data.notice);
-          setNoticeList(res.data.data.notice);
-          setCount(res.data.data.cnt[0].cnt);
+          console.log("res.data,data", res.data.notice);
+          setNoticeList(res.data.notice);
+          setCount(res.data.cnt.cnt);
         });
       console.log(noticeList);
     } catch (error) {
       const response = await axios.get(
-        `${"http://localhost:2500"}/admin/refresh`,
+        `${"http://localhost:8484"}/admin/refresh`,
         {
           headers: {
             Authorization: localStorage.getItem("accessToken"),
@@ -85,7 +85,7 @@ export default function Notice() {
       );
       await axios
         .get(
-          `${"http://localhost:2500"}/admin/notice/list`,
+          `${"http://localhost:8484"}/admin/events/list`,
 
           {
             headers: {
@@ -95,8 +95,8 @@ export default function Notice() {
           }
         )
         .then((res) => {
-          setNoticeList(res.data.data.notice);
-          setCount(res.data.data.cnt[0].cnt);
+          setNoticeList(res.data.notice);
+          setCount(res.data.cnt.cnt);
         });
     }
   };
@@ -124,7 +124,7 @@ export default function Notice() {
         try {
           await axios
             .post(
-              `${"http://localhost:2500"}/admin/notice/delete`,
+              `${"http://localhost:8484"}/admin/events/delete`,
               { noticeno: checkedPostNos },
               {
                 headers: {
@@ -146,7 +146,7 @@ export default function Notice() {
             });
         } catch (error) {
           const response = await axios.get(
-            `${"http://localhost:2500"}/admin/refresh`,
+            `${"http://localhost:8484"}/admin/refresh`,
             {
               headers: {
                 Authorization: localStorage.getItem("accessToken"),
@@ -164,7 +164,7 @@ export default function Notice() {
           );
           const response_2 = await axios
             .post(
-              `${"http://localhost:2500"}/admin/notice/delete`,
+              `${"http://localhost:8484"}/admin/events/delete`,
               { noticeno: checkedPostNos },
               {
                 headers: {
