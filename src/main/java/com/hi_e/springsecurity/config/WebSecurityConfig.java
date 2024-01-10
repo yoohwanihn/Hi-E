@@ -73,11 +73,11 @@ public class WebSecurityConfig {
 
 				/* OAuth 로그인 처리 */
 				.oauth2Login() // OAuth2 로그인 기능에 대한 설정 진입점
-				.userInfoEndpoint() // OAuth2 로그인 성공 이후 사용자 정보를 가져올 때 설정 담당
-				.userService(customOAuth2UserServicer) // 소셜 로그인 성공시 처리를 담당할 서비스
-				.and().loginPage("/view/login") // 커스텀 로그인 페이지 지정
-				.defaultSuccessUrl("/index", true) // 성공 시 이동할 url
-				.failureUrl("/view/login?error") // 로그인 실패 시 이동할 페이지, 수정해야함.
+					.userInfoEndpoint() // OAuth2 로그인 성공 이후 사용자 정보를 가져올 때 설정 담당
+					.userService(customOAuth2UserServicer) // 소셜 로그인 성공시 처리를 담당할 서비스
+					.and().loginPage("/view/login") // 커스텀 로그인 페이지 지정
+					.defaultSuccessUrl("/index", true) // 성공 시 이동할 url
+					.failureUrl("/view/login?error") // 로그인 실패 시 이동할 페이지, 수정해야함.
 				.and()
 
 				/* OAuth 로그아웃 처리 */
